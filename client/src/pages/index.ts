@@ -1,0 +1,10 @@
+export { Home } from "./home";
+export { Nft } from "./nft";
+export { Artist } from "./artist";
+export { MapBox } from "./map";
+export { Signin, Signup } from "./auth";
+export { Wallet, Payment } from "./wallet";
+export { Screens, ScreenDetail, ScreenEdit } from "./screens";
+export { Adverts, AdvertDetail, AdvertCreate, AdvertEdit } from "./adverts";
+export { UserProfile } from "./artist/userProfile";
+export { ScreenDashboard } from "./dashboard";
