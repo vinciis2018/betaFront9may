@@ -32,13 +32,13 @@ export function Home() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(listScreens({}));
-    dispatch(userVideosList(userInfo._id));
+    dispatch(userVideosList(userInfo?._id));
 
     // dispatch(listTopMasters());
     // dispatch(getAllPins());
   }, [
     dispatch,
-    userInfo._id
+    userInfo?._id
   ]);
 
   return (
@@ -56,20 +56,20 @@ export function Home() {
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
             <Center>
-              {screens.length === 0 && <MessageBox>No Screen Found</MessageBox>}
+              {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
-                {screens.map((screen: any) => (
-                  <Box key={screen._id} onClick={() => window.location.replace(`/screen/${screen._id}`)} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
+                {screens?.map((screen: any) => (
+                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
                       height="300px"
                       width="100%"
                       // shadow="card"
                       rounded="xl"
-                      src={screen.image}
+                      src={screen?.image}
                       onLoad={() =>  triggerPort(screen?.image.split("/").slice(-1)[0])}
                     />
-                    <Text fontSize="" className="legend">{screen.name}</Text>
+                    <Text fontSize="" className="legend">{screen?.name}</Text>
                   </Box>
                 ))}
               </Carousel>
@@ -89,16 +89,16 @@ export function Home() {
             ) : (
               <SimpleGrid gap="4" columns={[1, 2]} px="10px">
                 {videos.map((video: any) => (
-                  <Box key={video._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video.split('/').slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
+                  <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
                     <Image 
                       height="200px"
                       rounded="md"
                       src={video?.thumbnail}
-                      onLoad={() =>  triggerPort(video?.thumbnail.split("/").slice(-1)[0])}
+                      onLoad={() =>  triggerPort(video?.thumbnail?.split("/")?.slice(-1)[0])}
                     />
                     <Flex p="10px" align="top" justify="space-between">
                       <Stack>
-                        <Text fontWeight="600">{video.title}</Text>
+                        <Text fontWeight="600">{video?.title}</Text>
                         <Text color="gray.500">(Video Category)</Text>
                       </Stack>
                       <InfoIcon color="green.500" />
@@ -106,12 +106,12 @@ export function Home() {
                   
                     <Flex p="10px" align="center" justify="space-between">
                       <Box>
-                        <Text fontWeight="600" fontSize="sm">{video.title}</Text>
-                        <Text color="gray.500" fontSize="sm">{video.title}</Text>
+                        <Text fontWeight="600" fontSize="sm">{video?.title}</Text>
+                        <Text color="gray.500" fontSize="sm">{video?.title}</Text>
                       </Box>
                       <Box>
-                        <Text fontWeight="600" fontSize="sm">{video.title}</Text>
-                        <Text color="gray.500" fontSize="sm">{video.title}</Text>
+                        <Text fontWeight="600" fontSize="sm">{video?.title}</Text>
+                        <Text color="gray.500" fontSize="sm">{video?.title}</Text>
                       </Box>
                     </Flex>
                     <SimpleGrid gap="2" columns={[2]} p="10px" align="center" justify="space-between">
