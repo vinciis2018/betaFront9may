@@ -16,8 +16,8 @@ export function Signup(props: any) {
 
   const [modalVisible, setModalVisible] = useState<any>(false);
 
-  const redirect = props.location.search
-    ? props.location.search.split('=')[1]
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
     : '/';
 
   const userSignup = useSelector((state: any) => state.userSignup);
@@ -37,16 +37,16 @@ export function Signup(props: any) {
       dispatch(signup(name, email, password));
       dispatch(openModal)
 
-      props.history.push('/signin');
+      props?.history?.push('/signin');
   
     }
   };
 
   useEffect(() => {
     if (userInfo) {
-      props.history.push(redirect);
+      props?.history?.push(redirect);
     }
-  }, [props.history, redirect, userInfo]);
+  }, [props?.history, redirect, userInfo]);
 
   return (
     <Stack>
@@ -75,7 +75,7 @@ export function Signup(props: any) {
               <Stack direction="row" align="center">
                 <Input 
                   id="name"
-                  onChange={(e) => setName(e.target.value)} 
+                  onChange={(e) => setName(e?.target?.value)} 
                   placeholder={name} 
                   value={name}
                   required
@@ -88,7 +88,7 @@ export function Signup(props: any) {
               <Stack direction="row" align="center">
                 <Input 
                   id="email"
-                  onChange={(e) => setEmail(e.target.value)} 
+                  onChange={(e) => setEmail(e?.target?.value)} 
                   placeholder={email} 
                   value={email}
                   required
@@ -101,7 +101,7 @@ export function Signup(props: any) {
               <Stack direction="row" align="center">
                 <Input 
                   id="password"
-                  onChange={(e) => setPassword(e.target.value)} 
+                  onChange={(e) => setPassword(e?.target?.value)} 
                   placeholder={password} 
                   value={password}
                   required
@@ -114,7 +114,7 @@ export function Signup(props: any) {
               <Stack direction="row" align="center">
                 <Input 
                   id="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e.target.value)} 
+                  onChange={(e) => setConfirmPassword(e?.target?.value)} 
                   placeholder={confirmPassword} 
                   value={confirmPassword}
                   required

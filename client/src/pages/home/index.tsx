@@ -8,7 +8,7 @@ import { Carousel } from 'react-responsive-carousel';
 import { Box, Image, Heading, Text, Stack, Center, Flex, Button, SimpleGrid } from "@chakra-ui/react";
 import { LoadingBox, MessageBox } from "components/helpers";
 import { listScreens } from '../../Actions/screenActions';
-import { userVideosList } from '../../Actions/userActions';
+import { listAllVideos } from '../../Actions/videoActions';
 import { triggerPort } from 'services/utils';
 import {InfoIcon} from "@chakra-ui/icons"
 
@@ -19,26 +19,26 @@ export function Home() {
   const screenList = useSelector((state: any) => state.screenList);
   const { loading, error, screens } = screenList;
 
-  const userVideos = useSelector((state: any) => state.userVideos);
+  const videoListAll = useSelector((state: any) => state.videoListAll);
   const { 
     loading: loadingVideos, 
     error: errorVideos, 
-    videos, 
+    allVideos, 
     videoPage, 
     videoPages 
-  } = userVideos;
+  } = videoListAll;
 
   
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(listScreens({}));
-    dispatch(userVideosList(userInfo?._id));
+    dispatch(listAllVideos());
 
     // dispatch(listTopMasters());
     // dispatch(getAllPins());
   }, [
     dispatch,
-    userInfo?._id
+    userInfo
   ]);
 
   return (
@@ -88,7 +88,7 @@ export function Home() {
               <MessageBox variant="danger">{errorVideos}</MessageBox>
             ) : (
               <SimpleGrid gap="4" columns={[1, 2]} px="10px">
-                {videos.map((video: any) => (
+                {allVideos?.map((video: any) => (
                   <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
                     <Image 
                       height="200px"

@@ -14,8 +14,8 @@ export function Signin(props: any) {
   const [email, setEmail] = useState<any>('');
   const [password, setPassword] = useState<any>('');
 
-  const redirect = props.location.search
-    ? props.location.search.split('=')[1]
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
     : '/';
 
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -30,9 +30,9 @@ export function Signin(props: any) {
 
   useEffect(() => {
     if (userInfo) {
-      props.history.push(redirect);
+      props?.history?.push(redirect);
     }
-  }, [props.history, redirect, userInfo]);
+  }, [props?.history, redirect, userInfo]);
 
   return (
     <Stack>
@@ -57,7 +57,7 @@ export function Signin(props: any) {
             <Stack direction="row" align="center">
               <Input 
                 id="email"
-                onChange={(e) => setEmail(e.target.value)} 
+                onChange={(e) => setEmail(e?.target?.value)} 
                 placeholder={email} 
                 value={email}
                 required
@@ -70,7 +70,7 @@ export function Signin(props: any) {
             <Stack direction="row" align="center">
               <Input 
                 id="password"
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword(e?.target?.value)} 
                 placeholder={password} 
                 value={password}
                 required
