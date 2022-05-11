@@ -8,7 +8,7 @@ const config: Record<string, any> = {
   locale: "en_US", // locale of your website
   title: "Blinds by Vinciis",
   description: "A web3 based marketplace for outdoor advertising",
-  canonical: "http://vincii.in/blinds", // Your production website link
+  canonical: "https://blinds.vincii.in", // Your production website link
   twitterHandle: "@vinciis_", // Twitter username
   companyName: "BLINDS"
 };
