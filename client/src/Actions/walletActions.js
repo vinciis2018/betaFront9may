@@ -32,7 +32,7 @@ export const createWallet = () => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
   const user = userInfo;
   try {
-    const { data } = await Axios.post('/api/wallet/walletCreate', {user}, {
+    const { data } = await Axios.post('http://3.7.140.85:3333/api/wallet/walletCreate', {user}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -62,7 +62,7 @@ export const listWallets = () => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
 
   try {
-    const { data } = await Axios.get('/api/wallet/wallets', {
+    const { data } = await Axios.get('http://3.7.140.85:3333/api/wallet/wallets', {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -91,7 +91,7 @@ export const getWalletDetails = (walletId) => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
   try {
 
-    const { data } = await Axios.get(`/api/wallet/${walletId}`, {
+    const { data } = await Axios.get(`http://3.7.140.85:3333/api/wallet/${walletId}`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -128,7 +128,7 @@ export const editWallet = (wallet) => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
 
   try {
-    const {data} = await Axios.put(`/api/wallet/${wallet._id}`, wallet, {
+    const {data} = await Axios.put(`http://3.7.140.85:3333/api/wallet/${wallet._id}`, wallet, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -168,7 +168,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
   try {
 
     if (transfer.ticker === 'AR') {
-      const {data} = await Axios.post(`/api/wallet/transfer/ar`, transfer, {
+      const {data} = await Axios.post(`http://3.7.140.85:3333/api/wallet/transfer/ar`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -180,7 +180,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'KOII') {
-      const {data} = await Axios.post(`/api/wallet/transfer/koii`, transfer, {
+      const {data} = await Axios.post(`http://3.7.140.85:3333/api/wallet/transfer/koii`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -192,7 +192,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'rat') {
-      const {data} = await Axios.post(`/api/wallet/transfer/rat`, transfer, {
+      const {data} = await Axios.post(`http://3.7.140.85:3333/api/wallet/transfer/rat`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -234,7 +234,7 @@ export const atomicNftUploadUser = (atomicNft) => async (dispatch, getState) => 
     const {userSignin: {userInfo}} = getState();
     const {walletDetails: {wallet}} = getState();
 
-    const {data} = await axios.post(`/api/wallet/uploadAtomicNft/${wallet._id}`, atomicNft, {
+    const {data} = await axios.post(`http://3.7.140.85:3333/api/wallet/uploadAtomicNft/${wallet._id}`, atomicNft, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
