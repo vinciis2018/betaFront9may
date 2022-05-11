@@ -2,7 +2,7 @@
   "name": "blinds_by_vinciis",
   "version": "0.1.0",
   "homepage": ".",
-  "proxy": "http://ec2-3-7-140-85.ap-south-1.compute.amazonaws.com:3333/",
+  "proxy": "http://3.7.140.85:3333/",
   "private": true,
   "license": "",
   "dependencies": {
