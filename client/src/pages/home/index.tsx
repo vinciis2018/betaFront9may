@@ -36,7 +36,9 @@ export function Home() {
     // dispatch(getAllPins());
   }, [
     dispatch,
-    userInfo
+    userInfo,
+    screens,
+    allVideos
   ]);
 
   return (
