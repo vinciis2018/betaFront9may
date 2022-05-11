@@ -42,7 +42,6 @@ export function Home() {
     <Box px="2" bg="white">
       {/* Container */}
       <Box maxW="container.lg" mx="auto" pb="8">
-        {/* Drag and drop uploader to Koi.rocks */}
         {/* <DragAndDropUploader /> */}
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
