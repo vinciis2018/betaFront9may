@@ -35,8 +35,7 @@ export function Home() {
     // dispatch(listTopMasters());
     // dispatch(getAllPins());
   }, [
-    dispatch,
-    userInfo
+    dispatch
   ]);
 
   return (
