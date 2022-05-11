@@ -17,7 +17,7 @@ export function Home() {
   const { userInfo } = userSignin;
 
   const screenList = useSelector((state: any) => state.screenList);
-  const { loading, error, screens } = screenList;
+  const { loading: loadingScreens, error: errorScreens, screens: screens } = screenList;
 
   const videoListAll = useSelector((state: any) => state.videoListAll);
   const { 
@@ -48,15 +48,15 @@ export function Home() {
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
         <Stack p="2" color="black" bg="white">
-          {loading ? (
+          {loadingScreens ? (
             <LoadingBox></LoadingBox>
-          ) : error ? (
-            <MessageBox variant="danger">{error}</MessageBox>
+          ) : errorScreens ? (
+            <MessageBox variant="danger">{errorScreens}</MessageBox>
           ) : (
             <Center>
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
-                {screens.map((screen: any) => (
+                {screens?.map((screen: any) => (
                   <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
