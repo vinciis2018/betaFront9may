@@ -23,9 +23,7 @@ export function Home() {
   const { 
     loading: loadingVideos, 
     error: errorVideos, 
-    allVideos, 
-    videoPage, 
-    videoPages 
+    allVideos
   } = videoListAll;
 
   
@@ -88,7 +86,7 @@ export function Home() {
               <MessageBox variant="danger">{errorVideos}</MessageBox>
             ) : (
               <SimpleGrid gap="4" columns={[1, 2]} px="10px">
-                {allVideos?.map((video: any) => (
+                {allVideos.map((video: any) => (
                   <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
                     <Image 
                       height="200px"
