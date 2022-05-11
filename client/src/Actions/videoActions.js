@@ -43,7 +43,7 @@ import {
 export const listAllVideos = () => async (dispatch) => {
   dispatch({ type: VIDEO_LIST_REQUEST });
   try {
-    const { data } = await axios.get("http://3.7.140.85:3333/api/videos/");
+    const { data } = await axios.get("/api/videos/");
     dispatch({ type: VIDEO_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -65,7 +65,7 @@ export const getVideoDetails = (videoId) => async (dispatch) => {
   });
 
   try {
-    const { data } = await axios.get(`http://3.7.140.85:3333/api/videos/${videoId}`);
+    const { data } = await axios.get(`/api/videos/${videoId}`);
     dispatch({ 
       type: VIDEO_DETAILS_SUCCESS, 
       payload: data 
@@ -90,7 +90,7 @@ export const uploadVideo = (screenId, campaign) => async(dispatch, getState) => 
 
     const {userSignin: {userInfo}} = getState();
 
-    const {data} = await axios.post(`http://3.7.140.85:3333/api/videos/screen/${screenId}`, {userInfo, campaign}, {
+    const {data} = await axios.post(`/api/videos/screen/${screenId}`, {userInfo, campaign}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -125,7 +125,7 @@ export const deleteVideo = (videoId) => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
   try {
 
-    const { data } = await axios.delete(`http://3.7.140.85:3333/api/videos/${videoId}`, {
+    const { data } = await axios.delete(`/api/videos/${videoId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
 
@@ -154,7 +154,7 @@ export const likeVideo = (videoId, interaction) => async (dispatch, getState) =>
       type: LIKE_VIDEO_REQUEST, 
       payload: videoId 
     });
-    const { data } = await axios.post(`http://3.7.140.85:3333/api/videos/${videoId}/likeVideo/${interaction}`, { videoId }, {
+    const { data } = await axios.post(`/api/videos/${videoId}/likeVideo/${interaction}`, { videoId }, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -176,7 +176,7 @@ export const unlikeVideo = (videoId) => async (dispatch, getState) => {
   try {
     const { userSignin: { userInfo } } = getState();
     dispatch({ type: UNLIKE_VIDEO_REQUEST, payload: videoId });
-    const { data } = await axios.delete(`http://3.7.140.85:3333/api/videos/${videoId}/unlikeVideo`, {
+    const { data } = await axios.delete(`/api/videos/${videoId}/unlikeVideo`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -201,7 +201,7 @@ export const flagVideo = (videoId, interaction) => async (dispatch, getState) =>
   const { userSignin: { userInfo } } = getState();
   console.log('video Id found')
   try {
-    const { data } = await axios.post(`http://3.7.140.85:3333/api/videos/${videoId}/flagVideo/${interaction}`, {videoId}, {
+    const { data } = await axios.post(`/api/videos/${videoId}/flagVideo/${interaction}`, {videoId}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}` }
     });
@@ -225,7 +225,7 @@ export const viewVideo = (videoId) => async (dispatch, getState) => {
       userSignin: { userInfo },
     } = getState();
     dispatch({ type: VIEWS_VIDEO_REQUEST, payload: videoId });
-    const { data } = await axios.post(`http://3.7.140.85:3333/api/videos/view/${videoId}`, { videoId }, {
+    const { data } = await axios.post(`/api/videos/view/${videoId}`, { videoId }, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -247,7 +247,7 @@ export const reviewVideo = (videoId, review) => async (dispatch, getState) => {
 
   try {
     dispatch({ type: REVIEW_VIDEO_REQUEST, payload: videoId });
-    const { data } = await axios.post(`http://3.7.140.85:3333/api/videos/${videoId}/reviews`, review , {
+    const { data } = await axios.post(`/api/videos/${videoId}/reviews`, review , {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -273,7 +273,7 @@ export const updateVideo = (video) => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const { data } = await axios.put(`http://3.7.140.85:3333/api/videos/${video._id}`, video, {
+    const { data } = await axios.put(`/api/videos/${video._id}`, video, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -302,7 +302,7 @@ export const getVideoParams = (videoId) => async (dispatch) => {
     payload: videoId
   });
   try {
-    const {data} = await axios.get(`http://3.7.140.85:3333/api/videos/${videoId}/advertParams`);
+    const {data} = await axios.get(`/api/videos/${videoId}/advertParams`);
     dispatch({
       type: VIDEO_PARAMS_SUCCESS,
       payload: data

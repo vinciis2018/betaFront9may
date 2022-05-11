@@ -61,7 +61,7 @@ export const signup = (name, email, password) => async (dispatch) => {
     payload: { name, email, password }
   });
   try {
-    const { data } = await axios.post('http://3.7.140.85:3333/api/users/signup', { name, email, password });
+    const { data } = await axios.post('/api/users/signup', { name, email, password });
     dispatch({
       type: USER_SIGNUP_SUCCESS,
       payload: data
@@ -93,7 +93,7 @@ export const signin = (email, password) => async (dispatch) => {
     payload: { email, password }
   });
   try {
-    const { data } = await axios.post('http://3.7.140.85:3333/api/users/signin', { email, password });
+    const { data } = await axios.post('/api/users/signin', { email, password });
     dispatch({
       type: USER_SIGNIN_SUCCESS,
       payload: data
@@ -133,7 +133,7 @@ export const detailsUser = (userId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}`, {
+    const { data } = await axios.get(`/api/users/${userId}`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({
@@ -162,7 +162,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo }} = getState();
   try {
-    const { data } = await axios.put(`http://3.7.140.85:3333/api/users/profile`, user, {
+    const { data } = await axios.put(`/api/users/profile`, user, {
       headers : { 
         Authorization: `Bearer ${userInfo.token}` },
     });
@@ -196,7 +196,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
   });
   const { userSignin : { userInfo } } = getState();
   try {
-    const { data } = await axios.put(`http://3.7.140.85:3333/api/users/${user._id}`, user, {
+    const { data } = await axios.put(`/api/users/${user._id}`, user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
@@ -220,7 +220,7 @@ export const listUsers = () => async (dispatch, getState) => {
   });
   try {
     const { userSignin: { userInfo } } = getState();
-    const { data } = await axios.get('http://3.7.140.85:3333/api/users', {
+    const { data } = await axios.get('/api/users', {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
@@ -250,7 +250,7 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await axios.delete(`http://3.7.140.85:3333/api/users/${userId}`, {
+    const { data } = await axios.delete(`/api/users/${userId}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch ({
@@ -276,7 +276,7 @@ export const listTopMasters = () => async (dispatch) => {
     type: USER_TOPMASTERS_LIST_REQUEST,
   });
   try {
-    const { data } = await axios.get('http://3.7.140.85:3333/api/users/top-masters');
+    const { data } = await axios.get('/api/users/top-masters');
     dispatch({
       type: USER_TOPMASTERS_LIST_SUCCESS,
       payload: data
@@ -301,7 +301,7 @@ export const listTopAllies = () => async (dispatch) => {
     type: USER_TOPALLIES_LIST_REQUEST,
   });
   try {
-    const { data } = await axios.get('http://3.7.140.85:3333/api/users/top-allies');
+    const { data } = await axios.get('/api/users/top-allies');
     dispatch({
       type: USER_TOPALLIES_LIST_SUCCESS,
       payload: data
@@ -325,7 +325,7 @@ export const listTopBrands = () => async (dispatch) => {
     type: USER_TOPBRANDS_LIST_REQUEST,
   });
   try {
-    const { data } = await axios.get('http://3.7.140.85:3333/api/users/top-brands');
+    const { data } = await axios.get('/api/users/top-brands');
     dispatch({
       type: USER_TOPBRANDS_LIST_SUCCESS,
       payload: data
@@ -351,7 +351,7 @@ export const userAssetsList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myAssets`, {
+      const { data } = await axios.get(`/api/users/${userId}/myAssets`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -376,7 +376,7 @@ export const userScreensList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myScreens`, {
+      const { data } = await axios.get(`/api/users/${userId}/myScreens`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -402,7 +402,7 @@ export const userVideosList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myVideos`, {
+      const { data } = await axios.get(`/api/users/${userId}/myVideos`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -427,7 +427,7 @@ export const userChannelsList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myChannels`, {
+      const { data } = await axios.get(`/api/users/${userId}/myChannels`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -452,7 +452,7 @@ export const userFilmsList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myFilms`, {
+      const { data } = await axios.get(`/api/users/${userId}/myFilms`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -477,7 +477,7 @@ export const userShopsList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myShops`, {
+      const { data } = await axios.get(`/api/users/${userId}/myShops`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -502,7 +502,7 @@ export const userItemsList = (userId) => async (dispatch, getState) => {
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
       console.log({userId});
-      const { data } = await axios.get(`http://3.7.140.85:3333/api/users/${userId}/myItems`, {
+      const { data } = await axios.get(`/api/users/${userId}/myItems`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
