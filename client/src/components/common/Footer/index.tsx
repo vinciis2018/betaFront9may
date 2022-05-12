@@ -46,7 +46,7 @@ export function Footer() {
               <Text fontSize="12px">Registered Office Address: Vinciis Creations Private Limited, D 65/319 C, Lahartara, B Shivdaspur, Varanasi, UP, 221002</Text>
             </Stack>
           </Flex>
-          <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
+          <Box mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
             <HStack mx="auto" justify="" px="10" py="2">
               <Heading fontSize="sm">Important Links: </Heading>
                 <Link to='/home' fontSize="sm">Team </Link>
@@ -72,7 +72,7 @@ export function Footer() {
                 User Demo
               </Link>
             </HStack>
-          </Flex>
+          </Box>
           <Stack justify="space-between" align="center" px="20" py="2">
             <Text fontSize="12px">Write to us @ vinciis2018@gmail.com and Call @ +917250283664.</Text>
             <Text fontSize="sm" textAlign="center">
