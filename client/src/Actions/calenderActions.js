@@ -32,7 +32,7 @@ export const getScreenCalender = (screenId) => async(dispatch, getState) => {
   // const {screenDetails: {screen}} = getState();
   
   try {
-    const {data} = await Axios.get(`/api/calender/screen/${screenId}/slots`, {
+    const {data} = await Axios.get(`https://beta.vinciis.in/api/calender/screen/${screenId}/slots`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -68,7 +68,7 @@ export const addCalenderData = (screenId, calender) => async(dispatch, getState)
   const {userSignin: {userInfo}} = getState();
   try {
 
-    const {data} = await Axios.put(`/api/calender/screen/${screenId}`, calender, {
+    const {data} = await Axios.put(`https://beta.vinciis.in/api/calender/screen/${screenId}`, calender, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -104,7 +104,7 @@ export const addCalenderDayData = (screenId, calender) => async(dispatch, getSta
   const {userSignin: {userInfo}} = getState();
   try {
 
-    const {data} = await Axios.put(`/api/calender/screen/${screenId}/day`, calender, {
+    const {data} = await Axios.put(`https://beta.vinciis.in/api/calender/screen/${screenId}/day`, calender, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -135,7 +135,7 @@ export const bookDaySlot = (screenId, daySlotToBook ) => async(dispatch, getStat
   })
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`/api/calender/screen/${screenId}/day`, {daySlotToBook}, {
+    const {data} = await Axios.post(`https://beta.vinciis.in/api/calender/screen/${screenId}/day`, {daySlotToBook}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -166,7 +166,7 @@ export const bookSlot = (screenId, slotId, slotToBook) => async(dispatch, getSta
   const {userSignin: {userInfo}} = getState();
   
   try {
-    const {data} = await Axios.put(`/api/calender/screen/${screenId}/slot/${slotId}/booking`, slotToBook,{
+    const {data} = await Axios.put(`https://beta.vinciis.in/api/calender/screen/${screenId}/slot/${slotId}/booking`, slotToBook,{
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -199,7 +199,7 @@ export const bookDay = (screenId, dayId, dayToBook) => async(dispatch, getState)
   const {userSignin: {userInfo}} = getState();
   
   try {
-    const {data} = await Axios.put(`/api/calender/screen/${screenId}/day/${dayId}/booking`, dayToBook,{
+    const {data} = await Axios.put(`https://beta.vinciis.in/api/calender/screen/${screenId}/day/${dayId}/booking`, dayToBook,{
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
