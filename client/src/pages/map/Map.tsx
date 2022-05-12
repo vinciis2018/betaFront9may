@@ -83,7 +83,8 @@ export function Map (mapProps: any) {
           // draggable: true
         }).setLngLat([lng, lat])
           .addTo(map);
-      }
+      };
+      
 
       map.on('move', () => {
         setLng(map.getCenter().lng.toFixed(4));
