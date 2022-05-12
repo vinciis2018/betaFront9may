@@ -11,8 +11,7 @@ import { getPinDetails, getPinJson } from "Actions/pinActions";
 import { detailsScreen } from '../../Actions/screenActions';
 import {IoReload} from "react-icons/io5";
 
-mapboxgl.accessToken = `pk.eyJ1IjoidnZpaWNja2t5eTU1IiwiYSI6ImNrdW5vamExbjB2a3Qyb3Bmb2hncDRibXQifQ.WyAt-5e1QePiaKttOgRVUg` 
-// `${process.env.REACT_APP_MAPBOX}`;
+mapboxgl.accessToken = `${process.env.REACT_APP_MAPBOX}`;
 
 export function Map (mapProps: any) {
 
@@ -36,7 +35,7 @@ export function Map (mapProps: any) {
   React.useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/streets-v11/page.html?",
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [77.08, 28.47],
       zoom: 3
     });
