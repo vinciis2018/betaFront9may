@@ -107,7 +107,7 @@ export const listScreens = ({
   });
   try {
     const { data } = await Axios.get(
-      `/api/screens/?pageNumber=${pageNumber}&master=${master}&name=${name}&category=${screenCategory}&min=${min}&max=${max}&rating=${rating}&request=${request}`);
+      `https://beta.vincii.in/api/screens/?pageNumber=${pageNumber}&master=${master}&name=${name}&category=${screenCategory}&min=${min}&max=${max}&rating=${rating}&request=${request}`);
     dispatch({
       type: SCREEN_LIST_SUCCESS,
       payload: data

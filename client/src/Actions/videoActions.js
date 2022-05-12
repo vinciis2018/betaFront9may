@@ -43,7 +43,7 @@ import {
 export const listAllVideos = () => async (dispatch) => {
   dispatch({ type: VIDEO_LIST_REQUEST });
   try {
-    const { data } = await axios.get("/api/videos/");
+    const { data } = await axios.get("https://beta.vinciis.in/api/videos/");
     dispatch({ type: VIDEO_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
