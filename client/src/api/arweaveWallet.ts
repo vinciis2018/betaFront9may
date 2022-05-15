@@ -1,19 +1,22 @@
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 
+
 export const JWKwallet = async () => {
   const JWK = arweaveWalletConnect();
   console.log("JWK", JWK);
 }
 
 export const arweaveWalletConnect = async () => {
+
+
   try {
     const wallet = new ArweaveWebWallet({
       name: 'Blinds by Vinciis',
-      logo: 'https://arweave.net/buoUnqeisaJPZw8XD1yyGh4LYvk0xMLbyFfmH-c30K0'
+      logo: 'https://arweave.net/c3hPy664e-h0_6wS_RvvoKpWH0ZrJ3OrTeHJHFUSu-w'
     })
     
     wallet.setUrl('arweave.app')
-    await wallet.connect() 
+    await wallet.connect(); 
     // console.log("wallet", wallet);
 
     if(wallet) {
@@ -32,16 +35,9 @@ export const arweaveWalletConnect = async () => {
     throw new Error(err);
   }
 }
+  
 
-export const disconnectArweaveWallet = async () => {
-  try {
-    await window?.arweaveWallet?.disconnect();
-    await localStorage?.removeItem('portWallet');
-    console.log("disconnect key", localStorage.getItem('portWallet'))
-
-    return true;
-  } catch (error) {
-    return error
-  }
-}
-
+// export const sendRat = async (artistAddress: string, amount: number) => {
+//   const extension = window.koiiWallet;
+//   return await extension.sendRat(artistAddress, amount);
+// }

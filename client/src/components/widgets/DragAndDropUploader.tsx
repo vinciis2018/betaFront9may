@@ -1,4 +1,5 @@
 import { useState, useCallback, ReactNode } from "react";
+import { Link as RouterLink } from "react-router-dom";
 // context
 import { useFinnie } from "components/finnie";
 // Dropzone
@@ -200,7 +201,7 @@ export function DragAndDropUploader() {
             <Alert status="success" fontSize="sm" p="2">
               <AlertIcon />
               <Text>Successfully uploaded </Text>
-              <Button as={Link} href={`https://koii.live/${data?.tx?.id}.html`} isExternal size="xs" ml="4">
+              <Button as={RouterLink} to={`/nft/${data?.tx?.id}`} size="xs" ml="4">
                 Check your nft
               </Button>
             </Alert>

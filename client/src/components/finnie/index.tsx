@@ -72,35 +72,33 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
             balance = res;
           });
 
-          await getPrice(res?.data).then(res => {
-            console.log("price", res);
-            price = res;
-          });
+          // await getPrice(res?.data).then(res => {
+          //   console.log("price", res);
+          //   price = res;
+          // });
 
-          await getExhangeRate({
-            to: "INR",
-            from: "USD",
-            quant: "1"
-          }).then(res => {
-            exchangeRate = res
-          });
+          // await getExhangeRate({
+          //   to: "INR",
+          //   from: "USD",
+          //   quant: "1"
+          // }).then(res => {
+          //   exchangeRate = res
+          // });
 
-          await getLastTransaction({
-            walletAddress: address
-          }).then(res => {
-            // console.log("my txn", res);
-            transaction = res
-          })
+          // await getLastTransaction({
+          //   walletAddress: address
+          // }).then(res => {
+          //   // console.log("my txn", res);
+          //   transaction = res
+          // })
           
-          await getHistoricalData({
-            ticker: "AR"
-          }).then(res => {
-            console.log(res)
-            tokenHistory = res
-          })
+          // await getHistoricalData({
+          //   ticker: "AR"
+          // }).then(res => {
+          //   console.log(res)
+          //   tokenHistory = res
+          // })
       
-          await arweaveWalletConnect();
-          
           dispatch({
             type: "CHANGE_VALUE",
             payload: { 

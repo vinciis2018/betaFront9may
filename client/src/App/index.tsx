@@ -13,6 +13,7 @@ import { theme } from "./theme";
 import { SEO } from "components/widgets";
 // fonts
 import "@fontsource/ibm-plex-sans";
+import { ArWalletProvider } from "components/arConnect";
 
 const queryClient = new QueryClient();
 
@@ -27,12 +28,14 @@ export const App = () => {
         <QueryClientProvider client={queryClient}>
           {/* Finnie Provider */}
           <FinnieProvider>
-            <RouterWrapper>
-              {/* Query Params */}
-              <QueryParamProvider ReactRouterRoute={Route}>
-                <Routes />
-              </QueryParamProvider>
-            </RouterWrapper>
+            <ArWalletProvider>
+              <RouterWrapper>
+                {/* Query Params */}
+                <QueryParamProvider ReactRouterRoute={Route}>
+                  <Routes />
+                </QueryParamProvider>
+              </RouterWrapper>
+            </ArWalletProvider>
           </FinnieProvider>
           {/* <ReactQueryDevtools initialIsOpen={true} /> */}
         </QueryClientProvider>

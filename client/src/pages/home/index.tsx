@@ -45,13 +45,13 @@ export function Home() {
         {/* <DragAndDropUploader /> */}
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
-        <Stack p="2" color="black" bg="white">
+        <Stack  p="2" color="black" bg="white">
           {loadingScreens ? (
             <LoadingBox></LoadingBox>
           ) : errorScreens ? (
             <MessageBox variant="danger">{errorScreens}</MessageBox>
           ) : (
-            <Center>
+            <Center >
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
@@ -72,7 +72,7 @@ export function Home() {
             </Center>
           )}
           <hr />
-          <Stack>
+          <Stack >
             <Flex justify="space-between">
               <Text>Previous</Text>
               <Text>Ongoing</Text>

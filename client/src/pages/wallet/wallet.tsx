@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { getWalletDetails, atomicNftUploadUser, editWallet, transferTokens } from '../../Actions/walletActions';
+import { getWalletDetails, createWallet, editWallet, transferTokens } from '../../Actions/walletActions';
 import { ReactNode, useMemo, memo } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -13,7 +13,7 @@ import { NftFeaturedCard } from "components/cards";
 import {LoadingBox, MessageBox} from 'components/helpers';
 import { detailsUser } from '../../Actions/userActions';
 
-import { WALLET_EDIT_RESET } from '../../Constants/walletConstants';
+import { WALLET_EDIT_RESET, WALLET_CREATE_RESET } from '../../Constants/walletConstants';
 import { USER_ATOMIC_NFT_UPLOAD_RESET, TOKENS_TRANSFER_RESET } from '../../Constants/walletConstants';
 import { signout } from '../../Actions/userActions';
 
@@ -24,7 +24,7 @@ import {ArrowBackIcon, ArrowDownIcon, ArrowUpIcon, EditIcon, InfoIcon, CalendarI
 import {BiTransfer, BiWallet} from 'react-icons/bi';
 import { BsGear, BsCloudUpload, BsArrowUpRight, BsArrowDownLeft, BsArrowUpRightCircle } from 'react-icons/bs';
 import { useFinnie } from 'components/finnie';
-import { arweaveWalletConnect, disconnectArweaveWallet } from 'api/arweaveWallet';
+import { arweaveWalletConnect } from 'api/arweaveWallet';
 import { ArweaveIcon, KoiiIcon, RatIcon } from 'components/icons';
 import { getExhangeRate, getHistoricalData } from 'api/sdk';
 
@@ -32,6 +32,7 @@ export function Wallet(props: any) {
 
   const walletAddAr = props.match.params.id;
 
+  const [keyModal, setKeyModal] = useState<any>(false)
   const [toWallet, setToWallet] = useState<any>("");
   const [quantity, setQuantity] = useState<any>("");
   const [ticker, setTicker] = useState<any>("AR");
@@ -62,14 +63,15 @@ export function Wallet(props: any) {
 
 
   const userSignin = useSelector((state: any) => state.userSignin);
-  const {userInfo} = userSignin;
+  const {loading: loadingUser, error: errorUser, userInfo} = userSignin;
 
-  const userDetails = useSelector((state: any) => state.userDetails);
+  const walletCreate = useSelector((state: any) => state.walletCreate);
   const {
-    loading: loadingUser,
-    error: errorUser,
-    user
-  } = userSignin;
+    loading: loadingWalletCreate,
+    error: errorWalletCreate,
+    success: successWalletCreate,
+    createdWalletData,
+  } = walletCreate;
 
   const walletDetails = useSelector((state: any) => state.walletDetails);
   const {
@@ -108,7 +110,10 @@ export function Wallet(props: any) {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
   console.log("walletPrice", tokenHis)
-  // console.log("txnData", lastTxn?.txnDetail?.transactions?.edges?.[0]?.node)
+  // const {
+  //   state: { }
+  // }
+  // // console.log("txnData", lastTxn?.txnDetail?.transactions?.edges?.[0]?.node)
 
 
   const [walletId, setWalletId] = useState<any>(userInfo.defaultWallet);
@@ -116,14 +121,24 @@ export function Wallet(props: any) {
   const dispatch = useDispatch();
   useEffect(() => {
 
-    if(!isFinnieConnected) {
-      connectFinnie();
-
-    } else {
-      setExchangeValue(xchangeRate);
-      setLastTrxn(lastTxn);
-      setAllTrxn([...lastTxn.credDetail, ...lastTxn.debDetail])
+    if (successWalletCreate) {
+      setKeyModal(true)
+      dispatch({ type: WALLET_CREATE_RESET });
+      // props.history.push(`/userProfile/${userInfo._id}`)
     }
+
+    if(props?.match?.params?.id) {
+      if(!isFinnieConnected) {
+        connectFinnie();
+  
+      } else {
+        arweaveWalletConnect();
+        setExchangeValue(xchangeRate);
+        setLastTrxn(lastTxn);
+        setAllTrxn([...lastTxn?.credDetail, ...lastTxn?.debDetail])
+      }
+    }
+    
 
     if(walletAddress === walletAddAr) {
       props.history.push(`/wallet/${walletAddress}`);
@@ -162,14 +177,46 @@ export function Wallet(props: any) {
   } , [
     dispatch,
     userInfo,
+    walletAddAr,
     walletId,
-    lastTxn,
+    // lastTxn,
     successTokensTransfer,
     toWallet,
     quantity,
     ticker
   ]);
 
+
+  const createWalletHandler = () => {
+    dispatch(createWallet())
+  }
+
+  const downloadFile = ({ data, fileName, fileType }: any) => {
+    // Create a blob with the data we want to download as a file
+    const blob = new Blob([data], { type: fileType })
+    // Create an anchor element and dispatch a click event on it
+    // to trigger a download
+    const a = document.createElement('a')
+    a.download = fileName
+    a.href = window.URL.createObjectURL(blob)
+    const clickEvt = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    })
+    a.dispatchEvent(clickEvt)
+    a.remove()
+  }
+  
+  const exportToJson = (e: any) => {
+    e.preventDefault()
+    downloadFile({
+      data: JSON.stringify(createdWalletData?.jwk),
+      fileName: `user_key_blinds_${createdWalletData?.wallet?.walletAddAr}.json`,
+      fileType: 'text/json',
+    })
+    window.location.replace(`/wallet/${createdWalletData?.wallet?.walletAddAr}`)
+  }
 
   const submitTransferHandler = () => {
     console.log({toWallet, quantity, ticker});
@@ -225,239 +272,260 @@ export function Wallet(props: any) {
         <MessageBox message={errorUser}></MessageBox>
       ) : (
         <Box maxW="container.lg" mx="auto" pb="8">
-          <Stack p="2" >
-            <Stack align="center" p="2" direction="row" justify="space-between">
-              <ArrowBackIcon onClick={() => props.history.goBack()}/>
-              <Text fontWeight="600">Wallet Details</Text>
-              <IconButton as={RouterLink} to={`/`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
-            </Stack>
-            {isFinnieConnected ? (
-              <Stack>
-                <Box p="4" rounded="lg" shadow="card" >
-                  <Flex align="center" justify="space-between">
-                    <Text fontWeight="600" fontSize="sm">AD-Credit</Text>
-                    <Flex align="center" justify="space-between">
-                      <Text p="2" fontWeight="600" fontSize="sm">₹ {walletPrice?.totalPrice}</Text>
-                      <InfoIcon fontSize="15px" color="green.500" />
-                    </Flex>
-                  </Flex>
-                </Box>
-                {transferModalVisible ? (
-                  <Box p="4" shadow="card" rounded="lg">
-                    <FormControl id="toWallet">
-                      <FormLabel fontSize="xs">Recipient Wallet</FormLabel>
-                      <Stack direction="row" align="center">
-                        <Input 
-                          id="toWallet"
-                          onChange={(e) => setToWallet(e.target.value)} 
-                          placeholder={toWallet} 
-                          value={toWallet}
-                          type="text"  
-                        />
-                      </Stack>
-                    </FormControl>
-                    <FormControl id="quantity">
-                      <FormLabel fontSize="xs">Transfer Value</FormLabel>
-                      <Stack direction="row" align="center">
-                        <Input 
-                          id="quantity"
-                          onChange={(e) => setQuantity(e.target.value)} 
-                          placeholder={quantity} 
-                          value={quantity}
-                          type="number"  
-                        />
-                      </Stack>
-                    </FormControl>
-                    <FormControl id="ticker">
-                      <FormLabel fontSize="xs">Tranfer Token</FormLabel>
-                      <Stack direction="row" align="center">
-                        <Select
-                          placeholder={ticker}
-                          id="ticker"
-                          value={ticker}
-                          onChange={(e) => setTicker(e.target.value)}
-                        >
-                          <option key={0} value="">Select Ticker</option>
-                          <option key={1} value="rat">RAT Tokens</option>
-                          <option key={2} value="KOII">KOII Tokens</option>
-                          <option key={3} value="AR">AR Tokens</option>
-                        </Select>
-                      </Stack>
-                    </FormControl>
-                    {/* <Center flexDir="column" w="100%" bg="gray.100" border="1px dashed" p="2" borderColor="blue.500" rounded="md" cursor="pointer" {...getRootProps()}>
-                      <input 
-                        title="inputHere" 
-                        {...getInputProps()} 
-                        value={jwk} 
-                        onChange={(e) => setJwk(e.target.value)}
-                      />
-                      <Box direction="column" maxW="500px" mx="auto">
-                        <Text fontWeight="600" fontSize="2xl">
-                          Your JWK key here
-                        </Text>
-                        <Text fontSize="sm">Click or drag n' drop here to upload. </Text>
-                      </Box>
-                    </Center> */}
-                    {loadingTokensTransfer ? (
-                      <LoadingBox></LoadingBox>
-                    ) : errorTokensTransfer ? (
-                      <MessageBox variant="danger">{errorTokensTransfer}</MessageBox>
-                    ) : (
-                    <SimpleGrid p="2" gap="2" columns={[2]}>
-                        <Button 
-                          bgGradient="linear-gradient(to left, #BC78EC, #7833B6)"
-                          onClick={submitTransferHandler}
-                        >Submit Transfer</Button>
-                        <Button 
-                          variant="outline"
-                          color="violet.500"
-                          onClick={() => setTransferModalVisible(false)}
-                        >Cancel Transfer</Button>
-                    </SimpleGrid>
-                    )}
-                  </Box>
-                ) : (
-                    
-                  <SimpleGrid bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" p="4" rounded="lg" shadow="card" columns={[2]} gap="0">
-                    <Box onClick={transferModalHandler} align="center" borderRight="1px" borderColor="gray.200">
-                      <Text p="2" fontWeight="600" fontSize="sm">Send Tokens</Text>
-                      <BsArrowUpRightCircle />
-                    </Box>
-                    <Box align="center" borderLeft="1px" borderColor="gray.200">
-                      <Text p="2" fontWeight="600" fontSize="sm">Add Tokens</Text>
-                      <BiWallet />
-                    </Box>
-                  </SimpleGrid>
-                  
+          {!props.match.params.id ? (
+            <Stack p="4">
+              <Box p="2" rounded="lg" shadow="card" align="center">
+                {loadingWalletCreate && <LoadingBox></LoadingBox>}
+                {errorWalletCreate && <MessageBox variant="danger">{errorWalletCreate}</MessageBox>}
+                {successWalletCreate && (
+                  <Stack>
+                    <Text fontSize="sm" fontWeight="600">Wallet Address: {createdWalletData?.wallet?.walletAddAr}</Text>
+                    <MessageBox variant="success">Your Key is here, download and save it for future use. Please don't provide it to any untrusted application/wallets. Make sure you don't loose it.</MessageBox>
+                    <Button onClick={exportToJson}>Download Key</Button>
+                  </Stack>
                 )}
-                <Box p="4" shadow="card" rounded="lg">
-                  <Flex align="center" justify="space-between">
-                    <Text p="2" fontWeight="600" fontSize="sm">Tokens</Text>
-                    <Text p="2" fontWeight="600" fontSize="xs">see more</Text>
-                  </Flex>
-                  <SimpleGrid gap="4" columns={[2, 3]}>
-                    <Box p="4" shadow="card" rounded="lg" align="center">
-                      <ArweaveIcon m="2" color="black" boxSize="30px" />
-                      <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(3)}</Text>
-                      <Flex align="center" justify="space-between">
-                        <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice?.value) * exchangeValue).toFixed?.(3)}</Text>
-                        <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice?.value)).toFixed?.(3)}</Text>
-                      </Flex>
-                    </Box>
-                    <Box p="4" shadow="card" rounded="lg" align="center">
-                      <KoiiIcon m="2" color="black" boxSize="30px" />
-                      <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
-                    </Box>
-                 
-                    <Box p="4" shadow="card" rounded="lg" align="center">
-                      <RatIcon m="2" color="black" boxSize="30px" />
-                      <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.balanceRAT?.toFixed?.(3)}</Text>
-                      <Flex align="center" justify="space-between">
-                        <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData?.balanceRAT) * (walletPrice?.ratPrice)).toFixed?.(3)}</Text>
-                        <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData?.balanceRAT)/exchangeValue).toFixed?.(3)}</Text>
-                      </Flex>
-                    </Box>
-                  </SimpleGrid>
-                </Box>
-                <Box p="4" shadow="card" rounded="lg">
-                  <Flex align="center" justify="space-between">
-                    <Text p="2" fontWeight="600" fontSize="sm">Transactions</Text>
-                    <Text p="2" fontWeight="600" fontSize="xs">{txnDetailModal ? "see less" : "see more"}
-                      <IconButton onClick={() => setTxnDetailModal(!txnDetailModal)} bg="none" 
-                        icon={txnDetailModal ? <BiChevronUp  size="20px" color="black" /> : <BiChevronDown  size="20px" color="black" />} 
-                        aria-label="Edit Advert Details">
-                      </IconButton>
-                    </Text>
-                  </Flex>
-                  {lastTxn?.lastTxn && lastTxn?.txnDetail?.transactions && !txnDetailModal && (
-                      <Box p="4" my="2" shadow="card" rounded="lg" align="center">
-                        <Text fontWeight="600" fontSize="xs">{new Date(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
-                        <Box align="left">
-                          <Flex align="center" justify="space-between">
-                            <Text fontWeight="600" fontSize="sm">{(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
-                            <Flex align="center" justify="space-between">
-                              <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
-                              {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
-                                <BsArrowDownLeft color="green" size="15px" />
-                              ) : (
-                                <BsArrowUpRight color="red" size="15px" />
-                              )}
-                            </Flex>
-                          </Flex>
-                          <>
-                              {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
-                                <>
-                                  <Text fontWeight="" fontSize="xs">From: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.owner?.address}</Text>
-                                  <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
-                                </>
-                              ) : (
-                                <>
-                                  <Text fontWeight="" fontSize="xs">{lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? null : `To: ${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient}`}</Text>
-                                  <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
-
-                                </>
-                              )}
-                            <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}</Text>
-                            <Text fontWeight="600" fontSize="xs">Fee: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar} AR</Text>
-                          </>
-                        </Box>
-                      </Box>
-                  )}
-                  <hr />
-
-                  {allTrxn?.sort((a: any, b: any) => {
-                    return b?.node?.block?.timestamp - a?.node?.block?.timestamp
-                  })?.map((txn: any) => {
-                    return (
-                      <Box key={txn?.node?.id} p="4" shadow="card" rounded="lg" align="center">
-                        <Text fontWeight="600" fontSize="xs" color="gray.500">{new Date(txn?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
-                        <Box align="left">
-                          <Flex align="center" justify="space-between">
-                            <Text fontWeight="600" fontSize="sm">{(txn?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
-                            <Flex align="center" justify="space-between">
-                              <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
-                              {(txn?.node?.recipient === walletAddAr) ? (
-                                <BsArrowDownLeft color="green" size="15px" />
-                              ) : (
-                                <BsArrowUpRight color="red" size="15px" />
-                              )}
-                            </Flex>
-                          </Flex>
-                          {txnDetailModal && (
-                            <>
-                              {(txn?.node?.recipient === walletAddAr) ? (
-                                <>
-                                  <Text fontWeight="" fontSize="xs">From: {txn?.node?.owner?.address}</Text>
-                                  <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.quantity?.ar} AR</Text>
-                                </>
-                              ) : (
-                                <>
-                                  <Text fontWeight="" fontSize="xs">{txn?.node?.recipient === "" ? null : `To: ${txn?.node?.recipient}`}</Text>
-                                  <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.recipient === "" ? txn?.node?.fee?.ar : txn?.node?.quantity?.ar} AR</Text>
-
-                                </>
-                              )}
-                              <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${txn?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {txn?.node?.id}</Text>
-                              <Text fontWeight="600" fontSize="xs">Tx Fee: {txn?.node?.fee?.ar} AR</Text>
-                            </>
-                          )}
-                          
-                        </Box>
-                       
-                        <Box>
-                          </Box>
-                      </Box>
-                    )
-                  })}
-                </Box>
-              </Stack>
-            ) : (
-              <Box p="4" rounded="lg" shadow="card" >
-                <Text>Connecting to finnie wallet...</Text>
               </Box>
-            )}
-            
-          </Stack>
+              <Box p="2" rounded="lg" shadow="card" align="center">
+                <Text fontSize="sm">You don't have any default wallet, would you like to create a new one?</Text>
+                <Button width="100%" size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" onClick={() => createWalletHandler()}>Create Wallet</Button>
+              </Box>
+            </Stack>
+          ) : (
+            <Stack p="2" >
+              <Stack align="center" p="2" direction="row" justify="space-between">
+                <ArrowBackIcon onClick={() => props.history.goBack()}/>
+                <Text fontWeight="600">Wallet Details</Text>
+                <IconButton as={RouterLink} to={`/`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+              </Stack>
+              {isFinnieConnected ? (
+                <Stack>
+                  <Box p="4" rounded="lg" shadow="card" >
+                    <Flex align="center" justify="space-between">
+                      <Text fontWeight="600" fontSize="sm">AD-Credit</Text>
+                      <Flex align="center" justify="space-between">
+                        <Text p="2" fontWeight="600" fontSize="sm">₹ {walletPrice?.totalPrice}</Text>
+                        <InfoIcon fontSize="15px" color="green.500" />
+                      </Flex>
+                    </Flex>
+                  </Box>
+                  {transferModalVisible ? (
+                    <Box p="4" shadow="card" rounded="lg">
+                      <FormControl id="toWallet">
+                        <FormLabel fontSize="xs">Recipient Wallet</FormLabel>
+                        <Stack direction="row" align="center">
+                          <Input 
+                            id="toWallet"
+                            onChange={(e) => setToWallet(e.target.value)} 
+                            placeholder={toWallet} 
+                            value={toWallet}
+                            type="text"  
+                          />
+                        </Stack>
+                      </FormControl>
+                      <FormControl id="quantity">
+                        <FormLabel fontSize="xs">Transfer Value</FormLabel>
+                        <Stack direction="row" align="center">
+                          <Input 
+                            id="quantity"
+                            onChange={(e) => setQuantity(e.target.value)} 
+                            placeholder={quantity} 
+                            value={quantity}
+                            type="number"  
+                          />
+                        </Stack>
+                      </FormControl>
+                      <FormControl id="ticker">
+                        <FormLabel fontSize="xs">Tranfer Token</FormLabel>
+                        <Stack direction="row" align="center">
+                          <Select
+                            placeholder={ticker}
+                            id="ticker"
+                            value={ticker}
+                            onChange={(e) => setTicker(e.target.value)}
+                          >
+                            <option key={0} value="">Select Ticker</option>
+                            <option key={1} value="rat">RAT Tokens</option>
+                            <option key={2} value="KOII">KOII Tokens</option>
+                            <option key={3} value="AR">AR Tokens</option>
+                          </Select>
+                        </Stack>
+                      </FormControl>
+                      {/* <Center flexDir="column" w="100%" bg="gray.100" border="1px dashed" p="2" borderColor="blue.500" rounded="md" cursor="pointer" {...getRootProps()}>
+                        <input 
+                          title="inputHere" 
+                          {...getInputProps()} 
+                          value={jwk} 
+                          onChange={(e) => setJwk(e.target.value)}
+                        />
+                        <Box direction="column" maxW="500px" mx="auto">
+                          <Text fontWeight="600" fontSize="2xl">
+                            Your JWK key here
+                          </Text>
+                          <Text fontSize="sm">Click or drag n' drop here to upload. </Text>
+                        </Box>
+                      </Center> */}
+                      {loadingTokensTransfer ? (
+                        <LoadingBox></LoadingBox>
+                      ) : errorTokensTransfer ? (
+                        <MessageBox variant="danger">{errorTokensTransfer}</MessageBox>
+                      ) : (
+                      <SimpleGrid p="2" gap="2" columns={[2]}>
+                          <Button 
+                            bgGradient="linear-gradient(to left, #BC78EC, #7833B6)"
+                            onClick={submitTransferHandler}
+                          >Submit Transfer</Button>
+                          <Button 
+                            variant="outline"
+                            color="violet.500"
+                            onClick={() => setTransferModalVisible(false)}
+                          >Cancel Transfer</Button>
+                      </SimpleGrid>
+                      )}
+                    </Box>
+                  ) : (
+                      
+                    <SimpleGrid bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" p="4" rounded="lg" shadow="card" columns={[2]} gap="0">
+                      <Box onClick={transferModalHandler} align="center" borderRight="1px" borderColor="gray.200">
+                        <Text p="2" fontWeight="600" fontSize="sm">Send Tokens</Text>
+                        <BsArrowUpRightCircle />
+                      </Box>
+                      <Box align="center" borderLeft="1px" borderColor="gray.200">
+                        <Text p="2" fontWeight="600" fontSize="sm">Add Tokens</Text>
+                        <BiWallet />
+                      </Box>
+                    </SimpleGrid>
+                    
+                  )}
+                  <Box p="4" shadow="card" rounded="lg">
+                    <Flex align="center" justify="space-between">
+                      <Text p="2" fontWeight="600" fontSize="sm">Tokens</Text>
+                      <Text p="2" fontWeight="600" fontSize="xs">see more</Text>
+                    </Flex>
+                    <SimpleGrid gap="4" columns={[2, 3]}>
+                      <Box p="4" shadow="card" rounded="lg" align="center">
+                        <ArweaveIcon m="2" color="black" boxSize="30px" />
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(3)}</Text>
+                        <Flex align="center" justify="space-between">
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice?.value) * exchangeValue).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice?.value)).toFixed?.(3)}</Text>
+                        </Flex>
+                      </Box>
+                      <Box p="4" shadow="card" rounded="lg" align="center">
+                        <KoiiIcon m="2" color="black" boxSize="30px" />
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
+                      </Box>
+                  
+                      <Box p="4" shadow="card" rounded="lg" align="center">
+                        <RatIcon m="2" color="black" boxSize="30px" />
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.toFixed?.(3)}</Text>
+                        <Flex align="center" justify="space-between">
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)}</Text>
+                        </Flex>
+                      </Box>
+                    </SimpleGrid>
+                  </Box>
+                  <Box p="4" shadow="card" rounded="lg">
+                    <Flex align="center" justify="space-between">
+                      <Text p="2" fontWeight="600" fontSize="sm">Transactions</Text>
+                      <Text p="2" fontWeight="600" fontSize="xs">{txnDetailModal ? "see less" : "see more"}
+                        <IconButton onClick={() => setTxnDetailModal(!txnDetailModal)} bg="none" 
+                          icon={txnDetailModal ? <BiChevronUp  size="20px" color="black" /> : <BiChevronDown  size="20px" color="black" />} 
+                          aria-label="Edit Advert Details">
+                        </IconButton>
+                      </Text>
+                    </Flex>
+                    {lastTxn?.lastTxn && lastTxn?.txnDetail?.transactions && !txnDetailModal && (
+                        <Box p="4" my="2" shadow="card" rounded="lg" align="center">
+                          <Text fontWeight="600" fontSize="xs">{new Date(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
+                          <Box align="left">
+                            <Flex align="center" justify="space-between">
+                              <Text fontWeight="600" fontSize="sm">{(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
+                              <Flex align="center" justify="space-between">
+                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
+                                {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
+                                  <BsArrowDownLeft color="green" size="15px" />
+                                ) : (
+                                  <BsArrowUpRight color="red" size="15px" />
+                                )}
+                              </Flex>
+                            </Flex>
+                            <>
+                                {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
+                                  <>
+                                    <Text fontWeight="" fontSize="xs">From: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.owner?.address}</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Text fontWeight="" fontSize="xs">{lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? null : `To: ${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient}`}</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
+
+                                  </>
+                                )}
+                              <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}</Text>
+                              <Text fontWeight="600" fontSize="xs">Fee: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar} AR</Text>
+                            </>
+                          </Box>
+                        </Box>
+                    )}
+                    <hr />
+
+                    {allTrxn?.sort((a: any, b: any) => {
+                      return b?.node?.block?.timestamp - a?.node?.block?.timestamp
+                    })?.map((txn: any) => {
+                      return (
+                        <Box key={txn?.node?.id} p="4" shadow="card" rounded="lg" align="center">
+                          <Text fontWeight="600" fontSize="xs" color="gray.500">{new Date(txn?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
+                          <Box align="left">
+                            <Flex align="center" justify="space-between">
+                              <Text fontWeight="600" fontSize="sm">{(txn?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
+                              <Flex align="center" justify="space-between">
+                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
+                                {(txn?.node?.recipient === walletAddAr) ? (
+                                  <BsArrowDownLeft color="green" size="15px" />
+                                ) : (
+                                  <BsArrowUpRight color="red" size="15px" />
+                                )}
+                              </Flex>
+                            </Flex>
+                            {txnDetailModal && (
+                              <>
+                                {(txn?.node?.recipient === walletAddAr) ? (
+                                  <>
+                                    <Text fontWeight="" fontSize="xs">From: {txn?.node?.owner?.address}</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.quantity?.ar} AR</Text>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Text fontWeight="" fontSize="xs">{txn?.node?.recipient === "" ? null : `To: ${txn?.node?.recipient}`}</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.recipient === "" ? txn?.node?.fee?.ar : txn?.node?.quantity?.ar} AR</Text>
+
+                                  </>
+                                )}
+                                <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${txn?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {txn?.node?.id}</Text>
+                                <Text fontWeight="600" fontSize="xs">Tx Fee: {txn?.node?.fee?.ar} AR</Text>
+                              </>
+                            )}
+                            
+                          </Box>
+                        
+                          <Box>
+                            </Box>
+                        </Box>
+                      )
+                    })}
+                  </Box>
+                </Stack>
+              ) : (
+                <Box p="4" rounded="lg" shadow="card" >
+                  <Text>Connecting to finnie wallet...</Text>
+                </Box>
+              )}
+              
+            </Stack>
+          )}
+          
           
         </Box>
       )}

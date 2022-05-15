@@ -29,7 +29,7 @@ import { CampaignDashboard, UserDashboard } from "pages/dashboard";
 
 export const Routes = () => {
   return (
-    <Stack py="20">
+    <Stack py="20" bgGradient="linear-gradient(to bottom, #ffffff, #7833B650)">
       <Switch>
         <PublicRoute exact path="/" component={Home} layout={AppLayout} />
         <PublicRoute exact path="/nft/:id" component={Nft} layout={AppLayout} />
@@ -48,8 +48,8 @@ export const Routes = () => {
         <PrivateRoute exact path="/editCampaign/:id/:screenId/:txId?" component={AdvertEdit} layout={AppLayout} />
 
         <PrivateRoute exact path="/campaign/payment/:walletAddress" component={Payment} layout={AppLayout} />
-        <PrivateRoute exact path="/userProfile/:id" component={UserProfile} layout={AppLayout} />
-        <PrivateRoute exact path="/wallet/:id" component={Wallet} layout={AppLayout} />
+        <PrivateRoute exact path="/userProfile/:id?" component={UserProfile} layout={AppLayout} />
+        <PrivateRoute exact path="/wallet/:id?" component={Wallet} layout={AppLayout} />
 
         <PrivateRoute exact path="/dashboard/screen/:id" component={ScreenDashboard} layout={AppLayout} />
         <PrivateRoute exact path="/dashboard/user/:id" component={UserDashboard} layout={AppLayout} />

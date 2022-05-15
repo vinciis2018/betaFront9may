@@ -57,6 +57,10 @@ export function Nav() {
     dispatch(signout());
   }
 
+  const signinHandler = () => {
+    window.location.replace("/signin");
+  }
+
   return (
     <Box __css={style} bg="white" px="4" color="white" shadow="card">
       {loadingUserInfo ? (
@@ -71,84 +75,24 @@ export function Nav() {
                 <Image width={{ base: 30, lg: "40px" }} src={Logo} />
                 <Heading color="black" size="md">{config?.companyName}</Heading>
               </Stack>
-              {/* Connect to finnie button */}
-              {isFinnieConnected ? (
-                <Stack direction="row" align="center" spacing="1">
-                  <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
-                  <Menu>
-                    <MenuButton>
-                      <Badge variant="outline" colorScheme="black" rounded="full">
-                        <Stack align="center" direction="row" spacing="4" cursor="pointer" px="2" py="1" rounded="full" fontSize="sm" fontWeight="600">
-                          {/* Rat balance */}
-                          <Stack direction="row" align="center">
-                            <RatIcon color="black" boxSize="20px" />
-                            <Text fontSize="xs" lineHeight="1">{walletPrice?.ratBalance?.toFixed?.(3)}</Text>
-                          </Stack>
-                          {/* Koii balance */}
-                          <Stack direction="row" align="center">
-                            <KoiiIcon color="black" boxSize="22px" />
-                            <Text fontSize="xs" lineHeight="1">{walletBalance?.koii?.toFixed?.(2)}</Text>
-                          </Stack>
-                          {/* Arweave balance */}
-                          <Stack direction="row" align="center">
-                            <ArweaveIcon color="black" boxSize="20px" />
-                            <Text fontSize="xs" lineHeight="1">{walletBalance?.ar?.toFixed?.(3)}</Text>
-                          </Stack>
-                        </Stack>
-                      </Badge>
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
-                        Explore                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/screens`} color="black" icon={<AiOutlineFundProjectionScreen size="20px" />}>
-                        Screens                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
-                        Adverts                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/userProfile/${walletAddress}`} color="black" icon={<RiUserSmileLine size="20px" />}>
-                        Profile                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/wallet/${walletAddress}`} color="black" icon={<RiWallet3Line size="20px" />}>
-                        Wallet
-                      </MenuItem>
-                      <MenuItem onClick={disconnectFinnie} color="black" icon={<IoRemoveCircle size="20px" />}>
-                        Disconnect
-                      </MenuItem>
-                      <MenuItem onClick={signoutHandler} color="black" icon={<RiLogoutBoxRLine size="20px" />}>
-                        Logout
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                  <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="User Profile">
-                    <Center as={Link} to={`/userProfile/${walletAddress}`} bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
-                      <Image  width="100%" rounded="full" src={userInfo?.avatar} />
-                    </Center>
-                    {/* <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiUser4Line size="20px" />} aria-label="go-to-my-page" bg="blue.400" rounded="sm" h="33px" /> */}
-                  </Tooltip>
-                </Stack>
+              {!userInfo ? (
+                <>
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={() => signinHandler()} size="sm" fontSize="xs">
+                    Please Signin
+                  </Button>
+                </>
               ) : (
-                <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={connectFinnie}>
-                  {isLoading ? "Connecting..." : "Connect finnie"}
-                </Button>
-              )}
-            </Flex>
-          )}
-          {width <= 500 && (
-            <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
-              {isFinnieConnected ? (
-                <Stack direction="row" align="center">
-                  <Center as={Link} to="/" bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
-                    <Image width="100%" rounded="full" src={userInfo?.avatar} />
-                  </Center>
-                  <Badge borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
-                    <Menu>  
+                <>
+                  <Stack direction="row" align="center" spacing="1">
+                    <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
+                    <Menu>
                       <MenuButton>
-                        <Flex align="center" justify="space-between">
-                          <Text lineHeight="1">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text>
-                          <RiWallet3Line size="20px" color="black"/>
-                        </Flex>
+                        <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
+                          <Center bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
+                            <Image  width="100%" rounded="full" src={userInfo?.avatar} />
+                          </Center>
+                          {/* <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiUser4Line size="20px" />} aria-label="go-to-my-page" bg="blue.400" rounded="sm" h="33px" /> */}
+                        </Tooltip>
                       </MenuButton>
                       <MenuList>
                         <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
@@ -174,12 +118,97 @@ export function Nav() {
                         </MenuItem>
                       </MenuList>
                     </Menu>
-                  </Badge>
-                </Stack>
+                    {isFinnieConnected ? (
+                      <Badge as={Link} to={`/wallet/${walletAddress}`} variant="outline" colorScheme="black" rounded="full">
+                        <Stack align="center" direction="row" spacing="4" cursor="pointer" px="2" py="1" rounded="full" fontSize="sm" fontWeight="600">
+                          {/* Rat balance */}
+                          <Stack direction="row" align="center">
+                            <RatIcon color="black" boxSize="20px" />
+                            <Text fontSize="xs" lineHeight="1">{walletBalance?.ratData?.toFixed?.(3)}</Text>
+                          </Stack>
+                          {/* Koii balance */}
+                          <Stack direction="row" align="center">
+                            <KoiiIcon color="black" boxSize="22px" />
+                            <Text fontSize="xs" lineHeight="1">{walletBalance?.koii?.toFixed?.(2)}</Text>
+                          </Stack>
+                          {/* Arweave balance */}
+                          <Stack direction="row" align="center">
+                            <ArweaveIcon color="black" boxSize="20px" />
+                            <Text fontSize="xs" lineHeight="1">{walletBalance?.ar?.toFixed?.(3)}</Text>
+                          </Stack>
+                        </Stack>
+                      </Badge>
+                    ) : (
+                      <>
+                        <IconButton onClick={connectFinnie} aria-label=""
+                          bg={isLoading ? "green.500" : "red.500"}
+                          icon={<RiWallet3Line color="black" size="20px"/>}
+                        />
+                      </>
+                    )}
+                    
+                  </Stack>
+                </>
+              )}
+              
+            </Flex>
+          )}
+          {width <= 500 && (
+            <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
+              {!userInfo ? (
+                <>
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={() => signinHandler()} size="sm" fontSize="xs">
+                    Please Signin
+                  </Button>
+                </>
               ) : (
-                <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={connectFinnie}>
-                  {isLoading ? "Connecting..." : "Connect finnie"}
-                </Button>
+                <Flex align="center">
+                  <Menu>  
+                    <MenuButton>
+                      <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
+                        <Center as={Link} to="/" bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
+                          <Image width="100%" rounded="full" src={userInfo?.avatar} />
+                        </Center>
+                      </Tooltip>
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
+                        Explore                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/screens`} color="black" icon={<AiOutlineFundProjectionScreen size="20px" />}>
+                        Screens                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
+                        Adverts                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/userProfile/${walletAddress}`} color="black" icon={<RiUserSmileLine size="20px" />}>
+                        Profile                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/wallet/${walletAddress}`} color="black" icon={<RiWallet3Line size="20px" />}>
+                        Wallet
+                      </MenuItem>
+                      <MenuItem onClick={disconnectFinnie} color="black" icon={<IoRemoveCircle size="20px" />}>
+                        Disconnect
+                      </MenuItem>
+                      <MenuItem onClick={signoutHandler} color="black" icon={<RiLogoutBoxRLine size="20px" />}>
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>  
+                  {isFinnieConnected ? (
+                    <Badge borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
+                      <Flex align="center" justify="space-between">
+                        <Text lineHeight="1">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text>
+                        <RiWallet3Line size="20px" color="black"/>
+                      </Flex>
+                    </Badge>
+                  ) : (
+                    <IconButton onClick={connectFinnie} aria-label="Connect"
+                      bg={isLoading ? "green.500" : "red.500"}
+                      icon={<RiWallet3Line color="black" size="20px"/>}
+                    />
+                  )}
+                </Flex>
               )}
               <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
             </Flex>

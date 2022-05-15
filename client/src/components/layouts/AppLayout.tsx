@@ -9,7 +9,7 @@ interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
-    <Flex flexDir="column" minH="100%" w="100%">
+    <Flex flexDir="column" minH="100%" w="100%" >
       <Nav />
       {children}
       <Footer />

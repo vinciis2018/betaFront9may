@@ -48,7 +48,3 @@ export const sendKoiiTip = async (artistAddress: string, amount: number) => {
 };
 
 
-// export const sendRat = async (artistAddress: string, amount: number) => {
-//   const extension = window.koiiWallet;
-//   return await extension.sendRat(artistAddress, amount);
-// }

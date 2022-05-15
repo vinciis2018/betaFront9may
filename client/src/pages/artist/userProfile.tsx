@@ -84,7 +84,7 @@ export function UserProfile(props: any) {
       dispatch({
         type: USER_UPDATE_PROFILE_RESET
       });
-      dispatch(detailsUser(userInfo._id));
+      dispatch(detailsUser(userInfo?._id));
     } else {
       setName(user?.user?.name);
       setEmail(user?.user?.email);

@@ -23,7 +23,8 @@ import {
   AlertTitle,
   AlertDescription,
   IconButton,
-  IconButtonProps
+  IconButtonProps,
+  Image
 } from "@chakra-ui/react";
 import { NftFootbar, NftMediaContainer } from "components/common";
 // icons
@@ -75,7 +76,13 @@ export function Nft({ match }: RouteComponentProps<RouteProps>) {
           <SimpleGrid columns={[1, null, 2]} gap={{ base: "4", lg: "8" }} w="100%">
             {/* Media Container */}
             <Center maxH={{ base: "100%", lg: "100%" }} rounded="md" shadow="card" w="100%" h="100%" pos="relative" overflow="hidden" p="2">
-              <NftMediaContainer nft={nft} />
+              {!nft ? (
+                <Image 
+                  src={`https://arweave.net/${match?.params?.id}`}
+                />
+              ) : (
+                <NftMediaContainer nft={nft} />
+              )}
             </Center>
             <Box d="flex" flexDir="column" rounded="md" shadow="card" w="100%" h="100%" pos="relative" overflow="hidden" p={{ base: "4", lg: "6" }}>
               {/* Title */}

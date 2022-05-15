@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Heading, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
+import { Box, Heading, Image, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
 import {LoadingBox, MessageBox} from '../../components/helpers';
 import { signup } from '../../Actions/userActions';
@@ -23,9 +23,6 @@ export function Signup(props: any) {
   const userSignup = useSelector((state: any) => state.userSignup);
   const { userInfo, loading, error } = userSignup;
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
 
 
   const dispatch = useDispatch();
@@ -35,10 +32,8 @@ export function Signup(props: any) {
       alert('Password and confirm password donot match')
     } else {
       dispatch(signup(name, email, password));
-      dispatch(openModal)
-
-      props?.history?.push('/signin');
-  
+      alert('user created, please create a wallet to proceed')
+      props?.history?.push('/wallet/?');
     }
   };
 
@@ -49,92 +44,84 @@ export function Signup(props: any) {
   }, [props?.history, redirect, userInfo]);
 
   return (
-    <Stack>
-      <Heading textAlign="center">
-        KEEP CALM AND WATCH ADS AS NEVER BEFORE
-      </Heading>
-      <hr />
+    <Box px="2" >
+      <Box maxW="container.lg" minH="600" mx="auto" pb="8">
+        <Stack p="8">
+          {/* <Text p="4" textAlign="center" fontSize="2xl" fontWeight="1000">KEEP CALM AND WATCH ADS AS NEVER BEFORE</Text> */}
+          <SimpleGrid columns={[1, 2]} gap="4">
+            <Box rounded="lg" shadow="card" bg="#ffffff">
+              <Image 
+                src="https://arweave.net/66t9863gmqPTqca773Ov70Gx43C7ve9faCipAWQ604I" 
+              />
+            </Box>
+            <Box p="4" pt="8" rounded="lg" shadow="card" bg="#ffffff">
+              <Text p="2" fontSize="md" textAlign="center" fontWeight="600">Please enter your details</Text>
+              {loading && <LoadingBox></LoadingBox>}
+              {error && <MessageBox variant="danger">{error}</MessageBox>}
+              <FormControl p="1" id="name">
+                <FormLabel px="1" fontSize="xs">Name</FormLabel>
+                <Stack direction="row" align="center">
+                  <Input 
+                    id="name"
+                    onChange={(e) => setName(e?.target?.value)} 
+                    placeholder={name} 
+                    value={name}
+                    required
+                    type="text"  
+                  />
+                </Stack>
+              </FormControl>
+              <FormControl p="1" id="email">
+                <FormLabel px="1" fontSize="xs">Email</FormLabel>
+                <Stack direction="row" align="center">
+                  <Input 
+                    id="email"
+                    onChange={(e) => setEmail(e?.target?.value)} 
+                    placeholder={email} 
+                    value={email}
+                    required
+                    type="email"  
+                  />
+                </Stack>
+              </FormControl>
+              <FormControl p="1" id="password">
+                <FormLabel px="1" fontSize="xs">Password</FormLabel>
+                <Stack direction="row" align="center">
+                  <Input 
+                    id="password"
+                    onChange={(e) => setPassword(e?.target?.value)} 
+                    placeholder={password} 
+                    value={password}
+                    required
+                    type="password"  
+                  />
+                </Stack>
+              </FormControl>
+              <FormControl p="1" id="confirmPassword">
+                <FormLabel px="1" fontSize="xs">Confirm Password</FormLabel>
+                <Stack direction="row" align="center">
+                  <Input 
+                    id="confirmPassword"
+                    onChange={(e) => setConfirmPassword(e?.target?.value)} 
+                    placeholder={confirmPassword} 
+                    value={confirmPassword}
+                    required
+                    type="password"  
+                  />
+                </Stack>
+              </FormControl>
 
-      {modalVisible ? (
-        <Text textAlign="center">Please check your email for the completing the registration process. Please contact @
-            <Link as={RouterLink} to="/signin">itisvinciis@gmail.com</Link> in case you don't recieve our email.
-        </Text>
-      ) : (
-        <Flex>
-          <img 
-            width="50%"
-            src="../../../images/sign_up_image.png" 
-            alt="sign_up_image" 
-            />
-          <Stack width="50%">
-            <Heading fontSize="" textAlign="center">Please enter your details</Heading>
-            {loading && <LoadingBox></LoadingBox>}
-            {error && <MessageBox variant="danger">{error}</MessageBox>}
-            <FormControl id="name">
-              <FormLabel>Name</FormLabel>
-              <Stack direction="row" align="center">
-                <Input 
-                  id="name"
-                  onChange={(e) => setName(e?.target?.value)} 
-                  placeholder={name} 
-                  value={name}
-                  required
-                  type="text"  
-                />
+              <Stack p="1" pt="2" align="center">
+                <Button width="100%" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="md" type="submit" onClick={submitHandler}>
+                  REGISTER
+                </Button>
+                <Text fontSize="xs" fontWeight="600" as={RouterLink} to={`/signin?redirect=${redirect}`}>Already a a registered user?</Text>
               </Stack>
-            </FormControl>
-            <FormControl id="email">
-              <FormLabel>Email</FormLabel>
-              <Stack direction="row" align="center">
-                <Input 
-                  id="email"
-                  onChange={(e) => setEmail(e?.target?.value)} 
-                  placeholder={email} 
-                  value={email}
-                  required
-                  type="email"  
-                />
-              </Stack>
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Stack direction="row" align="center">
-                <Input 
-                  id="password"
-                  onChange={(e) => setPassword(e?.target?.value)} 
-                  placeholder={password} 
-                  value={password}
-                  required
-                  type="password"  
-                />
-              </Stack>
-            </FormControl>
-            <FormControl id="confirmPassword">
-              <FormLabel>Confirm Password</FormLabel>
-              <Stack direction="row" align="center">
-                <Input 
-                  id="confirmPassword"
-                  onChange={(e) => setConfirmPassword(e?.target?.value)} 
-                  placeholder={confirmPassword} 
-                  value={confirmPassword}
-                  required
-                  type="password"  
-                />
-              </Stack>
-            </FormControl>
-            <Button type="submit" onClick={submitHandler}>
-              REGISTER
-            </Button>
-            <Text className="title">Already a user?
-              <Link as={RouterLink} to={`/signin?redirect=${redirect}`}>Click here to login</Link>
-            </Text>
-          </Stack>
-        </Flex>
-      )}
-      <hr />
-      <Heading fontSize="" textAlign="center">KEEP CALM AND WATCH ADS AS NEVER BEFORE</Heading>
-      <hr />
-
-    </Stack>
+            </Box>
+          </SimpleGrid>
+        </Stack>
+      </Box>
+    </Box>
+    
   )
 }

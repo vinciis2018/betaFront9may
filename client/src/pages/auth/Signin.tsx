@@ -35,66 +35,60 @@ export function Signin(props: any) {
   }, [props?.history, redirect, userInfo]);
 
   return (
-    <Stack>
-      <Heading fontSize="30px" textAlign="center">
-        Any one can advertise...
-      </Heading>
-      <hr />
-      <SimpleGrid columns={[1, 2]} gap="4" p="10px">
-        <Image 
-          height="100%"
-          src={`https://6cwluhoue2meh5wnka3ebaox6tlwlz6zdmabkyvplsltf7c6.arweave.net/8Ky_6HdQmmEP2zVA2QIHX9Ndl59kbAB_Vir1yXMvxeM`} 
-          alt="sign_in_image" 
-        />
-        <Stack shadow="card" p="10px" rounded="md">
-          <Heading fontSize="" textAlign="center">
-            Welcome Back Again
-          </Heading>
-          {loading && <LoadingBox></LoadingBox>}
-          {error && <MessageBox variant="danger">{error}</MessageBox>}
-          <FormControl id="email">
-            <FormLabel>Email</FormLabel>
-            <Stack direction="row" align="center">
-              <Input 
-                id="email"
-                onChange={(e) => setEmail(e?.target?.value)} 
-                placeholder={email} 
-                value={email}
-                required
-                type="email"  
+      <Box px="2" >
+        <Box maxW="container.lg" minH="600" mx="auto" pb="8">
+          <Stack p="8">
+            <SimpleGrid columns={[1, 2]} gap="4">
+              <Box justify="center" rounded="lg" shadow="card" bg="#ffffff" align="center">
+              <Image 
+                align="center"
+                src={`https://arweave.net/aod3mUEOMhhMBHwqWZp9ReSctl4zUu_PxLlfRn7Ings`} 
               />
-            </Stack>
-          </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Stack direction="row" align="center">
-              <Input 
-                id="password"
-                onChange={(e) => setPassword(e?.target?.value)} 
-                placeholder={password} 
-                value={password}
-                required
-                type="password"  
-              />
-            </Stack>
-          </FormControl>
-          
-          <Text fontSize="70%"> If you don't remember your password {' '}
-            <Link to="/forgot_password"> click here to reset your password</Link>{' '}
-          </Text>
-          <Button fontSize="70%" type="submit" onClick={submitHandler}>
-            By clicking on this LOGIN button, I agree to its all <Link as={RouterLink} to="/terms_and_conditions"> Terms and Conditions</Link>
-          </Button>
-          <Text>Not a registered user?
-            <Link as={RouterLink} to={`/signup?redirect=${redirect}`}>Click here to register</Link>
-          </Text>
-        </Stack>
-      </SimpleGrid>
-      <hr />
-      <Heading fontSize="30px" textAlign="center">
-        Increase your advertising revenue...
-      </Heading>
-      <hr />
-    </Stack>
+              </Box>
+              <Box p="4" pt="8" align="center" rounded="lg" shadow="card" bg="#ffffff">
+                <Text fontSize="md" textAlign="center" fontWeight="600">Welcome Back Again</Text>
+                {loading && <LoadingBox></LoadingBox>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
+                <FormControl p="1" id="email">
+                  <FormLabel fontSize="xs" px="1">Email</FormLabel>
+                  <Stack direction="row" align="center">
+                    <Input 
+                      id="email"
+                      onChange={(e) => setEmail(e?.target?.value)} 
+                      placeholder={email} 
+                      value={email}
+                      required
+                      type="email"  
+                    />
+                  </Stack>
+                </FormControl>
+                <FormControl p="1" id="password">
+                  <FormLabel fontSize="xs" px="1">Password</FormLabel>
+                  <Stack direction="row" align="center">
+                    <Input 
+                      id="password"
+                      onChange={(e) => setPassword(e?.target?.value)} 
+                      placeholder={password} 
+                      value={password}
+                      required
+                      type="password"  
+                    />
+                  </Stack>
+                </FormControl>
+                <Stack p="1" pt="2" align="center">
+                  <Button width="100%" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="md" type="submit" onClick={submitHandler}>
+                    LOGIN
+                  </Button>
+                  <Text fontSize="xs">You will now agree to all our <Link as={RouterLink} to="/terms_and_conditions"> Terms and Conditions</Link></Text>
+                  <Text fontSize="xs" fontWeight="600" as={RouterLink} to={`/signup?redirect=${redirect}`}>Not a registered user?</Text>
+                  <Text as={RouterLink} to="/forgot_password" align="center" fontSize="xs"> Click here to reset your password</Text>
+                </Stack>
+                
+              </Box>
+            </SimpleGrid>
+          </Stack>
+        </Box>
+      </Box>
+      
   )
 }
