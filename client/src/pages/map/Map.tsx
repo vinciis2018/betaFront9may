@@ -115,7 +115,7 @@ export function Map (mapProps: any) {
     e.preventDefault();
     setMapFeatures(mapProps?.mapProps?.features);
     dispatch(getPinJson());
-    window.location.replace("/mapbox");
+    mapProps.history.push("/mapbox");
 
   }
 

@@ -14,7 +14,7 @@ import {InfoIcon} from "@chakra-ui/icons"
 import { AiOutlineFundProjectionScreen, AiOutlineSetting, AiOutlineHome } from "react-icons/ai";
 import { RiGlobeLine, RiWallet3Line, RiSearch2Line, RiUserSmileLine, RiAdvertisementLine, RiLogoutBoxRLine } from "react-icons/ri";
 
-export function Home() {
+export function Home(props: any) {
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo } = userSignin;
 
@@ -59,7 +59,7 @@ export function Home() {
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
-                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
+                  <Box key={screen?._id} onClick={() => props.history.push(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
                       height="300px"
@@ -76,12 +76,12 @@ export function Home() {
             </Center>
           )}
            <SimpleGrid pt="5" gap="2" columns={[2]}>
-              <Box onClick={() => window.location.replace(`/screens`)} py="10" rounded="lg" shadow="card" bgColor="green.100" align="center">
+              <Box onClick={() => props.history.push(`/screens`)} py="10" rounded="lg" shadow="card" bgColor="green.100" align="center">
                 <AiOutlineFundProjectionScreen fontSize="50px" color="gray" />
                 <Text p="2" fontSize="2xl" color="gray" fontWeight="600">Ad Screens</Text>
 
               </Box>
-              <Box onClick={() => window.location.replace(`/adverts`)} bgColor="teal.100" py="10" rounded="lg" shadow="card" align="center">
+              <Box onClick={() => props.history.push(`/adverts`)} bgColor="teal.100" py="10" rounded="lg" shadow="card" align="center">
                 <RiAdvertisementLine fontSize="50px" color="gray" />
                 <Text p="2" fontSize="2xl" color="gray" fontWeight="600">Ad Campaign</Text>
 
