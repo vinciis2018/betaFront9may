@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {Map} from "./Map";
-import { Box, Heading, Flex, Stack, Input, Center, IconButton } from "@chakra-ui/react";
+import { Box, Heading, Flex, Stack, Input, Text, IconButton } from "@chakra-ui/react";
 import { getPinJson } from 'Actions/pinActions';
 import { LoadingBox, MessageBox } from 'components/helpers';
 
@@ -42,8 +42,7 @@ export function MapBox(props: any) {
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-        <Center maxW="container.lg" mx="auto" pb="8">
-          <Box>
+          <Box maxW="container.lg" mx="auto" pb="8">
             <Stack align="center" p="2" direction="row" justify="space-between">
               <ArrowBackIcon />
               <Input rounded="2xl" variant='outline' placeholder="Search by Location" fontWeight="600"/>
@@ -56,8 +55,7 @@ export function MapBox(props: any) {
                 <Map mapProps={jsonData}/>
               </Box>
             )}
-          </Box>
-        </Center>
+        </Box>
       )}
     </Box>
     );

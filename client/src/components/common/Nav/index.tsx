@@ -80,14 +80,14 @@ export function Nav() {
               ) : (
                 <>
                   <Stack direction="row" align="center" spacing="1">
-                    <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
+                    <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
                     <Menu>
                       <MenuButton>
                         <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
                           <Center bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
                             <Image  width="100%" rounded="full" src={userInfo?.avatar} />
                           </Center>
-                          {/* <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiUser4Line size="20px" />} aria-label="go-to-my-page" bg="blue.400" rounded="sm" h="33px" /> */}
+                          {/* <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiUser4Line size="20px" />} aria-label="go-to-my-page" bg="blue.400" rounded="sm" h="33px" /> */}
                         </Tooltip>
                       </MenuButton>
                       <MenuList>
@@ -100,10 +100,10 @@ export function Nav() {
                         <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
                           Adverts                    
                         </MenuItem>
-                        <MenuItem as={Link} to={`/userProfile/${walletAddress}`} color="black" icon={<RiUserSmileLine size="20px" />}>
+                        <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
                           Profile                    
                         </MenuItem>
-                        <MenuItem as={Link} to={`/wallet/${walletAddress}`} color="black" icon={<RiWallet3Line size="20px" />}>
+                        <MenuItem as={Link} to={`/wallet/${userInfo?.defaultWallet}`} color="black" icon={<RiWallet3Line size="20px" />}>
                           Wallet
                         </MenuItem>
                         <MenuItem onClick={disconnectFinnie} color="black" icon={<IoRemoveCircle size="20px" />}>
@@ -115,7 +115,7 @@ export function Nav() {
                       </MenuList>
                     </Menu>
                     {isFinnieConnected ? (
-                      <Badge as={Link} to={`/wallet/${walletAddress}`} variant="outline" colorScheme="black" rounded="full">
+                      <Badge as={Link} to={`/wallet/${userInfo?.defaultWallet}`} variant="outline" colorScheme="black" rounded="full">
                         <Stack align="center" direction="row" spacing="4" cursor="pointer" px="2" py="1" rounded="full" fontSize="sm" fontWeight="600">
                           {/* Rat balance */}
                           <Stack direction="row" align="center">
@@ -177,10 +177,10 @@ export function Nav() {
                       <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
                         Adverts                    
                       </MenuItem>
-                      <MenuItem as={Link} to={`/userProfile/${walletAddress}`} color="black" icon={<RiUserSmileLine size="20px" />}>
+                      <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
                         Profile                    
                       </MenuItem>
-                      <MenuItem as={Link} to={`/wallet/${walletAddress}`} color="black" icon={<RiWallet3Line size="20px" />}>
+                      <MenuItem as={Link} to={`/wallet/${userInfo?.defaultWallet}`} color="black" icon={<RiWallet3Line size="20px" />}>
                         Wallet
                       </MenuItem>
                       <MenuItem onClick={disconnectFinnie} color="black" icon={<IoRemoveCircle size="20px" />}>
@@ -206,7 +206,7 @@ export function Nav() {
                   )}
                 </Flex>
               )}
-              <IconButton as={Link} to={`/artist/${walletAddress}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
+              <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
             </Flex>
           )}
         </>
