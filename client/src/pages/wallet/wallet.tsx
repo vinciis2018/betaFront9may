@@ -109,11 +109,7 @@ export function Wallet(props: any) {
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
-  // console.log("walletPrice", tokenHis)
-  // const {
-  //   state: { }
-  // }
-  // // console.log("txnData", lastTxn?.txnDetail?.transactions?.edges?.[0]?.node)
+  console.log("walletPrice", walletPrice)
 
 
   const [walletId, setWalletId] = useState<any>(userInfo.defaultWallet);
@@ -179,7 +175,7 @@ export function Wallet(props: any) {
     userInfo,
     walletAddAr,
     walletId,
-    // lastTxn,
+    lastTxn,
     successTokensTransfer,
     toWallet,
     quantity,
@@ -265,13 +261,13 @@ export function Wallet(props: any) {
   
 
   return (
-    <Box px="2">
+    <Box px="2" pt="20">
       {loadingUser ? (
         <LoadingBox></LoadingBox>
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-        <Box maxW="container.lg" mx="auto" pb="8">
+        <Center maxW="container.lg" mx="auto" pb="8">
           {!props.match.params.id ? (
             <Stack p="4">
               <Box p="2" rounded="lg" shadow="card" align="center">
@@ -303,7 +299,7 @@ export function Wallet(props: any) {
                     <Flex align="center" justify="space-between">
                       <Text fontWeight="600" fontSize="sm">AD-Credit</Text>
                       <Flex align="center" justify="space-between">
-                        <Text p="2" fontWeight="600" fontSize="sm">₹ {walletPrice?.totalPrice}</Text>
+                        <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletPrice?.arPrice * walletBalance?.ar * xchangeRate) + (walletPrice?.koiiPrice * walletBalance?.koii * xchangeRate) + (walletPrice?.ratPrice * walletBalance?.ratData)}</Text>
                         <InfoIcon fontSize="15px" color="green.500" />
                       </Flex>
                     </Flex>
@@ -406,13 +402,17 @@ export function Wallet(props: any) {
                         <ArweaveIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(3)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice?.value) * exchangeValue).toFixed?.(3)}</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice?.value)).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice) * exchangeValue).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice)).toFixed?.(3)}</Text>
                         </Flex>
                       </Box>
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <KoiiIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
+                        <Flex align="center" justify="space-between">
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)}</Text>
+                        </Flex>
                       </Box>
                   
                       <Box p="4" shadow="card" rounded="lg" align="center">
@@ -475,7 +475,7 @@ export function Wallet(props: any) {
                       return b?.node?.block?.timestamp - a?.node?.block?.timestamp
                     })?.map((txn: any) => {
                       return (
-                        <Box key={txn?.node?.id} p="4" shadow="card" rounded="lg" align="center">
+                        <Box onClick={() => setTxnDetailModal(!txnDetailModal)} key={txn?.node?.id} p="4" shadow="card" rounded="lg" align="center">
                           <Text fontWeight="600" fontSize="xs" color="gray.500">{new Date(txn?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
                           <Box align="left">
                             <Flex align="center" justify="space-between">
@@ -490,7 +490,7 @@ export function Wallet(props: any) {
                               </Flex>
                             </Flex>
                             {txnDetailModal && (
-                              <>
+                              <Stack key={txn?.node?.id}>
                                 {(txn?.node?.recipient === walletAddAr) ? (
                                   <>
                                     <Text fontWeight="" fontSize="xs">From: {txn?.node?.owner?.address}</Text>
@@ -505,7 +505,7 @@ export function Wallet(props: any) {
                                 )}
                                 <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${txn?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {txn?.node?.id}</Text>
                                 <Text fontWeight="600" fontSize="xs">Tx Fee: {txn?.node?.fee?.ar} AR</Text>
-                              </>
+                              </Stack>
                             )}
                             
                           </Box>
@@ -527,7 +527,7 @@ export function Wallet(props: any) {
           )}
           
           
-        </Box>
+        </Center>
       )}
     </Box>
       // <HStack p="10px" justify="space-between" >

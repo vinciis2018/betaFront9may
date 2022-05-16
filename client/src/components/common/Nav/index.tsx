@@ -36,7 +36,7 @@ export function Nav() {
   };
   /* Finnie */
   const {
-    state: { connectFinnie, disconnectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected, walletPrice},
+    state: { connectFinnie, disconnectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
   const dispatch = useDispatch();
 
@@ -198,7 +198,7 @@ export function Nav() {
                   {isFinnieConnected ? (
                     <Badge borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
                       <Flex align="center" justify="space-between">
-                        <Text lineHeight="1">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text>
+                        <Text lineHeight="1">₹ {(walletPrice?.arPrice * walletBalance?.ar * xchangeRate) + (walletPrice?.koiiPrice * walletBalance?.koii * xchangeRate) + (walletPrice?.ratPrice * walletBalance?.ratData)}</Text>
                         <RiWallet3Line size="20px" color="black"/>
                       </Flex>
                     </Badge>

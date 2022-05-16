@@ -50,7 +50,7 @@ export const getBalances = async (walletAddress: any) => {
     ar = await koiSDK.getWalletBalance();
     const {data} = await axios.get(`https://beta.vinciis.in/api/wallet/rat`);
     ratData = data?.balances[walletAddress] || 0;
-
+    // console.log("ratdata", ratData)
     return { koii, ar, ratData };
   } catch (error) {
     console.log(error);
@@ -66,9 +66,9 @@ export const getPrice = async (walletAddress: any) => {
   let ratPrice: any;
   let totalPrice: any;
   let balances: any;
-  let koii: any;
-  let ar: any;
-  let rat: any;
+  let koiiData: any;
+  let arData: any;
+  let ratData: any;
   let arBalance: any;
   let koiiBalance: any;
   let ratBalance: any;
@@ -76,23 +76,20 @@ export const getPrice = async (walletAddress: any) => {
   try {
     balances = await getBalances(walletAddress)
     if(balances) {
-      rat = balances?.ratData;
-      koii = balances?.koii;
-      ar = balances?.ar;
       
-      arPrice = await redstone.getPrice("AR");
-      arBalance = (ar * arPrice.value);
+      arData = await redstone.getPrice("AR");
+      arPrice = arData.value   //USD
+      // console.log("arBalance", arPrice)
 
-      // koiiPrice = await redstone.getPrice("KOII");
-      koiiPrice = await redstone.getPrice("KOII") || 1; //USD
-      koiiBalance = (koii * koiiPrice);
+      // koiiData = await redstone.getPrice("KOII"); 
+      koiiPrice = 1  //USD
+      // console.log("arBalance", koiiPrice)
 
-      // ratPrice = await redstone.getPrice("RAT");
-      ratPrice = await redstone.getPrice("RAT") || 1; //INR
-      ratBalance = (rat * ratPrice);
+      // ratData = await redstone.getPrice("RAT");
+      ratPrice = 1;  //INR
+      // console.log("arBalance", ratPrice)
 
-      totalPrice = arBalance + koiiBalance + ratBalance;
-      return {arPrice, koiiPrice, ratPrice, koiiBalance, arBalance, ratBalance, totalPrice};
+      return {arPrice, koiiPrice, ratPrice};
     } else {
       throw new Error("something went wrong")
     }

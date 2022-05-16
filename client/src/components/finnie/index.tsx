@@ -73,6 +73,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
           });
 
           await getPrice(res?.data).then(res => {
+            // console.log("res", res)
             price = res;
           });
 
