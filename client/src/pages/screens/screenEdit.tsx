@@ -56,7 +56,7 @@ export function ScreenEdit (props: any) {
   const [uploadMediaModal, setUploadMediaModal] = React.useState<any>();
 
   const userSignin = useSelector((state: any) => state.userSignin);
-  const { userInfo } = userSignin;
+  const { loading: loadingUser, error: errorUser, userInfo } = userSignin;
 
   const screenDetails = useSelector((state: any) => state.screenDetails);
   const { loading: loadingScreen, error: errorScreen, screen } = screenDetails;
@@ -269,8 +269,15 @@ export function ScreenEdit (props: any) {
   }
 
   return (
-    <Box px="2">
-      <Box maxW="container.lg" mx="auto" pb="4">
+    <Box px="2" pt="20">
+      {loadingUser ? (
+        <LoadingBox></LoadingBox>
+      ) : errorUser ? (
+        <MessageBox variant="danger">{errorUser}</MessageBox>
+      ) : (
+        
+      <Center maxW="container.lg" mx="auto" pb="4">
+        <Box>
         <Stack p="2" direction="row" justify="space-between">
           <ArrowBackIcon onClick={() => props.history.goBack()} />
           <Text fontWeight="600">Edit Screen Details</Text>
@@ -633,6 +640,8 @@ export function ScreenEdit (props: any) {
           <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" onClick={submitScreenHandler}>Update Screen</Button>
         </Box>
       </Box>
+      </Center>
+      )}
     </Box>
   )
 }

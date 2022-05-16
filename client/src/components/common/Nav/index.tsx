@@ -20,8 +20,8 @@ import { AiOutlineFundProjectionScreen, AiOutlineSetting } from "react-icons/ai"
 import Logo from "assets/logo.png";
 import { userInfo } from "os";
 import { LoadingBox, MessageBox } from "components/helpers";
-export function Nav() {
 
+export function Nav() {
   const { width } = useWindowSize();
 
   const style = {
@@ -57,10 +57,6 @@ export function Nav() {
     dispatch(signout());
   }
 
-  const signinHandler = () => {
-    window.location.replace("/signin");
-  }
-
   return (
     <Box __css={style} bg="white" px="4" color="white" shadow="card">
       {loadingUserInfo ? (
@@ -77,7 +73,7 @@ export function Nav() {
               </Stack>
               {!userInfo ? (
                 <>
-                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={() => signinHandler()} size="sm" fontSize="xs">
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={Link} to={`/signin`} size="sm" fontSize="xs">
                     Please Signin
                   </Button>
                 </>
@@ -157,7 +153,7 @@ export function Nav() {
             <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
               {!userInfo ? (
                 <>
-                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" isLoading={isLoading} onClick={() => signinHandler()} size="sm" fontSize="xs">
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={Link} to={`/signin`} size="sm" fontSize="xs">
                     Please Signin
                   </Button>
                 </>

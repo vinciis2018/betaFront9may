@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, SimpleGrid, Flex, Stack, Input, Text, IconButton, ButtonGroup, Button } from "@chakra-ui/react";
+import { Box, SimpleGrid, Flex, Stack, Input, Center, IconButton, ButtonGroup, Button } from "@chakra-ui/react";
 import { LoadingBox, MessageBox } from 'components/helpers';
 
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
@@ -88,13 +88,14 @@ export function Screens (props: any) {
   }
 
   return (
-    <Box px="2">
+    <Box px="2" pt="20">
       {loadingUser ? (
         <LoadingBox></LoadingBox>
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-          <Box maxW="container.lg" mx="auto" pb="8">
+          <Center maxW="container.lg" mx="auto" pb="8">
+            <Box>
             <Stack align="center" p="2" direction="row" justify="space-between">
               <ArrowBackIcon onClick={() => props.history.goBack()}/>
               <Input rounded="2xl" variant='outline' placeholder="Search by Screen Location, Name" fontWeight="600"/>
@@ -165,8 +166,8 @@ export function Screens (props: any) {
                 )}
               </>
             )}
-            
-          </Box>
+            </Box>
+          </Center>
       )}
     </Box>
   )

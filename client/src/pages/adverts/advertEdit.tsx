@@ -83,7 +83,7 @@ export function AdvertEdit (props: any) {
 
   
   const userSignin = useSelector((state: any) => state.userSignin);
-  const { userInfo } = userSignin;
+  const { loading: loadingUser, error: errorUser, userInfo } = userSignin;
 
   const videoDetails = useSelector((state: any) => state.videoDetails);
   const {
@@ -362,10 +362,17 @@ const openTimeModal = () => {
   }
 
   return (
-    <Box px="2">
-        <Box maxW="container.lg" mx="auto" pb="8">
+    <Box px="2" pt="20">
+      <Center maxW="container.lg" mx="auto" pb="8">
+        {loadingUser ? (
+          <LoadingBox></LoadingBox>
+        ) : errorUser ? (
+          <MessageBox variant="danger">{errorUser}</MessageBox>
+        ) : (
+          
+        <Box >
           <Stack p="2" direction="row" justify="space-between">
-            <ArrowBackIcon />
+            <ArrowBackIcon onClick={() => props.history.goBack()}/>
             <Text fontWeight="600">Edit Campaign Details</Text>
             <CalendarIcon onClick={calenderIconHandler} />
           </Stack>
@@ -1060,6 +1067,8 @@ const openTimeModal = () => {
             </Stack>
           )}
         </Box>
+        )}
+      </Center>
     </Box>
   )
 }
