@@ -10,6 +10,7 @@ import { LoadingBox, MessageBox } from 'components/helpers';
 import { getPinDetails, getPinJson } from "Actions/pinActions";
 import { detailsScreen } from '../../Actions/screenActions';
 import {IoReload} from "react-icons/io5";
+import { refreshPage } from "services/utils";
 
 mapboxgl.accessToken = `${process.env.REACT_APP_MAPBOX}`;
 
@@ -37,7 +38,7 @@ export function Map (mapProps: any) {
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [77.08, 28.47],
-      zoom: 3
+      zoom: 2
     });
 
     const geoLocate = new mapboxgl.GeolocateControl({
@@ -115,7 +116,7 @@ export function Map (mapProps: any) {
     e.preventDefault();
     setMapFeatures(mapProps?.mapProps?.features);
     dispatch(getPinJson());
-    mapProps.history.push("/mapbox");
+    refreshPage();
 
   }
 
