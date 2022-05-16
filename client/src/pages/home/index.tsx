@@ -39,13 +39,13 @@ export function Home() {
   ]);
 
   return (
-    <Box px="2" bg="white">
+    <Box px="2" pt="20">
       {/* Container */}
-      <Box maxW="container.lg" mx="auto" pb="8">
+      <Center maxW="container.lg" mx="auto" pb="8">
         {/* <DragAndDropUploader /> */}
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
-        <Stack  p="2" color="black" bg="white">
+        <Stack  p="2" color="black">
           {loadingScreens ? (
             <LoadingBox></LoadingBox>
           ) : errorScreens ? (
@@ -55,7 +55,7 @@ export function Home() {
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
-                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
+                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
                       height="300px"
@@ -85,14 +85,14 @@ export function Home() {
             ) : (
               <SimpleGrid gap="4" columns={[1, 2]} px="10px">
                 {allVideos?.map((video: any) => (
-                  <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="white" shadow="card" flexBasis="100%">
+                  <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
                     <Image 
                       height="200px"
                       rounded="md"
                       src={video?.thumbnail}
                       onLoad={() =>  triggerPort(video?.thumbnail?.split("/")?.slice(-1)[0])}
                     />
-                    <Flex p="10px" align="top" justify="space-between">
+                    <Flex p="4" align="top" justify="space-between">
                       <Stack>
                         <Text fontWeight="600">{video?.title}</Text>
                         <Text color="gray.500">(Video Category)</Text>
@@ -100,7 +100,7 @@ export function Home() {
                       <InfoIcon color="green.500" />
                     </Flex>
                   
-                    <Flex p="10px" align="center" justify="space-between">
+                    <Flex p="4" align="center" justify="space-between">
                       <Box>
                         <Text fontWeight="600" fontSize="sm">{video?.title}</Text>
                         <Text color="gray.500" fontSize="sm">{video?.title}</Text>
@@ -110,11 +110,11 @@ export function Home() {
                         <Text color="gray.500" fontSize="sm">{video?.title}</Text>
                       </Box>
                     </Flex>
-                    <SimpleGrid gap="2" columns={[2]} p="10px" align="center" justify="space-between">
-                      <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="md" fontSize="sm" type="submit">
+                    <SimpleGrid gap="2" columns={[2]} p="4" align="center" justify="space-between">
+                      <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="sm" fontSize="xs" type="submit">
                         View Status
                       </Button>
-                      <Button size="md" fontSize="sm" color="violet.500" variant="outline" type="submit">
+                      <Button size="sm" fontSize="xs" color="violet.500" variant="outline" type="submit">
                         Change Status
                       </Button>
                     </SimpleGrid>
@@ -125,7 +125,7 @@ export function Home() {
           </Stack>
           
         </Stack>
-      </Box>
+      </Center>
     </Box>
   );
 }

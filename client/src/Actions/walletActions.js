@@ -32,7 +32,7 @@ export const createWallet = () => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
   const user = userInfo;
   try {
-    const { data } = await Axios.post('http://localhost:3333/api/wallet/walletCreate', {user}, {
+    const { data } = await Axios.post('https://beta.vinciis.in/api/wallet/walletCreate', {user}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -62,7 +62,7 @@ export const listWallets = () => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
 
   try {
-    const { data } = await Axios.get('http://live.vinciis.in/api/wallet/wallets', {
+    const { data } = await Axios.get('https://beta.vinciis.in/api/wallet/wallets', {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -91,7 +91,7 @@ export const getWalletDetails = (walletId) => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
   try {
 
-    const { data } = await Axios.get(`http://live.vinciis.in/api/wallet/${walletId}`, {
+    const { data } = await Axios.get(`https://beta.vinciis.in/api/wallet/${walletId}`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -128,7 +128,7 @@ export const editWallet = (wallet) => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
 
   try {
-    const {data} = await Axios.put(`http://live.vinciis.in/api/wallet/${wallet._id}`, wallet, {
+    const {data} = await Axios.put(`https://beta.vinciis.in/api/wallet/${wallet._id}`, wallet, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -168,7 +168,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
   try {
 
     if (transfer.ticker === 'AR') {
-      const {data} = await Axios.post(`http://live.vinciis.in/api/wallet/transfer/ar`, transfer, {
+      const {data} = await Axios.post(`https://beta.vinciis.in/api/wallet/transfer/ar`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -180,7 +180,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'KOII') {
-      const {data} = await Axios.post(`http://live.vinciis.in/api/wallet/transfer/koii`, transfer, {
+      const {data} = await Axios.post(`https://beta.vinciis.in/api/wallet/transfer/koii`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -192,7 +192,7 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'rat') {
-      const {data} = await Axios.post(`http://live.vinciis.in/api/wallet/transfer/rat`, transfer, {
+      const {data} = await Axios.post(`https://beta.vinciis.in/api/wallet/transfer/rat`, transfer, {
         headers: {
           Authorization: `Bearer ${userInfo.token}`
         }
@@ -234,7 +234,7 @@ export const atomicNftUploadUser = (atomicNft) => async (dispatch, getState) => 
     const {userSignin: {userInfo}} = getState();
     const {walletDetails: {wallet}} = getState();
 
-    const {data} = await axios.post(`http://live.vinciis.in/api/wallet/uploadAtomicNft/${wallet._id}`, atomicNft, {
+    const {data} = await axios.post(`https://beta.vinciis.in/api/wallet/uploadAtomicNft/${wallet._id}`, atomicNft, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }

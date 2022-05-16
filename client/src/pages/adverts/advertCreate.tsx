@@ -123,8 +123,9 @@ export function AdvertCreate (props: any) {
 
   
   return (
-    <Box px="2">
-      <Box maxW="container.lg" mx="auto" pb="8">
+    <Box px="2" pt="20">
+      <Center maxW="container.lg" mx="auto" pb="8">
+        <Box>
         <Stack align="center" p="2" direction="row" justify="space-between">
           <ArrowBackIcon />
           <Text fontWeight="600">Create Campaign</Text>
@@ -254,7 +255,7 @@ export function AdvertCreate (props: any) {
           )}
         </Stack>
       </Box>
-
+      </Center>
     </Box>
   )
 }

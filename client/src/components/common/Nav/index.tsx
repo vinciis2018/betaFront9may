@@ -36,7 +36,7 @@ export function Nav() {
   };
   /* Finnie */
   const {
-    state: { connectFinnie, disconnectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
+    state: { connectFinnie, disconnectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected, walletPrice},
   } = useFinnie();
   const dispatch = useDispatch();
 

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, Image, IconButton, Text, Stack, FormControl, FormLabel, Link, Select, Input, Flex, Button, SimpleGrid } from "@chakra-ui/react";
+import { Box, Image, Center, IconButton, Text, Stack, FormControl, FormLabel, Link, Select, Input, Flex, Button, SimpleGrid } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiBookmark, BiChevronRight, BiFlag} from 'react-icons/bi';
 import {AiOutlineArrowUp,AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
@@ -112,28 +112,29 @@ export function AdvertDetail (props: any) {
 
   
   return (
-    <Box px="2">
+    <Box px="2" pt="20">
       {loadingVideo ? (
         <LoadingBox></LoadingBox>
       ) : errorVideo ? (
         <MessageBox variant="danger">{errorVideo}</MessageBox>
       ) : (
-      <Box maxW="container.lg" mx="auto" pb="8">
-        <Stack p="2" direction="row" justify="space-between">
-          <ArrowBackIcon onClick={() => props.history.goBack()}/>
-          <Text fontWeight="600">Campaign Details</Text>
-          <IconButton as={RouterLink} to={`/editCampaign/${video._id}/${video?.screen}/${video?.video.split('/').slice(-1)[0]}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
-        </Stack>
+      <Center maxW="container.lg" mx="auto" pb="8">
+        <Box>
+          <Stack p="2" direction="row" justify="space-between">
+            <ArrowBackIcon onClick={() => props.history.goBack()}/>
+            <Text fontWeight="600">Campaign Details</Text>
+            <IconButton as={RouterLink} to={`/editCampaign/${video._id}/${video?.screen}/${video?.video.split('/').slice(-1)[0]}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+          </Stack>
 
-          <Stack px="10px">
-            <Flex>
+          <Stack px="2">
+            <Flex p="2" align="center">
               <Image 
                 px="1px"
                 src={video?.thumbnail}
                 width="50px"
                 rounded="md"
               />
-              <Box px="10px">
+              <Box px="2">
                 <Text fontWeight="600">{video?.title}</Text>
                 <Text color="gray.500">(video category)</Text>
               </Box>
@@ -143,27 +144,27 @@ export function AdvertDetail (props: any) {
             ) : isError ? (
               <MessageBox variant="danger">{isError}</MessageBox>
             ) : (
-              <SimpleGrid gap="2" columns={[1, 2]}>
-                <Box shadow="card" rounded="lg" align="center" justify="">
+              <SimpleGrid gap="4" columns={[1, 2]}>
+                <Box bg="" shadow="card" rounded="lg" align="center" justify="">
                   <NftMediaContainer nft={nft} />
                   <Flex p="4" align="center" justify="space-between">
                     <Box align="center">
-                      <Text fontSize="xs">{screen?.likedBy?.length}</Text>
+                      <Text fontSize="xs">{screen?.likedBy?.length || 0}</Text>
                       <BiLike />
                       <Text fontSize="xs">Likes</Text>
                     </Box>
                     <Box align="center">
-                      <Text fontSize="xs">{screen?.flaggedBy?.length}</Text>
+                      <Text fontSize="xs">{screen?.flaggedBy?.length || 0}</Text>
                       <BiFlag />
                       <Text fontSize="xs">Flags</Text>
                     </Box>
                     <Box align="center">
-                      <Text fontSize="xs">{video?.rating}</Text>
+                      <Text fontSize="xs">{video?.rating || 0}</Text>
                       <AiOutlineStar />
                       <Text fontSize="xs">Ratings</Text>
                     </Box>
                     <Box align="center">
-                      <Text fontSize="xs">{nft?.attention}</Text>
+                      <Text fontSize="xs">{nft?.attention || 0}</Text>
                       <AiOutlineEye />
                       <Text fontSize="xs">Views</Text>
                     </Box>
@@ -280,8 +281,8 @@ export function AdvertDetail (props: any) {
               </Box>
             </SimpleGrid>
           </Stack>
-        
-      </Box>
+        </Box>
+      </Center>
       )}
 
     </Box>

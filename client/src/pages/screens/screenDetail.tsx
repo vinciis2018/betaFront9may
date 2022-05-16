@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, Link, Image, Text, Stack, IconButton, Flex, Button, FormControl, Select, FormLabel, Input, SimpleGrid } from "@chakra-ui/react";
+import { Box, Link, Image, Center, Text, Stack, IconButton, Flex, Button, FormControl, Select, FormLabel, Input, SimpleGrid } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiPieChart, BiChevronRight, BiFlag} from 'react-icons/bi';
 import {AiOutlineArrowUp, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
@@ -124,13 +124,13 @@ export function ScreenDetail (props: any) {
   };
 
   return (
-    <Box px="2">
+    <Box px="2" pt="20">
       {loadingUser ? (
         <LoadingBox></LoadingBox>
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-        <Box maxW="container.lg" mx="auto" pb="8">
+        <Center maxW="container.lg" mx="auto" pb="8">
           {loadingScreen ? (
             <LoadingBox></LoadingBox>
           ) : errorScreen ? (
@@ -141,8 +141,8 @@ export function ScreenDetail (props: any) {
                 <ArrowBackIcon onClick={() => props.history.goBack()}/>
                 <Text fontWeight="600">Screen Details</Text>
                 <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
-
               </Stack>
+
               {isLoading && <LoadingBox></LoadingBox>}
               {isError && <MessageBox message={isError}></MessageBox>}
               {nft && (
@@ -150,8 +150,9 @@ export function ScreenDetail (props: any) {
                   <NftMediaContainer nft={nft} />
                 </Box>
               )}
-              <Flex align="center" justify="space-between">
-                <Box px="2">
+
+              <Flex p="2" align="center" justify="space-between"  rounded="lg" shadow="card">
+                <Box p="2">
                   <Text fontWeight="600">{screen?.name}</Text>
                   <Text fontSize="sm" color="gray.500">({screen.category})</Text>
                 </Box>
@@ -159,13 +160,14 @@ export function ScreenDetail (props: any) {
                 <Rating rating={screen.rating} numReviews={screen.numReviews}></Rating>
                 </Stack>
               </Flex>
+
               {loadingScreenGameDetails ? (
                 <LoadingBox></LoadingBox>
               ) : errorScreenGameDetails ? (
                 <MessageBox message={errorScreenGameDetails}></MessageBox>
               ) : (
                 <Stack>
-                  <Box px="2" py="4">
+                  <Box p="4" rounded="lg" shadow="card">
                     <Flex>
                       <Text fontSize="xs" fontWeight="600">Owned by : </Text>
                       <Text px="5px" color="gray.500" fontSize="xs" fontWeight="600">{screen.master.master.name}</Text>
@@ -196,21 +198,22 @@ export function ScreenDetail (props: any) {
                     )}
                   </Box>
                   <hr />
-                  <Stack py="4" align="center">
+
+                  <Stack p="4" align="center" rounded="lg" shadow="card">
                     <Text fontSize="sm" fontWeight="600">Available Slots for the day</Text>
                     <Flex align="center">
                       <Text px="2" fontSize="xl" fontWeight="600" color="gray.500">2146</Text>
                       <BiPieChart fontSize="20px" color="green" />
                     </Flex>
                   </Stack>
-                  <hr />
+                  
                   {loadingScreenParams ? (
                     <LoadingBox></LoadingBox>
                   ) : errorScreenParams ? (
                     <MessageBox variant="danger">{errorScreenParams}</MessageBox>
                   ) : (
                     <SimpleGrid py="4" gap="4" columns={[2]} >
-                      <Box border="1px" rounded="md" px="2">
+                      <Box rounded="lg" shadow="card" border="1px" borderColor="gray.300" p="2">
                         <Flex align="center" justify="space-between">
                           <Stack px="1">
                             <Flex>
@@ -227,7 +230,7 @@ export function ScreenDetail (props: any) {
                           )}
                         </Flex>
                       </Box>
-                      <Box border="1px" rounded="md" px="2">
+                      <Box border="1px" rounded="lg" shadow="card" borderColor="gray.300" p="2">
                         <Flex align="center" justify="space-between">
                           <Stack px="1">
                             <Flex>
@@ -248,8 +251,8 @@ export function ScreenDetail (props: any) {
                   )}
                 </Stack>
               )}
-              <hr />
-              <Box py="2">
+
+              <Box p="2" rounder="lg" shadow="card">
                 <Text fontSize="sm" fontWeight="600">Details </Text>
                 <Text fontSize="sm">{screen.description}</Text>
                 <Text fontSize="sm">Time period of 1 slot : {screen.slotsTimePeriod} seconds</Text>
@@ -354,7 +357,7 @@ export function ScreenDetail (props: any) {
               </Stack>
             </Stack>
           )}
-      </Box>
+      </Center>
       )}
       
 

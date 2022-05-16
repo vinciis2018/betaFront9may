@@ -109,7 +109,7 @@ export function Wallet(props: any) {
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
-  console.log("walletPrice", tokenHis)
+  // console.log("walletPrice", tokenHis)
   // const {
   //   state: { }
   // }
@@ -132,7 +132,7 @@ export function Wallet(props: any) {
         connectFinnie();
   
       } else {
-        arweaveWalletConnect();
+        // arweaveWalletConnect();
         setExchangeValue(xchangeRate);
         setLastTrxn(lastTxn);
         setAllTrxn([...lastTxn?.credDetail, ...lastTxn?.debDetail])

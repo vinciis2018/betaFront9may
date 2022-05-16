@@ -44,8 +44,8 @@ export function Signup(props: any) {
   }, [props?.history, redirect, userInfo]);
 
   return (
-    <Box px="2" >
-      <Box maxW="container.lg" minH="600" mx="auto" pb="8">
+    <Box px="2" pt="20">
+      <Center maxW="container.lg" minH="600" mx="auto" pb="8">
         <Stack p="8">
           {/* <Text p="4" textAlign="center" fontSize="2xl" fontWeight="1000">KEEP CALM AND WATCH ADS AS NEVER BEFORE</Text> */}
           <SimpleGrid columns={[1, 2]} gap="4">
@@ -120,7 +120,7 @@ export function Signup(props: any) {
             </Box>
           </SimpleGrid>
         </Stack>
-      </Box>
+      </Center>
     </Box>
     
   )

@@ -44,11 +44,14 @@ export const getBalances = async (walletAddress: any) => {
   let ratData: any;
   try {
 
+
     await koiSDK.setWallet(walletAddress);
     koii = await koiSDK.getKoiBalance();
     ar = await koiSDK.getWalletBalance();
+    const {data} = await axios.get(`https://beta.vinciis.in/api/wallet/rat`);
+    ratData = data?.balances[walletAddress] || 0;
 
-    return { koii, ar };
+    return { koii, ar, ratData };
   } catch (error) {
     console.log(error);
   }
@@ -73,10 +76,9 @@ export const getPrice = async (walletAddress: any) => {
   try {
     balances = await getBalances(walletAddress)
     if(balances) {
-      rat = await getRatBalance(walletAddress)
-      console.log("rat", rat)
-      koii = balances?.koii
-      ar = balances?.ar
+      rat = balances?.ratData;
+      koii = balances?.koii;
+      ar = balances?.ar;
       
       arPrice = await redstone.getPrice("AR");
       arBalance = (ar * arPrice.value);

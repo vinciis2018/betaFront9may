@@ -29,7 +29,7 @@ import { CampaignDashboard, UserDashboard } from "pages/dashboard";
 
 export const Routes = () => {
   return (
-    <Stack py="20" bgGradient="linear-gradient(to bottom, #ffffff, #7833B650)">
+    <Stack bgGradient="linear-gradient(to bottom, #ffffff, #7833B650)">
       <Switch>
         <PublicRoute exact path="/" component={Home} layout={AppLayout} />
         <PublicRoute exact path="/nft/:id" component={Nft} layout={AppLayout} />

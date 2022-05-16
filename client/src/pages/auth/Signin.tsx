@@ -35,8 +35,8 @@ export function Signin(props: any) {
   }, [props?.history, redirect, userInfo]);
 
   return (
-      <Box px="2" >
-        <Box maxW="container.lg" minH="600" mx="auto" pb="8">
+      <Box px="2" pt="20">
+        <Center maxW="container.lg" minH="600" mx="auto" pb="8">
           <Stack p="8">
             <SimpleGrid columns={[1, 2]} gap="4">
               <Box justify="center" rounded="lg" shadow="card" bg="#ffffff" align="center">
@@ -87,7 +87,7 @@ export function Signin(props: any) {
               </Box>
             </SimpleGrid>
           </Stack>
-        </Box>
+        </Center>
       </Box>
       
   )
