@@ -145,280 +145,282 @@ export function UserProfile(props: any) {
   }
 
   return (
-    <Box px="2" bg="white">
+    <Box px="2" bt="20">
       {/* Container */}
-      <Box maxW="container.lg" mx="auto" pb="8">
-        <Stack p="2" direction="row" justify="space-between">
-          <ArrowBackIcon onClick={() => props.history.goBack()} />
-          <Text fontWeight="600">User Profiile</Text>
-          <EditIcon color="white" />
-        </Stack>
-      {loadingDetails ? (
-        <LoadingBox></LoadingBox>
-      ) : errorDetails ? (
-        <MessageBox message={errorDetails}></MessageBox>
-      ) : (
-        <Stack p="2">
-          {profileModal ? (
-            <Box m="" p="2" rounded="lg" shadow="card">
-              <Text align="center" fontWeight="600" p="2" fontSize="md">Edit Profile</Text>
-              <Flex align="" justify="space-between">
-                <Box p="2" align="center" width="">
-                  {isLoading ? (
-                    <LoadingBox></LoadingBox>
-                  ) : isError ? (
-                    <MessageBox variant="danger" message={isError}></MessageBox>
-                  ) : (
-                    <Image 
-                      p="2"
-                      border="1px"
-                      borderColor="gray.100"
-                      rounded="full"
-                      height="100px"
-                      src={avatar}
-                    />
-                  )}
-                </Box>
-                <Box width="75%">
-                  <FormControl p="2" id="name">
-                    <Stack direction="row" align="center">
-                      <Input 
-                        id="name"
-                        onChange={(e) => setName(e.target.value)} 
-                        placeholder={name} 
-                        value={name}
-                        type="text"  
-                      />
-                    </Stack>
-                    <FormLabel px="1" fontSize="xs">Change your name here...</FormLabel>
-                  </FormControl>
-                  <FormControl p="2" id="phone">
-                    <Stack direction="row" align="center">
-                      <Input 
-                        id="phone"
-                        onChange={(e) => setPhone(e.target.value)} 
-                        placeholder={phone} 
-                        value={phone}
-                        type="phone"  
-                      />
-                    </Stack>
-                    <FormLabel px="1" fontSize="xs">Change your contact number here...</FormLabel>
-                  </FormControl>
-                  <FormControl p="2" id="email">
-                    <Stack direction="row" align="center">
-                      <Input 
-                        id="email"
-                        onChange={(e) => setEmail(e.target.value)} 
-                        placeholder={email} 
-                        value={email}
-                        type="email"  
-                      />
-                    </Stack>
-                    <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
-                  </FormControl>
-            
-                    <FormControl p="2" id="avatar"> 
-                      <Select
-                        id="avatar"
-                        placeholder={avatar}
-                        value={avatar}
-                        onChange={(e) => setAvatar(e.target.value)}
-                      >
-                        {artist?.nfts.map((nft: Record<string, any>) => (
-                        <option key={nft?.id} value={`https://arweave.net/${nft?.id}`}>
-                          {nft?.id}
-                        </option>
-                      ))}
-                      </Select>
-                      <FormLabel  px="1" htmlFor="avatar" fontSize="xs">This is your profile pic...</FormLabel>
-                    </FormControl>
-                </Box>
-              </Flex>
-              <SimpleGrid p="2" gap="4" columns={[2]}>
-                <Button onClick={submitHandler} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)">
-                  Update
-                </Button>
-                <Button onClick={() => setProfileModal(false)} bgColor="white" color="violet.500" border="1px" borderColor="violet.500">
-                  Go back
-                </Button>
-              </SimpleGrid>
-            </Box>
+      <Center maxW="container.lg" mx="auto" pb="8">
+        <Box>
+          <Stack p="2" direction="row" justify="space-between">
+            <ArrowBackIcon onClick={() => props.history.goBack()} />
+            <Text fontWeight="600">User Profiile</Text>
+            <EditIcon color="white" />
+          </Stack>
+          {loadingDetails ? (
+            <LoadingBox></LoadingBox>
+          ) : errorDetails ? (
+            <MessageBox message={errorDetails}></MessageBox>
           ) : (
-            <Box m="" p="2" rounded="lg" shadow="card">
-              <Flex  px="2" align="center" justify="space-between" >
-                <Box align="left" width="25%">
-                  <Image 
-                    p="2"
-                    border="1px"
-                    borderColor="gray.100"
-                    rounded="full"
-                    height="100px"
-                    src={user?.user?.avatar}
-                    onLoad={() =>  triggerPort(user?.user?.avatar.split("/").slice(-1)[0])}
-                  />
+            <Stack p="2">
+              {profileModal ? (
+                <Box m="" p="2" rounded="lg" shadow="card">
+                  <Text align="center" fontWeight="600" p="2" fontSize="md">Edit Profile</Text>
+                  <Flex align="" justify="space-between">
+                    <Box p="2" align="center" width="">
+                      {isLoading ? (
+                        <LoadingBox></LoadingBox>
+                      ) : isError ? (
+                        <MessageBox variant="danger" message={isError}></MessageBox>
+                      ) : (
+                        <Image 
+                          p="2"
+                          border="1px"
+                          borderColor="gray.100"
+                          rounded="full"
+                          height="100px"
+                          src={avatar}
+                        />
+                      )}
+                    </Box>
+                    <Box width="75%">
+                      <FormControl p="2" id="name">
+                        <Stack direction="row" align="center">
+                          <Input 
+                            id="name"
+                            onChange={(e) => setName(e.target.value)} 
+                            placeholder={name} 
+                            value={name}
+                            type="text"  
+                          />
+                        </Stack>
+                        <FormLabel px="1" fontSize="xs">Change your name here...</FormLabel>
+                      </FormControl>
+                      <FormControl p="2" id="phone">
+                        <Stack direction="row" align="center">
+                          <Input 
+                            id="phone"
+                            onChange={(e) => setPhone(e.target.value)} 
+                            placeholder={phone} 
+                            value={phone}
+                            type="phone"  
+                          />
+                        </Stack>
+                        <FormLabel px="1" fontSize="xs">Change your contact number here...</FormLabel>
+                      </FormControl>
+                      <FormControl p="2" id="email">
+                        <Stack direction="row" align="center">
+                          <Input 
+                            id="email"
+                            onChange={(e) => setEmail(e.target.value)} 
+                            placeholder={email} 
+                            value={email}
+                            type="email"  
+                          />
+                        </Stack>
+                        <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                      </FormControl>
+                
+                        <FormControl p="2" id="avatar"> 
+                          <Select
+                            id="avatar"
+                            placeholder={avatar}
+                            value={avatar}
+                            onChange={(e) => setAvatar(e.target.value)}
+                          >
+                            {artist?.nfts.map((nft: Record<string, any>) => (
+                            <option key={nft?.id} value={`https://arweave.net/${nft?.id}`}>
+                              {nft?.id}
+                            </option>
+                          ))}
+                          </Select>
+                          <FormLabel  px="1" htmlFor="avatar" fontSize="xs">This is your profile pic...</FormLabel>
+                        </FormControl>
+                    </Box>
+                  </Flex>
+                  <SimpleGrid p="2" gap="4" columns={[2]}>
+                    <Button onClick={submitHandler} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)">
+                      Update
+                    </Button>
+                    <Button onClick={() => setProfileModal(false)} bgColor="white" color="violet.500" border="1px" borderColor="violet.500">
+                      Go back
+                    </Button>
+                  </SimpleGrid>
                 </Box>
-                <Flex width="75%" justify="space-between"> 
-                  <Box>
-                    <Text px="2" fontWeight="600" fontSize="lg">{user?.user?.name}</Text>
-                    <Text px="2" fontWeight="" fontSize="xs">{user?.user?.phone}  </Text>
-                    <Text px="2" fontWeight="" fontSize="xs">{user?.user?.email}</Text>
-                    <CopyableAddress address={props?.match?.params?.id} w="100%" maxW="200px" />
-                  </Box>
-                  <IconButton onClick={userProfileEditOpen} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit user details"></IconButton>
+              ) : (
+                <Box m="" p="2" rounded="lg" shadow="card">
+                  <Flex  px="2" align="center" justify="space-between" >
+                    <Box align="left" width="25%">
+                      <Image 
+                        p="2"
+                        border="1px"
+                        borderColor="gray.100"
+                        rounded="full"
+                        height="100px"
+                        src={user?.user?.avatar}
+                        onLoad={() =>  triggerPort(user?.user?.avatar.split("/").slice(-1)[0])}
+                      />
+                    </Box>
+                    <Flex width="75%" justify="space-between"> 
+                      <Box>
+                        <Text px="2" fontWeight="600" fontSize="lg">{user?.user?.name}</Text>
+                        <Text px="2" fontWeight="" fontSize="xs">{user?.user?.phone}  </Text>
+                        <Text px="2" fontWeight="" fontSize="xs">{user?.user?.email}</Text>
+                        <CopyableAddress address={props?.match?.params?.id} w="100%" maxW="200px" />
+                      </Box>
+                      <IconButton onClick={userProfileEditOpen} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit user details"></IconButton>
+                    </Flex>
+                  </Flex>
+                  <Flex py="2" align="center" justify="space-between"> 
+                  </Flex>
+                </Box>
+              )}
+              <Flex p="2" align="center" justify="space-between">
+                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                  <AiOutlineFundProjectionScreen />
+                  <Text p="2" fontSize="xs" fontWeight="600">Screen Owner</Text>
+                </Flex>
+                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                  <BsMegaphone />
+                  <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
+                </Flex>
+                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                  <BsTags />
+                  <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
                 </Flex>
               </Flex>
-              <Flex py="2" align="center" justify="space-between"> 
-              </Flex>
-            </Box>
-          )}
-          <Flex p="2" align="center" justify="space-between">
-            <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
-              <AiOutlineFundProjectionScreen />
-              <Text p="2" fontSize="xs" fontWeight="600">Screen Owner</Text>
-            </Flex>
-            <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
-              <BsMegaphone />
-              <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
-            </Flex>
-            <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
-              <BsTags />
-              <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
-            </Flex>
-          </Flex>
-          {addressModal ? (
-            <Box m="" p="2" rounded="lg" shadow="card">
-              <Text align="center" fontWeight="600" p="2" fontSize="md">Edit Profile</Text>
-              <Box width="">
-                <FormControl p="2" id="address">
-                  <Stack direction="row" align="center">
-                    <Input 
-                      id="address"
-                      onChange={(e) => setAddress(e.target.value)} 
-                      placeholder={address} 
-                      value={address}
-                      type="text"  
-                    />
-                  </Stack>
-                  <FormLabel px="1" fontSize="xs">Change your name here...</FormLabel>
-                </FormControl>
-                <FormControl p="2" id="districtCity">
-                  <Stack direction="row" align="center">
-                    <Input 
-                      id="districtCity"
-                      onChange={(e) => setDistrictCity(e.target.value)} 
-                      placeholder={districtCity} 
-                      value={districtCity}
-                      type="text"  
-                    />
-                  </Stack>
-                  <FormLabel px="1" fontSize="xs">Change your contact number here...</FormLabel>
-                </FormControl>
-                <FormControl p="2" id="stateUt">
-                  <Stack direction="row" align="center">
-                    <Input 
-                      id="stateUt"
-                      onChange={(e) => setStateUt(e.target.value)} 
-                      placeholder={stateUt} 
-                      value={stateUt}
-                      type="text"  
-                    />
-                  </Stack>
-                  <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
-                </FormControl>
-                <FormControl p="2" id="country">
-                  <Stack direction="row" align="center">
-                    <Input 
-                      id="country"
-                      onChange={(e) => setCountry(e.target.value)} 
-                      placeholder={country} 
-                      value={country}
-                      type="text"  
-                    />
-                  </Stack>
-                  <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
-                </FormControl>
-                <FormControl p="2" id="pincode">
-                  <Stack direction="row" align="center">
-                    <Input 
-                      id="pincode"
-                      onChange={(e) => setPincode(e.target.value)} 
-                      placeholder={pincode} 
-                      value={pincode}
-                      type="text"  
-                    />
-                  </Stack>
-                  <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
-                </FormControl>
-              </Box>
-              <SimpleGrid p="2" gap="4" columns={[2]}>
-                <Button onClick={submitHandler} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)">
-                  Update
-                </Button>
-                <Button onClick={() => setAddressModal(false)} bgColor="white" color="violet.500" border="1px" borderColor="violet.500">
-                  Go back
-                </Button>
-              </SimpleGrid>
-            </Box>
-          ) : (
-            <Box m="" p="2" shadow="card" rounded="md">
-              <Flex px="2" align="center" justify="space-between">
-                <Text fontSize="lg" fontWeight="600" >Address</Text>
-                <IconButton onClick={userAddressEditOpen} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit user details"></IconButton>
-              </Flex>
-              <Text p="2" fontSize="sm">{user?.user?.address}, {user?.user?.districtCity}, {user?.user?.stateUt}, {user?.user?.country}, Pincode-{user?.user?.pincode} </Text>
-            </Box>
-          )}
-          
-          <Box p="">
-            <Flex p="2" align="center" justify="space-between">
-              <Text fontSize="lg" fontWeight="600" >Wallet</Text>
-              <IconButton onClick={() => props.history.push(`/wallet/${user?.user?.defaultWallet}`)} bg="none" icon={<BiChevronRight size="20px" color="black" />} aria-label="Edit user details"></IconButton>
-            </Flex>
-            <Stack>
-              {user?.user?.wallets?.map((wallet: any) => {
-                return (
-                <Box onClick={() => props.history.push(`/wallet/${wallet}`)} p="2" key={wallet}shadow="card" rounded="ld">
-                  <Text p="2" fontSize="xs">Wallet Address: {wallet}</Text>
-                </Box>
-                )
-              })} 
-            </Stack>
-          </Box>
-          <Box m="">
-            <Flex p="2" align="center" justify="space-between">
-              <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
-              <IconButton onClick={uploadNftOpen} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
-            </Flex>
-            {uploadNftModal ? (
-              <Box m="2" rounded="md" shadow="card">
-                <DragAndDropUploader />
-              </Box>
-            ) : (
-              <>
-                {artist?.nfts?.length !== 0 && (
-                  <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[3, 4]}>
-                    {artist?.nfts?.map((nft: Record<string, any>) => (
-                      <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
-                        {isLoading ? (
-                          <LoadingBox></LoadingBox>
-                        ) : isError ? (
-                          <MessageBox message={isError}></MessageBox>
-                        ) : (
-                          <ThumbnailCard nft={nft} />
-                        )}
-                      </Box>
-                    ))}
+              {addressModal ? (
+                <Box m="" p="2" rounded="lg" shadow="card">
+                  <Text align="center" fontWeight="600" p="2" fontSize="md">Edit Profile</Text>
+                  <Box width="">
+                    <FormControl p="2" id="address">
+                      <Stack direction="row" align="center">
+                        <Input 
+                          id="address"
+                          onChange={(e) => setAddress(e.target.value)} 
+                          placeholder={address} 
+                          value={address}
+                          type="text"  
+                        />
+                      </Stack>
+                      <FormLabel px="1" fontSize="xs">Change your name here...</FormLabel>
+                    </FormControl>
+                    <FormControl p="2" id="districtCity">
+                      <Stack direction="row" align="center">
+                        <Input 
+                          id="districtCity"
+                          onChange={(e) => setDistrictCity(e.target.value)} 
+                          placeholder={districtCity} 
+                          value={districtCity}
+                          type="text"  
+                        />
+                      </Stack>
+                      <FormLabel px="1" fontSize="xs">Change your contact number here...</FormLabel>
+                    </FormControl>
+                    <FormControl p="2" id="stateUt">
+                      <Stack direction="row" align="center">
+                        <Input 
+                          id="stateUt"
+                          onChange={(e) => setStateUt(e.target.value)} 
+                          placeholder={stateUt} 
+                          value={stateUt}
+                          type="text"  
+                        />
+                      </Stack>
+                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                    </FormControl>
+                    <FormControl p="2" id="country">
+                      <Stack direction="row" align="center">
+                        <Input 
+                          id="country"
+                          onChange={(e) => setCountry(e.target.value)} 
+                          placeholder={country} 
+                          value={country}
+                          type="text"  
+                        />
+                      </Stack>
+                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                    </FormControl>
+                    <FormControl p="2" id="pincode">
+                      <Stack direction="row" align="center">
+                        <Input 
+                          id="pincode"
+                          onChange={(e) => setPincode(e.target.value)} 
+                          placeholder={pincode} 
+                          value={pincode}
+                          type="text"  
+                        />
+                      </Stack>
+                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                    </FormControl>
+                  </Box>
+                  <SimpleGrid p="2" gap="4" columns={[2]}>
+                    <Button onClick={submitHandler} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)">
+                      Update
+                    </Button>
+                    <Button onClick={() => setAddressModal(false)} bgColor="white" color="violet.500" border="1px" borderColor="violet.500">
+                      Go back
+                    </Button>
                   </SimpleGrid>
+                </Box>
+              ) : (
+                <Box m="" p="2" shadow="card" rounded="md">
+                  <Flex px="2" align="center" justify="space-between">
+                    <Text fontSize="lg" fontWeight="600" >Address</Text>
+                    <IconButton onClick={userAddressEditOpen} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit user details"></IconButton>
+                  </Flex>
+                  <Text p="2" fontSize="sm">{user?.user?.address}, {user?.user?.districtCity}, {user?.user?.stateUt}, {user?.user?.country}, Pincode-{user?.user?.pincode} </Text>
+                </Box>
+              )}
+              
+              <Box p="">
+                <Flex p="2" align="center" justify="space-between">
+                  <Text fontSize="lg" fontWeight="600" >Wallet</Text>
+                  <IconButton onClick={() => props.history.push(`/wallet/${user?.user?.defaultWallet}`)} bg="none" icon={<BiChevronRight size="20px" color="black" />} aria-label="Edit user details"></IconButton>
+                </Flex>
+                <Stack>
+                  {user?.user?.wallets?.map((wallet: any) => {
+                    return (
+                    <Box onClick={() => props.history.push(`/wallet/${wallet}`)} p="2" key={wallet}shadow="card" rounded="ld">
+                      <Text p="2" fontSize="xs">Wallet Address: {wallet}</Text>
+                    </Box>
+                    )
+                  })} 
+                </Stack>
+              </Box>
+              <Box m="">
+                <Flex p="2" align="center" justify="space-between">
+                  <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
+                  <IconButton onClick={uploadNftOpen} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
+                </Flex>
+                {uploadNftModal ? (
+                  <Box m="2" rounded="md" shadow="card">
+                    <DragAndDropUploader />
+                  </Box>
+                ) : (
+                  <>
+                    {artist?.nfts?.length !== 0 && (
+                      <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[3, 4]}>
+                        {artist?.nfts?.map((nft: Record<string, any>) => (
+                          <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
+                            {isLoading ? (
+                              <LoadingBox></LoadingBox>
+                            ) : isError ? (
+                              <MessageBox message={isError}></MessageBox>
+                            ) : (
+                              <ThumbnailCard nft={nft} />
+                            )}
+                          </Box>
+                        ))}
+                      </SimpleGrid>
+                    )}
+                  </>
                 )}
-              </>
-            )}
+                
+              </Box>
             
-          </Box>
-         
-          
-        </Stack>
-      )}
-      </Box>
+              
+            </Stack>
+          )}
+        </Box>
+      </Center>
       
     </Box>
   )
