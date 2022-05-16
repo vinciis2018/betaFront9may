@@ -48,20 +48,7 @@ export function Home() {
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
         <Stack  p="2" color="">
-          <SimpleGrid p="2" gap="2" columns={[2]}>
-              <Box rounded="lg" shadow="card" border="1px" >
-                <AiOutlineFundProjectionScreen fontSize="50px" color="gray.300" />
-              </Box>
-              <Box rounded="lg" shadow="card" border="1px" align="center">
-                <RiAdvertisementLine fontSize="50px" color="gray.300" />
-              </Box>
-            </SimpleGrid>
-            <Box p="2"  >
-              <Flex px="10" pb="20" rounded="lg" shadow="card" border="1px" align="center" justify="center">
-                <RiGlobeLine fontSize="50px" color="gray" />
-                <Text p="2" fontSize="50px" color="gray" fontWeight="600">Explore</Text>
-              </Flex>
-            </Box>
+         
 
           {loadingScreens ? (
             <LoadingBox></LoadingBox>
@@ -88,6 +75,24 @@ export function Home() {
               </Carousel>
             </Center>
           )}
+           <SimpleGrid pt="5" gap="2" columns={[2]}>
+              <Box onClick={() => window.location.replace(`/screens`)} py="10" rounded="lg" shadow="card" bgColor="green.100" align="center">
+                <AiOutlineFundProjectionScreen fontSize="50px" color="gray" />
+                <Text p="2" fontSize="2xl" color="gray" fontWeight="600">Ad Screens</Text>
+
+              </Box>
+              <Box onClick={() => window.location.replace(`/adverts`)} bgColor="teal.100" py="10" rounded="lg" shadow="card" align="center">
+                <RiAdvertisementLine fontSize="50px" color="gray" />
+                <Text p="2" fontSize="2xl" color="gray" fontWeight="600">Ad Campaign</Text>
+
+              </Box>
+            </SimpleGrid>
+            <Box pb="5" as={RouterLink} to={`/mapbox`} >
+              <Flex px="10" py="10" rounded="lg" shadow="card" bgColor="violet.100" align="center" justify="center">
+                <RiGlobeLine fontSize="50px" color="gray" />
+                <Text p="2" fontSize="50px" color="gray" fontWeight="600">Explore</Text>
+              </Flex>
+            </Box>
           <hr />
           <Stack >
             <Flex justify="space-between">
@@ -100,7 +105,7 @@ export function Home() {
             ) : errorVideos ? (
               <MessageBox variant="danger">{errorVideos}</MessageBox>
             ) : (
-              <SimpleGrid gap="4" columns={[1, 2]} px="10px">
+              <SimpleGrid gap="4" columns={[1, 2]} px="1">
                 {allVideos?.map((video: any) => (
                   <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
                     <Image 

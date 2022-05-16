@@ -106,7 +106,7 @@ export function ScreenDashboard(props: any) {
       ) : errorUser ? (
         <MessageBox variant="danger">{errorUser}</MessageBox>
       ) : (
-        <Center maxW="container.lg" mx="auto" pb="8">
+        <Box maxW="container.lg" mx="auto" pb="8">
           {loadingScreen ? (
             <LoadingBox></LoadingBox>
           ) : errorScreen ? (
@@ -279,7 +279,7 @@ export function ScreenDashboard(props: any) {
             </Stack>
           )}
           
-        </Center>
+        </Box>
       )}
     </Box>
   )

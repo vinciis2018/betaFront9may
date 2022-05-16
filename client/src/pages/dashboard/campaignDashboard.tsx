@@ -73,7 +73,7 @@ export function CampaignDashboard(props: any) {
       ) : errorUser ? (
         <MessageBox variant="danger">{errorUser}</MessageBox>
       ) : (
-        <Center maxW="container.lg" mx="auto" pb="8">
+        <Box maxW="container.lg" mx="auto" pb="8">
           {loadingVideo ? (
             <LoadingBox></LoadingBox>
           ) : errorVideo ? (
@@ -236,7 +236,7 @@ export function CampaignDashboard(props: any) {
               </Box>
             </Stack>
           )}
-        </Center>
+        </Box>
       )}
     </Box>
   )

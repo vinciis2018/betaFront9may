@@ -99,7 +99,7 @@ export function UserDashboard(props: any) {
       ) : errorUser ? (
         <MessageBox variant="danger">{errorUser}</MessageBox>
       ) : (
-        <Center maxW="container.lg" mx="auto" pb="8">
+        <Box maxW="container.lg" mx="auto" pb="8">
             <Stack p="2" >
               <Stack align="center" p="2" direction="row" justify="space-between">
                 <ArrowBackIcon  onClick={() => props.history.goBack()}/>
@@ -269,7 +269,7 @@ export function UserDashboard(props: any) {
 
             </Stack>
           
-        </Center>
+        </Box>
       )}
     </Box>
   )
