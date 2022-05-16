@@ -11,6 +11,8 @@ import { listScreens } from '../../Actions/screenActions';
 import { listAllVideos } from '../../Actions/videoActions';
 import { triggerPort } from 'services/utils';
 import {InfoIcon} from "@chakra-ui/icons"
+import { AiOutlineFundProjectionScreen, AiOutlineSetting, AiOutlineHome } from "react-icons/ai";
+import { RiGlobeLine, RiWallet3Line, RiSearch2Line, RiUserSmileLine, RiAdvertisementLine, RiLogoutBoxRLine } from "react-icons/ri";
 
 export function Home() {
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -45,7 +47,22 @@ export function Home() {
         {/* <DragAndDropUploader /> */}
         {/* Leaderboard */}
         {/* <Leaderboard /> */}
-        <Stack  p="2" color="black">
+        <Stack  p="2" color="">
+          <SimpleGrid p="2" gap="2" columns={[2]}>
+              <Box rounded="lg" shadow="card" border="1px" >
+                <AiOutlineFundProjectionScreen fontSize="50px" color="gray.300" />
+              </Box>
+              <Box rounded="lg" shadow="card" border="1px" align="center">
+                <RiAdvertisementLine fontSize="50px" color="gray.300" />
+              </Box>
+            </SimpleGrid>
+            <Box p="2"  >
+              <Flex px="10" pb="20" rounded="lg" shadow="card" border="1px" align="center" justify="center">
+                <RiGlobeLine fontSize="50px" color="gray" />
+                <Text p="2" fontSize="50px" color="gray" fontWeight="600">Explore</Text>
+              </Flex>
+            </Box>
+
           {loadingScreens ? (
             <LoadingBox></LoadingBox>
           ) : errorScreens ? (
@@ -55,7 +72,7 @@ export function Home() {
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
-                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
+                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
                       height="300px"

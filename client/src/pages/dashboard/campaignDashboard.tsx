@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, Link, Image, Text, Stack, IconButton, Flex, Button, SimpleGrid } from "@chakra-ui/react";
+import { Box, Link, Image, Text, Stack, IconButton, Flex, Button, SimpleGrid, Center } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiBookmark, BiWalk, BiFlag} from 'react-icons/bi';
 import {AiOutlineArrowUp,AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
@@ -67,13 +67,13 @@ export function CampaignDashboard(props: any) {
 
 
   return (
-    <Box px="2">
+    <Box px="2" pt="20">
       {loadingUser ? (
         <LoadingBox></LoadingBox>
       ) : errorUser ? (
         <MessageBox variant="danger">{errorUser}</MessageBox>
       ) : (
-        <Box maxW="container.lg" mx="auto" pb="8">
+        <Center maxW="container.lg" mx="auto" pb="8">
           {loadingVideo ? (
             <LoadingBox></LoadingBox>
           ) : errorVideo ? (
@@ -236,7 +236,7 @@ export function CampaignDashboard(props: any) {
               </Box>
             </Stack>
           )}
-        </Box>
+        </Center>
       )}
     </Box>
   )

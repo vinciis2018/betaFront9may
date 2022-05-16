@@ -132,7 +132,7 @@ interface ArtistWrapperProps extends BoxProps {
 }
 const ArtistWrapper = ({ children, ...restProps }: ArtistWrapperProps) => {
   return (
-    <Box py="4" px="4" color="blue.500" bg="white" w="100%" minH={{ base: "calc(100vh - 105px)" }} {...restProps}>
+    <Box pt="20" px="4" color="blue.500" bg="white" w="100%" minH={{ base: "calc(100vh - 105px)" }} {...restProps}>
       {children}
     </Box>
   );

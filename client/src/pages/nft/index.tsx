@@ -155,7 +155,7 @@ interface NftWrapperProps {
 }
 const NftWrapper = ({ children }: NftWrapperProps) => {
   return (
-    <Box py="4" px="4" color="blue.500" bg="white" w="100%" h={{ base: "unset", lg: "calc(100vh - 105px)" }} minH={{ base: "calc(100vh - 105px)" }}>
+    <Box pt="20" px="4" color="blue.500" bg="white" w="100%" h={{ base: "unset", lg: "calc(100vh - 105px)" }} minH={{ base: "calc(100vh - 105px)" }}>
       <Center w="100%" maxW="1040px" h="100%" mx="auto">
         {children}
       </Center>

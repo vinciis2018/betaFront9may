@@ -145,7 +145,7 @@ export function UserProfile(props: any) {
   }
 
   return (
-    <Box px="2" bt="20">
+    <Box px="2" pt="20">
       {/* Container */}
       <Center maxW="container.lg" mx="auto" pb="8">
         <Box>
