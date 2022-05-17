@@ -17,12 +17,14 @@ import {
   ALL_PINS_GET_SUCCESS  
 } from '../Constants/pinConstants';
 
+
+
 export const getAllPins = () => async(dispatch) => {
   dispatch({
     type: PINS_GET_REQUEST,
   })
   try {
-    const {data} = await axios.get('https://beta.vinciis.in/api/pins');
+    const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/pins`);
     dispatch({
       type: PINS_GET_SUCCESS,
       payload: data
@@ -45,7 +47,7 @@ export const getPinJson = () => async (dispatch) => {
   });
 
   try {
-    const {data} = await axios.get('https://beta.vinciis.in/api/pins/allPinGeoJson');
+    const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/pins/allPinGeoJson`);
     dispatch({
       type: ALL_PINS_GET_SUCCESS,
       payload: data
@@ -68,7 +70,7 @@ export const getPinDetails = (pinId) => {
       type: PIN_GET_REQUEST,
     });
     try {
-      const {data} = await axios.get(`https://beta.vinciis.in/api/pins/${pinId}`);
+      const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/pins/${pinId}`);
       dispatch({
         type: PIN_GET_SUCCESS,
         payload: data
@@ -95,7 +97,7 @@ export const addPins = (category, lat, lon) => async(dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await axios.post('https://beta.vinciis.in/api/pins', {category, lat, lon}, {
+    const {data} = await axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/pins`, {category, lat, lon}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -127,7 +129,7 @@ export const updatePin = (screenId, pin) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const {data} = await axios.put(`https://beta.vinciis.in/api/pins/${screenId}`, pin, {
+    const {data} = await axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/pins/${screenId}`, pin, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },

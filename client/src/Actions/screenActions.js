@@ -107,7 +107,7 @@ export const listScreens = ({
   });
   try {
     const { data } = await Axios.get(
-      `https://beta.vinciis.in/api/screens/?pageNumber=${pageNumber}&master=${master}&name=${name}&category=${screenCategory}&min=${min}&max=${max}&rating=${rating}&request=${request}`);
+      `${process.env.REACT_APP_BLINDS_SERVER}/api/screens/?pageNumber=${pageNumber}&master=${master}&name=${name}&category=${screenCategory}&min=${min}&max=${max}&rating=${rating}&request=${request}`);
     dispatch({
       type: SCREEN_LIST_SUCCESS,
       payload: data
@@ -127,7 +127,7 @@ export const listScreenCategories = () => async (dispatch) => {
     type: SCREEN_CATEGORY_LIST_REQUEST,
   });
   try {
-    const { data } = await Axios.get('https://beta.vinciis.in/api/screens/categories');
+    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/categories`);
     dispatch({
       type: SCREEN_CATEGORY_LIST_SUCCESS,
       payload: data
@@ -150,7 +150,7 @@ export const detailsScreen = (screenId) => async (dispatch) => {
     payload: screenId 
   });
   try {
-    const { data } = await Axios.get(`https://beta.vinciis.in/api/screens/${screenId}`);
+    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}`);
     dispatch({
       type: SCREEN_DETAILS_SUCCESS,
       payload: data
@@ -173,7 +173,7 @@ export const getScreenPinDetails = (screenId) => async (dispatch) => {
     payload: screenId
   });
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/screens/${screenId}/pin`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/pin`);
     dispatch({
       type: SCREEN_PIN_DETAILS_SUCCESS,
       payload: data
@@ -196,7 +196,7 @@ export const createScreen = () => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.post('https://beta.vinciis.in/api/screens', {}, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens`, {}, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -226,7 +226,7 @@ export const updateScreen = (screen) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.put(`https://beta.vinciis.in/api/screens/${screen._id}`, screen,{
+    const { data } = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screen._id}`, screen,{
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -256,7 +256,7 @@ export const deleteScreen = (screenId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = Axios.delete(`https://beta.vinciis.in/api/screens/${screenId}`, {
+    const { data } = Axios.delete(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}`, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },
@@ -283,7 +283,7 @@ export const createReview = (screenId, review) => async (dispatch, getState) => 
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId}/reviews`,
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/reviews`,
       review,
       {
         headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -316,7 +316,7 @@ export const screenVideosList = (screenId) => async (dispatch, getState) => {
   try {
     // const {data} = await Axios.get(`http://localhost:3333/api/screens/${screenId}/screenVideos`, {
 
-    const { data } = await Axios.get(`https://beta.vinciis.in/api/screens/${screenId}/screenVideos`, {
+    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenVideos`, {
       headers:
         { Authorization: 'Bearer ' + userInfo.token }
     });
@@ -341,7 +341,7 @@ export const screenVideoUpload = (screenId, video) => async (dispatch, getState)
       payload: video
     });
     const { userSignin: { userInfo } } = getState();
-    const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId}/uploadVideo`, video, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/uploadVideo`, video, {
         headers: { 
           Authorization: `Bearer ${userInfo.token}` 
         },
@@ -373,7 +373,7 @@ export const deleteScreenVideo = (videoId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const {data} = await Axios.delete(`https://beta.vinciis.in/api/screens/${videoId}/deleteVideo`, {
+    const {data} = await Axios.delete(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${videoId}/deleteVideo`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
 
@@ -402,7 +402,7 @@ export const likeScreen = (screenId, interaction) => async (dispatch, getState) 
   const { userSignin: { userInfo } } = getState();
   try {
     console.log("screen:", screenId)
-    const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId.screenId}/likeScreen/${screenId.interaction}`, {screenId}, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/likeScreen/${screenId.interaction}`, {screenId}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}` }
     });
@@ -430,7 +430,7 @@ export const unlikeScreen = (screenId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.delete(`https://beta.vinciis.in/api/screens/${screenId.screenId}/unlikeScreen`, {screenId}, {
+    const { data } = await Axios.delete(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/unlikeScreen`, {screenId}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}`}
     });
@@ -458,7 +458,7 @@ export const flagScreen = (screenId, interaction) => async (dispatch, getState) 
   const { userSignin: { userInfo } } = getState();
   console.log('screen Id found')
   try {
-    const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId.screenId}/flagScreen/${screenId.interaction}`, {screenId}, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/flagScreen/${screenId.interaction}`, {screenId}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}` }
     });
@@ -486,7 +486,7 @@ export const subscribeScreen = (screenId, dateHere) => async (dispatch, getState
   const { userSignin: { userInfo } } = getState();
   console.log('screen Id found')
   try {
-    const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId.screenId}/subscribeScreen/${screenId.interaction}`, {screenId, dateHere}, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/subscribeScreen/${screenId.interaction}`, {screenId, dateHere}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}` }
     });
@@ -515,7 +515,7 @@ export const unsubscribeScreen = (screenId) => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
   console.log('screen Id found')
   try {
-    const { data } = await Axios.delete(`https://beta.vinciis.in/api/screens/${screenId.screenId}/unsubscribeScreen`, {screenId}, {
+    const { data } = await Axios.delete(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/unsubscribeScreen`, {screenId}, {
       headers:
         { Authorization: `Bearer ${userInfo.token}`}
     });
@@ -545,7 +545,7 @@ export const applyScreenAllyPlea = (screenId) => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
 
   try {
-      const { data } = await Axios.post(`https://beta.vinciis.in/api/screens/${screenId}/allyPlea/ally`, {screenId}, {
+      const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/allyPlea/ally`, {screenId}, {
         headers: { Authorization: 'Bearer ' + userInfo.token },
       }
       );
@@ -572,7 +572,7 @@ export const grantScreenAllyPlea = (pleaId) => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.put(`https://beta.vinciis.in/api/screens/${pleaId}/allyPlea/master`, {pleaId}, {
+    const { data } = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${pleaId}/allyPlea/master`, {pleaId}, {
       headers: { Authorization: 'Bearer ' + userInfo.token },
     }
     );
@@ -600,7 +600,7 @@ export const rejectScreenAllyPlea = (pleaId) => async (dispatch, getState) => {
   const { userSignin: { userInfo } } = getState();
   try {
     // const {data} = await Axios.put(`http://localhost:3333/api/screens/${pleaId}/allyPlea/reject`, {pleaId}, {
-    const {data} = await Axios.put(`https://beta.vinciis.in/api/screens/${pleaId}/allyPlea/reject`, {pleaId}, {
+    const {data} = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${pleaId}/allyPlea/reject`, {pleaId}, {
       headers: { 
         Authorization: `Bearer ${userInfo.token}` 
       },
@@ -628,7 +628,7 @@ export const getScreenParams = (screenId) => async (dispatch) => {
   });
   // console.log(time)
   try {
-    const { data } = await Axios.get(`https://beta.vinciis.in/api/screens/${screenId}/screenParams`);
+    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenParams`);
     dispatch({
       type: SCREEN_PARAMS_SUCCESS,
       payload: data

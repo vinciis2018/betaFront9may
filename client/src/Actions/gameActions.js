@@ -86,6 +86,10 @@ import {
   PLAY_ITEM_GAME_SUCCESS,
 } from "../Constants/gameConstants"
 
+
+
+
+
 // create screen game
 export const createScreenGame = (screenId, gameData) => async (dispatch, getState) => {
   dispatch({
@@ -96,7 +100,7 @@ export const createScreenGame = (screenId, gameData) => async (dispatch, getStat
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/screen/${screenId}/createScreenGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/createScreenGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -125,7 +129,7 @@ export const getScreenGameDetails = (screenId) => async (dispatch, getState) => 
     payload: screenId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/screen/${screenId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/gameDetails`);
     dispatch({
       type: DETAILS_SCREEN_GAME_SUCCESS,
       payload: data
@@ -149,7 +153,7 @@ export const removeScreenGame = (screenId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/screen/${screenId}/removeScreenGame`, screenId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/removeScreenGame`, screenId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -181,7 +185,7 @@ export const playScreenGames = (screenId, interaction) => async (dispatch, getSt
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/screen/${screenId}/playScreenGame/${interaction}`, {screenId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/playScreenGame/${interaction}`, {screenId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -214,7 +218,7 @@ export const createAssetGame = (assetId, gameData) => async (dispatch, getState)
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/asset/${assetId}/createAssetGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/asset/${assetId}/createAssetGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -243,7 +247,7 @@ export const getAssetGameDetails = (assetId) => async (dispatch, getState) => {
     payload: assetId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/asset/${assetId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/asset/${assetId}/gameDetails`);
     dispatch({
       type: DETAILS_ASSET_GAME_SUCCESS,
       payload: data
@@ -267,7 +271,7 @@ export const removeAssetGame = (assetId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/asset/${assetId}/removeAssetGame`, assetId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/asset/${assetId}/removeAssetGame`, assetId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -299,7 +303,7 @@ export const playAssetGames = (assetId, interaction) => async (dispatch, getStat
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/asset/${assetId}/playAssetGame/${interaction}`, {assetId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/asset/${assetId}/playAssetGame/${interaction}`, {assetId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -332,7 +336,7 @@ export const createAdvertGame = (videoId, gameData) => async (dispatch, getState
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/video/${videoId}/createAdvertGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/video/${videoId}/createAdvertGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -361,7 +365,7 @@ export const getAdvertGameDetails = (videoId) => async (dispatch) => {
     payload: videoId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/video/${videoId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/video/${videoId}/gameDetails`);
     dispatch({
       type: DETAILS_ADVERT_GAME_SUCCESS,
       payload: data
@@ -385,7 +389,7 @@ export const removeAdvertGame = (videoId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/video/${videoId}/removeAdvertGame`, videoId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/video/${videoId}/removeAdvertGame`, videoId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -416,7 +420,7 @@ export const playAdvertGames = (videoId, interaction) => async (dispatch, getSta
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/video/${videoId}/playAdvertGame/${interaction}`, {videoId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/video/${videoId}/playAdvertGame/${interaction}`, {videoId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -450,7 +454,7 @@ export const createChannelGame = (channelId, gameData) => async (dispatch, getSt
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/channel/${channelId}/createChannelGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/channel/${channelId}/createChannelGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -479,7 +483,7 @@ export const getChannelGameDetails = (channelId) => async (dispatch, getState) =
     payload: channelId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/channel/${channelId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/channel/${channelId}/gameDetails`);
     dispatch({
       type: DETAILS_CHANNEL_GAME_SUCCESS,
       payload: data
@@ -503,7 +507,7 @@ export const removeChannelGame = (channelId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/channel/${channelId}/removeChannelGame`, channelId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/channel/${channelId}/removeChannelGame`, channelId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -534,7 +538,7 @@ export const playChannelGames = (channelId, interaction) => async (dispatch, get
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/channel/${channelId}/playChannelGame/${interaction}`, {channelId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/channel/${channelId}/playChannelGame/${interaction}`, {channelId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -568,7 +572,7 @@ export const createFilmGame = (filmId, gameData) => async (dispatch, getState) =
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/film/${filmId}/createFilmGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/film/${filmId}/createFilmGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -597,7 +601,7 @@ export const getFilmGameDetails = (filmId) => async (dispatch) => {
     payload: filmId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/film/${filmId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/film/${filmId}/gameDetails`);
     dispatch({
       type: DETAILS_FILM_GAME_SUCCESS,
       payload: data
@@ -621,7 +625,7 @@ export const removeFilmGame = (filmId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/film/${filmId}/removeFilmGame`, filmId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/film/${filmId}/removeFilmGame`, filmId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -652,7 +656,7 @@ export const playFilmGames = (filmId, interaction) => async (dispatch, getState)
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/film/${filmId}/playFilmGame/${interaction}`, {filmId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/film/${filmId}/playFilmGame/${interaction}`, {filmId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -687,7 +691,7 @@ export const createShopGame = (shopId, gameData) => async (dispatch, getState) =
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/shop/${shopId}/createShopGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/shop/${shopId}/createShopGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -716,7 +720,7 @@ export const getShopGameDetails = (shopId) => async (dispatch, getState) => {
     payload: shopId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/shop/${shopId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/shop/${shopId}/gameDetails`);
     dispatch({
       type: DETAILS_SHOP_GAME_SUCCESS,
       payload: data
@@ -740,7 +744,7 @@ export const removeShopGame = (shopId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/shop/${shopId}/removeShopGame`, shopId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/shop/${shopId}/removeShopGame`, shopId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -771,7 +775,7 @@ export const playShopGames = (shopId, interaction) => async (dispatch, getState)
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/shop/${shopId}/playShopGame/${interaction}`, {shopId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/shop/${shopId}/playShopGame/${interaction}`, {shopId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -805,7 +809,7 @@ export const createItemGame = (itemId, gameData) => async (dispatch, getState) =
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/item/${itemId}/createItemGame`, gameData, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/item/${itemId}/createItemGame`, gameData, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -834,7 +838,7 @@ export const getItemGameDetails = (itemId) => async (dispatch) => {
     payload: itemId
   })
   try {
-    const {data} = await Axios.get(`https://beta.vinciis.in/api/game/item/${itemId}/gameDetails`);
+    const {data} = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/item/${itemId}/gameDetails`);
     dispatch({
       type: DETAILS_ITEM_GAME_SUCCESS,
       payload: data
@@ -858,7 +862,7 @@ export const removeItemGame = (itemId) => async (dispatch, getState) => {
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/item/${itemId}/removeItemGame`, itemId, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/item/${itemId}/removeItemGame`, itemId, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -889,7 +893,7 @@ export const playItemGames = (itemId, interaction) => async (dispatch, getState)
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`https://beta.vinciis.in/api/game/item/${itemId}/playItemGame/${interaction}`, {itemId, interaction}, {
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/item/${itemId}/playItemGame/${interaction}`, {itemId, interaction}, {
       headers : {
         Authorization: `Bearer ${userInfo.token}`
       }

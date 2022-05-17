@@ -2,7 +2,7 @@
   "name": "blinds_by_vinciis",
   "version": "0.1.0",
   "homepage": "/",
-  "proxy": "https://beta.vinciis.in",
+  "proxy": "https://server.vinciis.in",
   "private": true,
   "license": "",
   "dependencies": {

@@ -151,7 +151,7 @@ export function Screens (props: any) {
               </Stack>
             )}
             {myScreensVisible && (
-              <>
+              <Stack p="1">
                 {loadingMyScreens ? (
                   <LoadingBox></LoadingBox>
                 ) : errorMyScreens ? (
@@ -164,7 +164,7 @@ export function Screens (props: any) {
                     ))}
                   </SimpleGrid>
                 )}
-              </>
+              </Stack>
             )}
             </Box>
           </Center>

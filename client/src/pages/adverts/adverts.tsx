@@ -71,8 +71,7 @@ export function Adverts (props: any) {
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-          <Center maxW="container.lg" mx="auto" pb="8">
-            <Box>
+          <Box maxW="container.lg" mx="auto" pb="8">
             <Stack align="center" p="2" direction="row" justify="space-between">
               <ArrowBackIcon onClick={() => props.history.goBack()} />
               <Input rounded="2xl" variant='outline' placeholder="Search by Screen Location, Name" fontWeight="600"/>
@@ -122,7 +121,7 @@ export function Adverts (props: any) {
               </Stack>
             )}
             {myVideosVisible && (
-              <>
+              <Stack p="1">
                 {loadingMyVideos ? (
                   <LoadingBox></LoadingBox>
                 ) : errorMyVideos ? (
@@ -135,10 +134,9 @@ export function Adverts (props: any) {
                     ))}
                   </SimpleGrid>
                 )}
-              </>
+              </Stack>
             )}
-            </Box>
-          </Center>
+          </Box>
       )}
     </Box>
   )

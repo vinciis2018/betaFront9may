@@ -16,7 +16,7 @@ mapboxgl.accessToken = `${process.env.REACT_APP_MAPBOX}`;
 
 export function Map (mapProps: any) {
 
-  const [mapFeatures, setMapFeatures] = React.useState<any>(mapProps?.mapProps?.features);
+  // const [mapFeatures, setMapFeatures] = React.useState<any>(mapProps?.mapProps?.features);
   const [geojson, setGeojson] = React.useState<any>({
     type: "FeatureCollection",
     features: mapProps?.mapProps?.features
@@ -26,8 +26,8 @@ export function Map (mapProps: any) {
   // const tooltipRef = React.useRef<any>(new mapboxgl.Popup({ offset: 15 }));
   // const history = useHistory();
   console.log(mapProps)
-  const [lng, setLng] = React.useState<any>(null || mapProps?.props?.lng);
-  const [lat, setLat] = React.useState<any>(null || mapProps?.props?.lat);
+  const [lng, setLng] = React.useState<any>(null);
+  const [lat, setLat] = React.useState<any>(null);
 
 
   const dispatch = useDispatch();
@@ -108,13 +108,13 @@ export function Map (mapProps: any) {
 
       // clean up on unmount
       return () => map.remove();
-  }, [dispatch, mapFeatures]);
+  }, [dispatch]);
 
 
 
   const reloadOption = (e: any) => {
     e.preventDefault();
-    setMapFeatures(mapProps?.mapProps?.features);
+    // setMapFeatures(mapProps?.mapProps?.features);
     dispatch(getPinJson());
     refreshPage();
 
@@ -129,12 +129,9 @@ export function Map (mapProps: any) {
         </Heading>
         <IoReload  onClick={reloadOption}/>
       </Flex>
-      {/* {(mapFeatures !== undefined || null || "" ) && ( */}
         <Box px="1" mt="" rounded="md" width="100%" height="100%">
           <Box rounded="md" width="100%" height={ mapProps?.props?.height || "540px" } ref={mapContainerRef} />
         </Box>
-      {/* )} */}
-
     </Stack>
 
   ) 

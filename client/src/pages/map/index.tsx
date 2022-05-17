@@ -44,7 +44,7 @@ export function MapBox(props: any) {
       ) : (
           <Box maxW="container.lg" mx="auto" pb="8">
             <Stack align="center" p="2" direction="row" justify="space-between">
-              <ArrowBackIcon />
+              <ArrowBackIcon onClick={() => props.history.goBack()}/>
               <Input rounded="2xl" variant='outline' placeholder="Search by Location" fontWeight="600"/>
               <BsSliders color="violet.500" />
             </Stack>
