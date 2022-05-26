@@ -47,8 +47,6 @@ export const getWalletKey = async () => {
 
     if(wallet) {
       const key2 = await window.arweaveWallet.getActivePublicKey();
-      // console.log("key2", key2)
-
       return {key2};
     } else {
       console.log("something went wrong")

@@ -124,10 +124,9 @@ export function AdvertCreate (props: any) {
   
   return (
     <Box px="2" pt="20">
-      <Center maxW="container.lg" mx="auto" pb="8">
-        <Box>
+      <Box maxW="container.lg" mx="auto" pb="8">
         <Stack align="center" p="2" direction="row" justify="space-between">
-          <ArrowBackIcon />
+          <ArrowBackIcon  onClick={() => props.history.goBack()}/>
           <Text fontWeight="600">Create Campaign</Text>
           <EditIcon color="white" />
         </Stack>
@@ -249,13 +248,12 @@ export function AdvertCreate (props: any) {
                   ))}
                 </SimpleGrid>
               )}
-              <Button onClick={videoUploadHandler}>Upload Campaign</Button>
+              <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" type="submit" onClick={videoUploadHandler}>Upload Campaign</Button>
               
             </Stack>
           )}
         </Stack>
       </Box>
-      </Center>
     </Box>
   )
 }

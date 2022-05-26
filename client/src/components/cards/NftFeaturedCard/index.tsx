@@ -33,7 +33,7 @@ export const NftFeaturedCard = memo<Props>(
           flexDir="column"
           w="100%"
           role="group"
-          rounded="md"
+          rounded="lg"
           shadow="card"
           whileHover={{
             translateY: -3
@@ -50,19 +50,19 @@ export const NftFeaturedCard = memo<Props>(
           {/* Details */}
           <Flex flexDir="column" p="4" bg="white" flexGrow="1" textAlign="left">
             {/* Title */}
-            <Heading as="h2" size="md" noOfLines={2} color="blue.500">
+            <Text as="h2" size="md" noOfLines={2} color="">
               {item?.title}
-            </Heading>
+            </Text>
             <Link as={RouterLink} to={`/artist/${item?.owner || item?.holders?.[0]}`} color="gray.400" fontSize="xs" noOfLines={1} mt="1px" _hover={{ textDecor: "underline" }} zIndex="3">
               {item?.name}
             </Link>
             {/* Description */}
-            <Text noOfLines={2} mt="2" fontSize="sm" color="blue.200" lineHeight="short">
+            <Text noOfLines={2} mt="2" fontSize="sm" color="blue.300" lineHeight="short">
               {item?.description}
             </Text>
           </Flex>
           {/* Footbar */}
-          <Footbar nft={item} />
+          {/* <Footbar nft={item} /> */}
         </MotionFlex>
       </>
     );

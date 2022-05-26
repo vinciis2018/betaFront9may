@@ -126,7 +126,7 @@ export function DragAndDropUploader() {
               {/* Bottom bar */}
               <Stack direction="row" align="center">
                 <IconButton aria-label="reset" variant="ghost" colorScheme="red" icon={<RiDeleteBinLine size="20px" />} ml="auto!important" onClick={doReset} />
-                <Button type="submit" isLoading={isLoading} flex="1">
+                <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%"type="submit" isLoading={isLoading} flex="1">
                   Continue
                 </Button>
               </Stack>
@@ -200,8 +200,8 @@ export function DragAndDropUploader() {
           <Stack w="100%" mt="2">
             <Alert status="success" fontSize="sm" p="2">
               <AlertIcon />
-              <Text>Successfully uploaded </Text>
-              <Button as={RouterLink} to={`/nft/${data?.tx?.id}`} size="xs" ml="4">
+              <Text color="green.500">Successfully uploaded </Text>
+              <Button onClick={() => window.open(`https://arweave.net/${data?.tx?.id}`)} size="xs" ml="4">
                 Check your nft
               </Button>
             </Alert>

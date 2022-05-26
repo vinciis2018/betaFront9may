@@ -100,8 +100,9 @@ export function Adverts (props: any) {
                   My Ads
                 </Button>
               </ButtonGroup>
-              <IconButton as={RouterLink} to={`/mapbox`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
-
+              {userInfo && userInfo.isMaster && (
+                <IconButton as={RouterLink} to={`/mapbox`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+              )}
             </Flex>
             <hr />
             {allVideosVisible && (

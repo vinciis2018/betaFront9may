@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Image, Slider, SliderTrack, SliderMark, SliderFilledTrack, SliderThumb, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, Text, Button, IconButton, Wrap, WrapItem, Badge } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon, InfoIcon, CalendarIcon, TimeIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons"
-
+import {MdOutlinePublishedWithChanges} from 'react-icons/md';
+import {BiGame} from 'react-icons/bi';
+import {GiStopSign} from "react-icons/gi";
 import { LoadingBox, MessageBox } from 'components/helpers';
 import { detailsScreen, getScreenPinDetails, updateScreen } from '../../Actions/screenActions';
 import { updatePin } from '../../Actions/pinActions';
@@ -19,6 +21,7 @@ import { triggerPort } from 'services/utils';
 import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
+import { arweaveWalletConnect } from 'api/arweaveWallet';
 
 
 export function ScreenEdit (props: any) {
@@ -121,9 +124,10 @@ export function ScreenEdit (props: any) {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
+
     if(!isFinnieConnected) {
       connectFinnie();
-    }
+    } 
 
     if (!screen || screen._id !== screenId || successUpdate) {
       dispatch({
@@ -196,9 +200,15 @@ export function ScreenEdit (props: any) {
     screenPin
   ]);
 
-  const addGameContract = (e: any) => {
+  const addGameContract = async (e: any) => {
+    let confirm: any;
     e.preventDefault();
     window.alert('Please confirm your request to create screen game.')
+    await window.arweaveWallet.getActivePublicKey().then(res => {
+      confirm = res;
+      return confirm
+    })
+
     dispatch(createScreenGame(screenId, {
       _id: screenId,
       name,
@@ -209,8 +219,11 @@ export function ScreenEdit (props: any) {
       screenType,
       screenWorth,
       slotsTimePeriod,
-      screenTags,
-      createdScreenGame
+      tags: screenTags,
+      confirm,
+      gamePage: `${window.location.href.split('/edit')[0]}`,
+      gameType: `SCREEN_GAME`,
+      walletAddress
     }))
   }
 
@@ -276,12 +289,11 @@ export function ScreenEdit (props: any) {
         <MessageBox variant="danger">{errorUser}</MessageBox>
       ) : (
         
-      <Center maxW="container.lg" mx="auto" pb="4">
-        <Box>
+      <Box maxW="container.lg" mx="auto" pb="4">
         <Stack p="2" direction="row" justify="space-between">
           <ArrowBackIcon onClick={() => props.history.goBack()} />
           <Text fontWeight="600">Edit Screen Details</Text>
-          <EditIcon color="white" />
+          <MdOutlinePublishedWithChanges color="green" onClick={submitScreenHandler}/>
         </Stack>
         {loadingScreen ? (
           <LoadingBox></LoadingBox>
@@ -382,10 +394,15 @@ export function ScreenEdit (props: any) {
                           value={screenCategory}
                           onChange={(e) => setScreenCategory(e.target.value)}
                         >
-                          <option value="DOOH_SCREEN">Outdoor Screen</option>
-                          <option value="TV_SCREEN">Indoor Screen</option>
-                          <option value="MALL_SCREEN">Mall Screen</option>
-                          <option value="WEB_SCREEN">Web Screen</option>
+                          <option value="DOOH">DOOH</option>
+                          <option value="IDOOH">Internal DOOH</option>
+                          <option value="CONSUMER_STORE">Consumer Store</option>
+                          <option value="ELECTRONIC_STORE">Electronic Store</option>
+                          <option value="DINE_OUT">Dine-Out</option>
+                          <option value="SHOPPING_MALL">Shopping Mall</option>
+                          <option value="THEATRE">Theatre</option>
+                          <option value="TRANSIT_STOP">Transit Stop</option>
+                          <option value="OTHER">Other</option>
                         </Select>
                       </Stack>
                       <FormLabel px="1" fontSize="xs">Screen Category</FormLabel>
@@ -454,11 +471,19 @@ export function ScreenEdit (props: any) {
                     ) : errorScreenGameDetails ? (
                       <MessageBox variant="danger">{errorScreenGameDetails}</MessageBox>
                     ) : (
-                      <Stack>
-                        <Text fontSize="">{screenType} Type Screen</Text>
-                        <Text fontSize="">Slot Time Period: {screenGameData.gameParams.slotTimePeriod} Sec</Text>
-                        <Text fontSize="">Intial Rent per slot: {screenGameData.gameParams.initialRent} RAT</Text>
-                        <Text fontSize="">Initial Screen Worth: {screenGameData.gameParams.initialWorth} RAT</Text>
+                      <Stack p="2">
+                        <Box shadow="card" rounded="lg" p="4">
+                          <Text fontSize="sm" fontWeight="600">Screen Type: {screenType} type screen</Text>
+                        </Box>
+                        <Box shadow="card" rounded="lg" p="4">
+                          <Text fontSize="sm" fontWeight="600">Slot Time Period: {screenGameData.gameParams.slotTimePeriod} seconds</Text>
+                        </Box>
+                        <Box shadow="card" rounded="lg" p="4">
+                          <Text fontSize="sm" fontWeight="600">Minimum Rent per slot: {screenGameData.gameParams.initialRent} RAT</Text>
+                        </Box>
+                        <Box shadow="card" rounded="lg" p="4">
+                          <Text fontSize="sm" fontWeight="600">Minimum Screen Worth: {screenGameData.gameParams.initialWorth} RAT</Text>
+                        </Box>
                       </Stack>
                     )}
                   </>
@@ -472,17 +497,25 @@ export function ScreenEdit (props: any) {
                         ) : errorScreenGameRemove ? (
                           <MessageBox variant="danger">{errorScreenGameRemove}</MessageBox>
                         ) : (
-                          <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" onClick={removeGameContract}>Remove Game</Button>
+                          <Flex p="2" onClick={removeGameContract} align="center" justify="flex-end">
+                            <IconButton bg="none" icon={<GiStopSign size="20px" color="red" />} aria-label="Edit Advert Details"></IconButton>
+                            <Text onClick={() => window.location.replace("/")} fontWeight="600" color="red.500" fontSize="xs">Remove Active Game Contract</Text>
+                            {/* <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" onClick={removeGameContract}>Remove Game</Button> */}
+                          </Flex>
                         )}
                       </Flex>
                     ) : (
-                      <Flex>
+                      <Flex justify="end">
                         {loadingScreenGameCreate ? (
                           <LoadingBox></LoadingBox>
                         ) : errorScreenGameCreate ? (
                           <MessageBox variant="danger">{errorScreenGameCreate}</MessageBox>
                         ) : (
-                          <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" className="primary block" onClick={addGameContract}>Create Game</Button>
+                          <Flex p="2" onClick={addGameContract} align="center" justify="flex-end">
+                            <IconButton bg="none" icon={<BiGame size="20px" color="green" />} aria-label="Edit Advert Details"></IconButton>
+                            <Text fontWeight="600" color="green.500" fontSize="xs">Create Game Contract</Text>
+                            {/* <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" onClick={addGameContract}>Create Game</Button> */}
+                          </Flex>
                         )}
                       </Flex>
                     )}
@@ -636,11 +669,10 @@ export function ScreenEdit (props: any) {
             
           </Stack>
         )}
-        <Box p="2">
+        {/* <Box p="2">
           <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" onClick={submitScreenHandler}>Update Screen</Button>
-        </Box>
+        </Box> */}
       </Box>
-      </Center>
       )}
     </Box>
   )

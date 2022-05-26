@@ -123,7 +123,7 @@ export function AdvertDetail (props: any) {
           <Stack p="2" direction="row" justify="space-between">
             <ArrowBackIcon onClick={() => props.history.goBack()}/>
             <Text fontWeight="600">Campaign Details</Text>
-            <IconButton as={RouterLink} to={`/editCampaign/${video._id}/${video?.screen}/${video?.video.split('/').slice(-1)[0]}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+            <IconButton as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/edit/${video?.screen}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
           </Stack>
 
           <Stack px="2">

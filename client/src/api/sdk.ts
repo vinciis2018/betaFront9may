@@ -29,7 +29,7 @@ export const getAddress = async () => {
 export const getRatBalance = async (walletAddress: any) => {
   let rat: any;
   try {
-    const {data} = await axios.get(`https://beta.vinciis.in/api/wallet/rat`);
+    const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/rat`);
     rat = data.balances[walletAddress] || 0;
     return  rat ;
 
@@ -48,7 +48,7 @@ export const getBalances = async (walletAddress: any) => {
     await koiSDK.setWallet(walletAddress);
     koii = await koiSDK.getKoiBalance();
     ar = await koiSDK.getWalletBalance();
-    const {data} = await axios.get(`https://beta.vinciis.in/api/wallet/rat`);
+    const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/rat`);
     ratData = data?.balances[walletAddress] || 0;
     // console.log("ratdata", ratData)
     return { koii, ar, ratData };

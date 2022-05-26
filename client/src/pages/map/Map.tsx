@@ -16,7 +16,7 @@ mapboxgl.accessToken = `${process.env.REACT_APP_MAPBOX}`;
 
 export function Map (mapProps: any) {
 
-  // const [mapFeatures, setMapFeatures] = React.useState<any>(mapProps?.mapProps?.features);
+  const [mapFeatures, setMapFeatures] = React.useState<any>(mapProps?.mapProps?.features);
   const [geojson, setGeojson] = React.useState<any>({
     type: "FeatureCollection",
     features: mapProps?.mapProps?.features
@@ -66,13 +66,12 @@ export function Map (mapProps: any) {
             // draggable: true, 
           }).setLngLat(marker?.geometry?.coordinates)
             .setPopup(
-              new mapboxgl.Popup({ offset: 25 }) // add popups
+              new mapboxgl.Popup({ offset: -100 }) // add popups
               .setHTML(`<div>
                 <h3>${marker?.properties?.category} Pin</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
                 <a href="/screen/${marker?.properties?.screen}">Click her for screen details</a>
               </div>`)
           ).addTo(map);
-  
         })
       });
 
@@ -95,7 +94,6 @@ export function Map (mapProps: any) {
 
       // add popup when user clicks a points
       map.on('click', (event) => {
-
           // If the user clicked on one of your markers, get its information.
           const popup = new mapboxgl.Popup({ offset: [0, -100] })
           .setLngLat(event.lngLat)
@@ -114,7 +112,7 @@ export function Map (mapProps: any) {
 
   const reloadOption = (e: any) => {
     e.preventDefault();
-    // setMapFeatures(mapProps?.mapProps?.features);
+    setMapFeatures(mapProps?.mapProps?.features);
     dispatch(getPinJson());
     refreshPage();
 
@@ -124,7 +122,7 @@ export function Map (mapProps: any) {
     <Stack>
       <Flex p="2" justify="space-between">
         <Heading fontSize="15px">
-        Longitude: {lat} | Latitude: {lng} |
+        Longitude: {lng} | Latitude: {lat} |
           {/* Zoom: {zoom} */}
         </Heading>
         <IoReload  onClick={reloadOption}/>

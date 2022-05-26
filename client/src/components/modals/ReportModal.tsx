@@ -65,7 +65,7 @@ export function ReportModal({ isOpen, onClose, nftId, nftTitle }: Props) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader as={Flex} align="center">
-            <RiFlagFill />
+            <RiFlagFill color="red" />
             <Text as="span" ml="2" mr="1">
               Report
             </Text>
@@ -76,7 +76,7 @@ export function ReportModal({ isOpen, onClose, nftId, nftTitle }: Props) {
           <ModalCloseButton />
           <ModalBody>
             <Text fontWeight="600">Help us understand the issue. What’s wrong with this NFT?</Text>
-            <Stack my="4" color="blue.500">
+            <Stack my="4" color="red.500">
               <Checkbox>Explicit or adult sexual content</Checkbox>
               <Checkbox>Copyright infringement (the person who posted it doesn’t own it)</Checkbox>
               <Checkbox>Illegal products or services</Checkbox>
@@ -88,7 +88,7 @@ export function ReportModal({ isOpen, onClose, nftId, nftTitle }: Props) {
             </FormControl>
             <FormControl id="attachments" mt="2">
               <Stack direction="row" align="center" spacing="0">
-                <FormLabel bg="blue.500" m="0 6px 0 0" p="2" textAlign="center" w="100px" color="white" rounded="md" cursor="pointer">
+                <FormLabel bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" m="0 6px 0 0" p="2" textAlign="center" w="100px" color="white" rounded="md" cursor="pointer">
                   Attach file
                 </FormLabel>
                 <Text color="blue.300" fontSize="xs">
@@ -100,7 +100,7 @@ export function ReportModal({ isOpen, onClose, nftId, nftTitle }: Props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={onSubmit} isLoading={status === "loading"}>
+            <Button bgColor="red.500" onClick={onSubmit} isLoading={status === "loading"}>
               Submit
             </Button>
           </ModalFooter>

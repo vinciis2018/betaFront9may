@@ -18,6 +18,7 @@ import { USER_ATOMIC_NFT_UPLOAD_RESET, TOKENS_TRANSFER_RESET } from '../../Const
 import { signout } from '../../Actions/userActions';
 
 import { DragAndDropUploader } from 'components/widgets';
+import { CopyableAddress, EmptyState, ErrorState } from "components/ui";
 
 import {BiChevronDown, BiChevronUp} from 'react-icons/bi';
 import {ArrowBackIcon, ArrowDownIcon, ArrowUpIcon, EditIcon, InfoIcon, CalendarIcon, TimeIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons"
@@ -39,6 +40,7 @@ export function Wallet(props: any) {
 
   const [tokenHistory, setTokenHistory] = useState<any>([]);
 
+  const [walletId, setWalletId] = useState<any>("");
   const [walletName, setWalletName] = useState<any>('');
   const [defaultWallet, setDefaultWallet] = useState<any>('');
   // const [walletAddAr, setWalletAddAr] = useState<any>('');
@@ -48,6 +50,7 @@ export function Wallet(props: any) {
   const [anftModalVisible, setAnftModalVisible] = useState<any>(false);
   const [transferModalVisible, setTransferModalVisible] = useState<any>(false);
   const [editWalletModalVisible, setEditWalletModalVisible] = useState<any>(false);
+  const [openADUModal, setOpenADUModal] = useState<any>(false);
 
   const [txnDetailModal, setTxnDetailModal] = useState<any>(false);
 
@@ -109,24 +112,25 @@ export function Wallet(props: any) {
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
-  console.log("walletPrice", walletPrice)
+  // console.log("walletPrice", walletPrice)
 
 
-  const [walletId, setWalletId] = useState<any>(userInfo.defaultWallet);
 
   const dispatch = useDispatch();
   useEffect(() => {
 
+    if(userInfo) {
+      setWalletId(userInfo.defaultWallet)
+    }
+
     if (successWalletCreate) {
       setKeyModal(true)
       dispatch({ type: WALLET_CREATE_RESET });
-      // props.history.push(`/userProfile/${userInfo._id}`)
     }
 
     if(props?.match?.params?.id) {
       if(!isFinnieConnected) {
         connectFinnie();
-  
       } else {
         // arweaveWalletConnect();
         setExchangeValue(xchangeRate);
@@ -166,7 +170,7 @@ export function Wallet(props: any) {
     }
 
     dispatch(detailsUser(userInfo._id));
-    dispatch(getWalletDetails(walletId))
+    dispatch(getWalletDetails(userInfo.defaultWallet));
     
    
 
@@ -202,16 +206,17 @@ export function Wallet(props: any) {
     })
     a.dispatchEvent(clickEvt)
     a.remove()
+
   }
   
   const exportToJson = (e: any) => {
     e.preventDefault()
+    window?.location.replace(`/wallet/${createdWalletData?.wallet?.walletAddAr}`)
     downloadFile({
       data: JSON.stringify(createdWalletData?.jwk),
       fileName: `user_key_blinds_${createdWalletData?.wallet?.walletAddAr}.json`,
       fileType: 'text/json',
     })
-    window.location.replace(`/wallet/${createdWalletData?.wallet?.walletAddAr}`)
   }
 
   const submitTransferHandler = () => {
@@ -259,6 +264,9 @@ export function Wallet(props: any) {
     setEditWalletModalVisible(!editWalletModalVisible);
   }
   
+  const openADUModalHandler = () => {
+    setOpenADUModal(!openADUModal);
+  }
 
   return (
     <Box px="2" pt="20">
@@ -267,7 +275,7 @@ export function Wallet(props: any) {
       ) : errorUser ? (
         <MessageBox message={errorUser}></MessageBox>
       ) : (
-        <Center maxW="container.lg" mx="auto" pb="8">
+        <Box maxW="container.lg" mx="auto" pb="8">
           {!props.match.params.id ? (
             <Stack p="4">
               <Box p="2" rounded="lg" shadow="card" align="center">
@@ -275,7 +283,15 @@ export function Wallet(props: any) {
                 {errorWalletCreate && <MessageBox variant="danger">{errorWalletCreate}</MessageBox>}
                 {successWalletCreate && (
                   <Stack>
-                    <Text fontSize="sm" fontWeight="600">Wallet Address: {createdWalletData?.wallet?.walletAddAr}</Text>
+                    {createdWalletData?.message === "wallet already exist" ? (
+                      <Text fontSize="xs" fontWeight="600" color="red">You already have a wallet. Contact moderators for support...</Text>
+                    ) : (
+                      <Box rounded="lg" shadow="card" align="center" p="4">
+                        <Text fontSize="sm" fontWeight="600">Your Public Wallet Address</Text>
+                        <CopyableAddress address={createdWalletData?.wallet?.walletAddAr} w="100%" maxW="200px" />
+                      </Box>
+                    )}
+                   
                     <MessageBox variant="success">Your Key is here, download and save it for future use. Please don't provide it to any untrusted application/wallets. Make sure you don't loose it.</MessageBox>
                     <Button onClick={exportToJson}>Download Key</Button>
                   </Stack>
@@ -297,12 +313,19 @@ export function Wallet(props: any) {
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card" >
                     <Flex align="center" justify="space-between">
-                      <Text fontWeight="600" fontSize="sm">AD-Credit</Text>
+                      <Text fontWeight="600" fontSize="sm">AD-Credits: </Text>
                       <Flex align="center" justify="space-between">
-                        <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletPrice?.arPrice * walletBalance?.ar * xchangeRate) + (walletPrice?.koiiPrice * walletBalance?.koii * xchangeRate) + (walletPrice?.ratPrice * walletBalance?.ratData)}</Text>
-                        <InfoIcon fontSize="15px" color="green.500" />
+                        <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData)}</Text>
+                        <InfoIcon onClick={openADUModalHandler} fontSize="15px" color="green.500" />
                       </Flex>
                     </Flex>
+                    {openADUModal && (
+                      <Box p="4">
+                        <hr />
+                        <Text p="1" align="center" fontSize="xs" fontWeight="600">AD Credits are our in-app credits needed for interaction with our platform.</Text>
+                        <Text p="1" align="center" fontSize="xs" fontWeight="600">For more information, please refer our white paper or contact us...</Text>
+                      </Box>
+                    )}
                   </Box>
                   {transferModalVisible ? (
                     <Box p="4" shadow="card" rounded="lg">
@@ -410,8 +433,8 @@ export function Wallet(props: any) {
                         <KoiiIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)}</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)} *</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)} *</Text>
                         </Flex>
                       </Box>
                   
@@ -419,8 +442,8 @@ export function Wallet(props: any) {
                         <RatIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.toFixed?.(3)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)}</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)} *</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)} *</Text>
                         </Flex>
                       </Box>
                     </SimpleGrid>
@@ -442,7 +465,7 @@ export function Wallet(props: any) {
                             <Flex align="center" justify="space-between">
                               <Text fontWeight="600" fontSize="sm">{(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
                               <Flex align="center" justify="space-between">
-                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
+                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)} AD Credits</Text>
                                 {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
                                   <BsArrowDownLeft color="green" size="15px" />
                                 ) : (
@@ -454,17 +477,17 @@ export function Wallet(props: any) {
                                 {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
                                   <>
                                     <Text fontWeight="" fontSize="xs">From: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.owner?.address}</Text>
-                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AD Credits</Text>
                                   </>
                                 ) : (
                                   <>
                                     <Text fontWeight="" fontSize="xs">{lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? null : `To: ${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient}`}</Text>
-                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AR</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AD Credits</Text>
 
                                   </>
                                 )}
                               <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}</Text>
-                              <Text fontWeight="600" fontSize="xs">Fee: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar} AR</Text>
+                              <Text fontWeight="600" fontSize="xs">Fee: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar} AD Credits</Text>
                             </>
                           </Box>
                         </Box>
@@ -481,7 +504,7 @@ export function Wallet(props: any) {
                             <Flex align="center" justify="space-between">
                               <Text fontWeight="600" fontSize="sm">{(txn?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
                               <Flex align="center" justify="space-between">
-                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} AR</Text>
+                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} Ad Credits</Text>
                                 {(txn?.node?.recipient === walletAddAr) ? (
                                   <BsArrowDownLeft color="green" size="15px" />
                                 ) : (
@@ -494,24 +517,21 @@ export function Wallet(props: any) {
                                 {(txn?.node?.recipient === walletAddAr) ? (
                                   <>
                                     <Text fontWeight="" fontSize="xs">From: {txn?.node?.owner?.address}</Text>
-                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.quantity?.ar} AR</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.quantity?.ar} Ad Credits</Text>
                                   </>
                                 ) : (
                                   <>
                                     <Text fontWeight="" fontSize="xs">{txn?.node?.recipient === "" ? null : `To: ${txn?.node?.recipient}`}</Text>
-                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.recipient === "" ? txn?.node?.fee?.ar : txn?.node?.quantity?.ar} AR</Text>
+                                    <Text fontWeight="" fontSize="xs">Amount: {txn?.node?.recipient === "" ? txn?.node?.fee?.ar : txn?.node?.quantity?.ar} Ad Credits</Text>
 
                                   </>
                                 )}
                                 <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${txn?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {txn?.node?.id}</Text>
-                                <Text fontWeight="600" fontSize="xs">Tx Fee: {txn?.node?.fee?.ar} AR</Text>
+                                <Text fontWeight="600" fontSize="xs">Tx Fee: {txn?.node?.fee?.ar} Ad Credits</Text>
                               </Stack>
                             )}
                             
                           </Box>
-                        
-                          <Box>
-                            </Box>
                         </Box>
                       )
                     })}
@@ -525,9 +545,7 @@ export function Wallet(props: any) {
               
             </Stack>
           )}
-          
-          
-        </Center>
+        </Box>
       )}
     </Box>
       // <HStack p="10px" justify="space-between" >

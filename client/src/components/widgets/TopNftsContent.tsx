@@ -59,7 +59,7 @@ const TopNftsContent = ({ query }: any) => {
     <>
       {isLoading && (
         <Center w="100%" minH={{ base: "300px", md: "600px" }}>
-          <Spinner thickness="3px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="lg" />
+          <Spinner thickness="3px" speed="0.65s" emptyColor="gray.200" color="green.400" size="lg" />
         </Center>
       )}
       {/* Loading | Nfts */}

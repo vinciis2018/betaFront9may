@@ -29,8 +29,8 @@ import { CampaignDashboard, UserDashboard } from "pages/dashboard";
 
 export const Routes = () => {
   return (
-    <Stack bgGradient="linear-gradient(to bottom, #ffffff, #7833B620)">
-    {/* <Stack bgColor="#0f361A10"> */}
+    // <Stack bgGradient="linear-gradient(to bottom, #ffffff, #7833B620)">
+    <Stack bgColor=""> 
 
       <Switch>
         <PublicRoute exact path="/" component={Home} layout={AppLayout} />
@@ -47,7 +47,7 @@ export const Routes = () => {
         <PrivateRoute exact path="/adverts" component={Adverts} layout={AppLayout} />
         <PrivateRoute exact path="/advert/:id/:txId" component={AdvertDetail} layout={AppLayout} />
         <PrivateRoute exact path="/createCampaign/:screenId" component={AdvertCreate} layout={AppLayout} />
-        <PrivateRoute exact path="/editCampaign/:id/:screenId/:txId?" component={AdvertEdit} layout={AppLayout} />
+        <PrivateRoute exact path="/advert/:id/:txId?/edit/:screenId/" component={AdvertEdit} layout={AppLayout} />
 
         <PrivateRoute exact path="/campaign/payment/:walletAddress" component={Payment} layout={AppLayout} />
         <PrivateRoute exact path="/userProfile/:id?" component={UserProfile} layout={AppLayout} />

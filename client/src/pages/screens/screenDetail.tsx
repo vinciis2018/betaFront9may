@@ -144,7 +144,7 @@ export function ScreenDetail (props: any) {
               </Stack>
 
               {isLoading && <LoadingBox></LoadingBox>}
-              {isError && <MessageBox message={isError}></MessageBox>}
+              {isError && <MessageBox varian="danger">{isError}</MessageBox>}
               {nft && (
                 <Box rounded="lg" color="gray.200" border="1px" shadow="card">
                   <NftMediaContainer nft={nft} />
@@ -164,7 +164,7 @@ export function ScreenDetail (props: any) {
               {loadingScreenGameDetails ? (
                 <LoadingBox></LoadingBox>
               ) : errorScreenGameDetails ? (
-                <MessageBox message={errorScreenGameDetails}></MessageBox>
+                <MessageBox variant="danger">{errorScreenGameDetails}</MessageBox>
               ) : (
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card">

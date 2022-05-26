@@ -3,7 +3,7 @@ import { Link as RouterLink, RouteComponentProps } from "react-router-dom";
 // api
 import { useNft } from "api/hooks";
 // utils
-import { formatDigitNumber, formatUnixTimestamp } from "services/utils";
+import { formatDigitNumber, formatUnixTimestamp, triggerPort } from "services/utils";
 // ui
 import {
   Box,
@@ -24,7 +24,9 @@ import {
   AlertDescription,
   IconButton,
   IconButtonProps,
-  Image
+  Image,
+  Flex,
+  useDisclosure
 } from "@chakra-ui/react";
 import { NftFootbar, NftMediaContainer } from "components/common";
 // icons
@@ -33,11 +35,19 @@ import { KoiiIcon } from "components/icons";
 import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { motion } from "framer-motion";
 
+import { ReportModal, ShareModal, TipArtistModal } from "components/modals";
+
+import { RiFlagFill } from "react-icons/ri";
+
+
 interface RouteProps {
   id: string;
 }
 
 export function Nft({ match }: RouteComponentProps<RouteProps>) {
+
+  const { isOpen: isReportModalOpen, onOpen: openReportModal, onClose: closeReportModal } = useDisclosure();
+
   /* Get nft based on url params */
   const { data: nft, isLoading, isError } = useNft({ id: match?.params?.id });
   /* on Error */
@@ -67,6 +77,8 @@ export function Nft({ match }: RouteComponentProps<RouteProps>) {
           <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="lg" />
         </Center>
       )}
+      {isReportModalOpen && <ReportModal isOpen={isReportModalOpen} onClose={closeReportModal} nftId={nft?.id} nftTitle={nft?.title} />}
+
       {!isLoading && (
         <Box w="100%" pos="relative">
           {/* Navigation Buttons */}
@@ -95,7 +107,7 @@ export function Nft({ match }: RouteComponentProps<RouteProps>) {
               </Link>
 
               <Stack direction="row" align="center" mt="2">
-                <Text color="teal.500" fontSize="sm">
+                <Text color="violet.500" fontSize="sm">
                   <Text as="span" d={{ base: "none", lg: "inline" }}>
                     Registered:
                   </Text>{" "}
@@ -113,6 +125,7 @@ export function Nft({ match }: RouteComponentProps<RouteProps>) {
                 >
                   Explore block
                 </Button>
+                <RiFlagFill color="red" aria-label="tip" children="Report" onClick={openReportModal} />
               </Stack>
 
               {/* Description */}
@@ -131,7 +144,7 @@ export function Nft({ match }: RouteComponentProps<RouteProps>) {
               )}
               {/* Stats */}
               <Stack direction="row" align="center" mt="auto" mb="4">
-                <Text color="teal.500" fontWeight="600">
+                <Text color="violet.500" fontWeight="600">
                   {nft?.attention} Views
                 </Text>
                 <Stack direction="row" align="center">

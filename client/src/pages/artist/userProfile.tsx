@@ -147,8 +147,7 @@ export function UserProfile(props: any) {
   return (
     <Box px="2" pt="20">
       {/* Container */}
-      <Center maxW="container.lg" mx="auto" pb="8">
-        <Box>
+      <Box maxW="container.lg" mx="auto" pb="8">
           <Stack p="2" direction="row" justify="space-between">
             <ArrowBackIcon onClick={() => props.history.goBack()} />
             <Text fontWeight="600">User Profiile</Text>
@@ -273,17 +272,17 @@ export function UserProfile(props: any) {
                 </Box>
               )}
               <Flex p="2" align="center" justify="space-between">
-                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex bgColor={userInfo.isMaster ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <AiOutlineFundProjectionScreen />
-                  <Text p="2" fontSize="xs" fontWeight="600">Screen Owner</Text>
+                  <Text p="2" fontSize="xs" fontWeight={userInfo.isMaster ? "600" : ""}>Screen Owner</Text>
                 </Flex>
-                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex bgColor={userInfo.isAlly ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <BsMegaphone />
-                  <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
+                  <Text p="2" fontSize="xs" fontWeight={userInfo.isAlly ? "600" : ""}>Advertiser</Text>
                 </Flex>
-                <Flex bgColor="violet.600" rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex bgColor={userInfo.isBrand ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <BsTags />
-                  <Text p="2" fontSize="xs" fontWeight="600">Advertiser</Text>
+                  <Text p="2" fontSize="xs" fontWeight={userInfo.isBrand ? "600" : ""}>Brands</Text>
                 </Flex>
               </Flex>
               {addressModal ? (
@@ -397,7 +396,7 @@ export function UserProfile(props: any) {
                 ) : (
                   <>
                     {artist?.nfts?.length !== 0 && (
-                      <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[3, 4]}>
+                      <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
                         {artist?.nfts?.map((nft: Record<string, any>) => (
                           <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
                             {isLoading ? (
@@ -413,14 +412,10 @@ export function UserProfile(props: any) {
                     )}
                   </>
                 )}
-                
               </Box>
-            
-              
             </Stack>
           )}
         </Box>
-      </Center>
       
     </Box>
   )

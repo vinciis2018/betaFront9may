@@ -11,7 +11,7 @@ export function RenderNftsList({ nfts }: Props) {
   return (
     <>
       {nfts?.length !== 0 && (
-        <SimpleGrid w="100%" minW="0" minH="0" gap="8" columns={[1, 2, 4]}>
+        <SimpleGrid w="100%" minW="0" minH="0" gap="4" columns={[1, 2, 3]}>
           {nfts?.map((nft: Record<string, any>) => (
             <NftFeaturedCard nft={nft} key={nft?.id} />
           ))}

@@ -28,7 +28,7 @@ export function Footer() {
   return (
     <Box as="footer" role="" color="black" bg="gray.100">
       {width > 500 && (
-        <Stack mx="auto" maxW="container.lg" justify="space-between" align="center" py="2" px="4">
+        <Stack mx="auto" maxW="container.md" justify="space-between" align="center" py="2" px="4">
           <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
             <HStack px="10" py="5">
               <Image
@@ -75,7 +75,7 @@ export function Footer() {
           </Box>
           <Stack justify="space-between" align="center" px="20" py="2">
             <Text fontSize="12px">Write to us @ vinciis2018@gmail.com and Call @ +917250283664.</Text>
-            <Text fontSize="sm" textAlign="center">
+            <Text fontSize="xs" textAlign="center">
               Copyright @ VINCIIS CREATIONS PRIVATE LIMITED, 2022. All rights reserved.
             </Text>
             <HStack width="auto" maxW="container.md" justify="space-between" align="center">

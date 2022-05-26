@@ -17,6 +17,7 @@ import {ArrowBackIcon, EditIcon, InfoIcon, CalendarIcon, TimeIcon, CheckIcon, Cl
 import {BiGame, BiDislike, BiChevronRight, BiFlag} from 'react-icons/bi';
 import {GiStopSign} from "react-icons/gi";
 import {BsUpload} from 'react-icons/bs';
+import {MdOutlinePublishedWithChanges} from 'react-icons/md';
 
 import { signout } from '../../Actions/userActions';
 import { detailsScreen } from '../../Actions/screenActions';
@@ -58,6 +59,7 @@ export function AdvertEdit (props: any) {
   const [expectedViews, setExpectedViews] = React.useState<any>(0);
   const [hrsToComplete, setHrsToComplete] = React.useState<any>(0);
   const [advertTags, setAdvertTags] = React.useState<any>([]);
+  const [category, setCategory] = React.useState<any>('')
 
   const [modalVisible, setModalVisible] =React.useState<any>(false);
   const [dayModalVisible, setDayModalVisible] =React.useState<any>(true);
@@ -189,7 +191,8 @@ export function AdvertEdit (props: any) {
       setAdBudget(video.adBudget);
       setHrsToComplete(video.hrsToComplete);
       setExpectedViews(video.expectedViews);
-      setAdvertTags(video.videoTags)
+      setAdvertTags(video.videoTags);
+      setCategory(video.category);
     }
 
     if(successSlotBooking) {
@@ -299,27 +302,43 @@ const openTimeModal = () => {
       adBudget,
       expectedViews,
       hrsToComplete,
-      advertTags
+      advertTags,
+      category
     }))
-    if(modalVisible) {
-        window.location.replace(`/campaign/payment/${walletAddress}`)
-    } else if(mediaUploadModal) {
-      setMediaUploadModal(false)
-    } else {
-    setModalVisible(true)
-    }
+    // if(modalVisible) {
+    //     window.location.replace(`/campaign/payment/${walletAddress}`)
+    // } else if(mediaUploadModal) {
+    //   setMediaUploadModal(false)
+    // } else {
+    // setModalVisible(true)
+    // }
   }
 
-  const addGameContract = (e: any) => {
+  const addGameContract = async (e: any) => {
+    let confirm: any;
     e.preventDefault();
     window.alert('Please confirm your request to create screen game.')
+    await window.arweaveWallet.getActivePublicKey().then(res => {
+      confirm = res;
+      return confirm
+    })
     dispatch(createAdvertGame(videoId, {
       _id: videoId,
+      name: title,
+      description,
+      category,
+      thumbnail,
+      advert,
       adWorth,
       expectedViews,
       hrsToComplete,
       adBudget,
-      advertTags
+      tags: advertTags,
+      confirm,
+      gamePage: `${window.location.href.split(`/edit/${video.screen}`)[0]}`,
+      gameType: `ADVERT_GAME`,
+      walletAddress: userInfo.defaultWallet
+      
     }))
   }
 
@@ -356,14 +375,14 @@ const openTimeModal = () => {
     setSelectAdvertPopup(false);
   }
 
-  const calenderIconHandler = () => {
+  const calenderHandler = () => {
     setModalVisible(!modalVisible)
     setMediaUploadModal(false)
   }
 
   return (
-    <Box px="2" pt="20">
-      <Center maxW="container.lg" mx="auto" pb="8">
+    <Box px="2" py="20">
+      <Box maxW="container.lg" mx="auto" pb="8">
         {loadingUser ? (
           <LoadingBox></LoadingBox>
         ) : errorUser ? (
@@ -374,7 +393,7 @@ const openTimeModal = () => {
           <Stack p="2" direction="row" justify="space-between">
             <ArrowBackIcon onClick={() => props.history.goBack()}/>
             <Text fontWeight="600">Edit Campaign Details</Text>
-            <CalendarIcon onClick={calenderIconHandler} />
+            <MdOutlinePublishedWithChanges color="green" onClick={videoUpdateHandler}/>
           </Stack>
           {/* <hr /> */}
           {loadingVideo ? (
@@ -384,9 +403,9 @@ const openTimeModal = () => {
           ) : (
             <Stack px="2">
               {!modalVisible ? (
-                <>
+                <Stack>
                   {!mediaUploadModal ? (
-                    <>
+                    <Stack p="2">
                       {isLoading && <LoadingBox></LoadingBox>}
                       {isError && <MessageBox variant="danger">{isError}</MessageBox>}
                       {!isLoading && (
@@ -423,6 +442,32 @@ const openTimeModal = () => {
                           </Stack>
                           <FormLabel px="1" fontSize="xs">This will explain about your campaign...</FormLabel>
                         </FormControl>
+                        <FormControl p="2" id="category">
+                          <Stack direction="row" align="center">
+                            <Select
+                              placeholder="Category"
+                              value={category}
+                              onChange={(e) => setCategory(e.target.value)}
+                            >
+                              <option value="AUTOMOBILE">Automobile</option>
+                              <option value="COACHING_INSTITUTE">Coaching/Institute</option>
+                              <option value="CONSUMER_GOOD">Consumer Good</option>
+                              <option value="CONSUMER_TECH">Cosumer Tech</option>
+                              <option value="ENTERTAINMENT">Entertainment</option>
+                              <option value="FOOD_BEVEREGE">Food/Beverege</option>
+                              <option value="GOVERNMENT">Government Body</option>
+                              <option value="HEALTH_MEDICINE">Health/Medicine</option>
+                              <option value="HOSPITAL_LABS">Hospital/Pharma Lab</option>
+                              <option value="HOTEL_ACCOMODATION">Hotel/Accomodation</option>
+                              <option value="NEWS_POLITICS">News/Politics</option>
+                              <option value="SCHOOL_COLLEGE">School/College</option>
+                              <option value="STARTUP_MSME">Startup/MSME</option>
+                              <option value="TRAVEL_TOURISM">Travel/Toursim</option>
+                              <option value="OTHER">Others</option>
+                            </Select>
+                          </Stack>
+                          <FormLabel px="1" fontSize="xs">Campaign Category</FormLabel>
+                        </FormControl>
                         <FormControl p="2" id="advertTags">
                           <Stack direction="row" align="center">
                             <Input 
@@ -448,7 +493,7 @@ const openTimeModal = () => {
                           px="1px"
                           src={video?.thumbnail}
                           width="100%"
-                          height="480px"
+                          height="240px"
                           rounded="md"
                         />
                       </Box>
@@ -509,8 +554,8 @@ const openTimeModal = () => {
                             ) : errorAdvertGameCreate ? (
                               <MessageBox variant="danger">{errorAdvertGameCreate}</MessageBox>
                             ) : (
-                              <Flex p="2" align="center" justify="flex-end">
-                                <IconButton onClick={addGameContract} bg="none" icon={<BiGame size="20px" color="green" />} aria-label="Edit Advert Details"></IconButton>
+                              <Flex p="2"  onClick={addGameContract} align="center" justify="flex-end">
+                                <IconButton bg="none" icon={<BiGame size="20px" color="green" />} aria-label="Edit Advert Details"></IconButton>
                                 <Text fontWeight="600" color="green.500" fontSize="xs">Create Game Contract</Text>
                                 {/* <Button color="violet.500" variant="outline" width="20%" onClick={addGameContract}>Create Game</Button> */}
                               </Flex>
@@ -550,8 +595,8 @@ const openTimeModal = () => {
                             ) : errorAdvertGameRemove ? (
                               <MessageBox variant="danger">{errorAdvertGameRemove}</MessageBox>
                             ) : (
-                              <Flex p="2" align="center" justify="flex-end">
-                                <IconButton onClick={removeGameContract} bg="none" icon={<GiStopSign size="20px" color="red" />} aria-label="Edit Advert Details"></IconButton>
+                              <Flex p="2"  onClick={removeGameContract} align="center" justify="flex-end">
+                                <IconButton bg="none" icon={<GiStopSign size="20px" color="red" />} aria-label="Edit Advert Details"></IconButton>
                                 <Text onClick={() => window.location.replace("/")} fontWeight="600" color="red.500" fontSize="xs">Remove Active Game Contract</Text>
                                 {/* <Button width="20%" color="violet.500" variant="outline" onClick={removeGameContract}>Remove Game</Button> */}
                               </Flex>
@@ -562,10 +607,10 @@ const openTimeModal = () => {
                           <Badge rounded="md" px="2" py="1" fontSize="xs">Change tags and update first</Badge>
                         )}
                       </Box>
-                      <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" type="submit" onClick={videoUpdateHandler}>
+                      <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" type="submit" onClick={calenderHandler}>
                         Next, Book Slots
                       </Button>
-                    </>
+                    </Stack>
                   ) : (
                     <Stack p="2" >
                       {isFinnieConnected && (
@@ -685,9 +730,9 @@ const openTimeModal = () => {
                       )}
                     </Stack>
                   )}
-                </>
+                </Stack>
               ) : (
-                <>
+                <Stack>
                   <Flex justify="space-between">
                     <ButtonGroup rounded="2xl" size='sm' isAttached spacing="0" borderColor="violet.500" variant='outline'>
                       <Button 
@@ -823,11 +868,11 @@ const openTimeModal = () => {
                           ) : (
                             <Box p="4" >
                               <SimpleGrid columns={[2]} gap="2">
-                                <Box rounded="md" borderColor="gray.100" border="1px" align="center">
+                                <Box rounded="md" shadow="card" p="2" align="center">
                                   <Text fontSize="sm">Start Date </Text >
                                   <Text fontSize="sm" fontWeight="600">{new Date(calenderDaySlotData.daySlot.date).toDateString()}, {new Date(calenderDaySlotData.daySlot.date).toLocaleTimeString()}</Text >
                                 </Box>
-                                <Box rounded="md" borderColor="gray.100" border="1px" align="center">
+                                <Box rounded="md" shadow="card" p="2" align="center">
                                   <Text fontSize="sm">End Date </Text>
                                   <Text fontSize="sm" fontWeight="600">{new Date(calenderDaySlotData.daySlot.date).toDateString()}, {new Date(calenderDaySlotData.daySlot.date).toLocaleTimeString()}</Text >
                                 </Box>
@@ -845,7 +890,7 @@ const openTimeModal = () => {
                                       <Button variant="outline" color="green.500" width="100%" fontSize="sm" onClick={() => dayBookingHandler(calenderDaySlotData.daySlot._id)}>
                                         <CheckIcon />
                                       </Button>
-                                      <Button variant="outline" color="red.500" width="100%" fontSize="sm" >
+                                      <Button variant="outline" color="red.500" width="100%" fontSize="sm" onClick={() => setDaySlotsModalOpen(!daySlotsModalOpen)}>
                                         <CloseIcon />
                                       </Button>
                                     </SimpleGrid>
@@ -900,7 +945,7 @@ const openTimeModal = () => {
                           ) : (
                             <Stack>
                               <SimpleGrid p="2" columns={[2]} gap="2">
-                                <Box rounded="md" borderColor="gray.100" border="1px" align="center">
+                                <Box rounded="md" shadow="card" p="2" align="center">
                                   <Text fontSize="sm">Preceeding Slot</Text>
                                   {calenderSlotData?.viewSlots?.preceedingSlotAsked ? (
                                     <Text fontWeight="600" fontSize="sm">
@@ -911,7 +956,7 @@ const openTimeModal = () => {
                                     <Text fontWeight="600" fontSize="sm">Slots empty</Text>
                                   )}
                                 </Box>
-                                <Box rounded="md" borderColor="gray.100" border="1px" align="center">
+                                <Box rounded="md" shadow="card" p="2" align="center">
                                   <Text fontSize="sm">Succeeding Slot</Text>
                                   {calenderSlotData?.viewSlots?.succeedingSlotAsked ? (
                                     <Text fontWeight="600" fontSize="sm">
@@ -960,7 +1005,7 @@ const openTimeModal = () => {
                                             <Button variant="outline" color="green.500" width="100%" fontSize="sm" onClick={() => slotBookingHandler(calenderSlotData.slotBooked._id)}>
                                               <CheckIcon />
                                             </Button>
-                                            <Button variant="outline" color="red.500" width="100%" fontSize="sm" >
+                                            <Button variant="outline" color="red.500" width="100%" fontSize="sm" onClick={() => setSlotsModalOpen(!slotsModalOpen)}>
                                               <CloseIcon />
                                             </Button>
                                           </SimpleGrid>
@@ -976,99 +1021,16 @@ const openTimeModal = () => {
                       )}
                     </Stack>
                   )}
-        
-                  {/* {loadingScreenCalender ? (
-                    <LoadingBox></LoadingBox>
-                  ) : errorScreenCalender ? (
-                    <MessageBox variant="danger">{errorScreenCalender}</MessageBox>
-                  ) : (
-                    <Box shadow="card" p="10px">
-                      <Heading fontSize="">Today's slots for the campaign :
-                        {calender.dayDetails.filter((day: any) => 
-                          new Date(day.date).getDate() === new Date(date).getDate() 
-                        ).length}
-                      </Heading>
-                      <hr />
-                      {calender.dayDetails.filter((day: any) => 
-                        new Date(day.date).getDate() === new Date(date).getDate() 
-                      ).map((slot: any) => (
-                        <Box key={slot._id}>
-                          <Heading fontSize="">slotDetails</Heading>
-                          <Text fontSize="">{new Date(slot.date).toLocaleString()} </Text>
-                          {slot.slotsBooked.filter((slotbooked: any) => (slotbooked.campaignDetails === video._id)) ? (
-                            <Text fontSize="">{slot.slotsBooked.filter((slotbooked: any) => (slotbooked?.campaignDetails === video._id))[0]?.numberOfSlots} <strong> Random</strong></Text>
-                          ) : (
-                            <Text fontSize="">No Advert found</Text>
-                          )}
-                          <hr />
-                        </Box>
-                      ))}
-                      <Heading fontSize="">Total slots of the campaign</Heading>
-                      <hr />
-                      {calender.dayDetails.sort((sl: any) => (new Date(sl.date) >= new Date(date))).map((slot: any) => (
-                        <Box shadow="card" p="10px" key={slot._id}>
-                          <Heading fontSize="">slotDetails</Heading>
-                          <Text fontSize="">{new Date(slot.date).toLocaleString()} </Text>
-                          {slot.slotsBooked.filter((slotbooked: any) => (slotbooked.campaignDetails === video._id)) ? (
-                            <Text fontSize="">{slot.slotsBooked.filter((slotbooked: any) => (slotbooked?.campaignDetails === video._id))[0]?.numberOfSlots} <strong> Random</strong></Text>
-                          ) : (
-                            <Text fontSize="">No Advert found</Text>
-                          )}
-                          <hr />
-                        </Box>
-                      ))}
-                      <Heading fontSize="">Today's time-specific slots for the campaign : {' '}
-                        {calender.slotDetails.filter((slotDetail: any) => 
-                          new Date(slotDetail.slotTimeStart).getDate() === new Date().getDate() && slotDetail.dataAttached.video === video._id 
-                        ).length}
-                      </Heading>
-                      <hr />
-                      {calender.slotDetails.filter((slotDetail: any) => 
-                        new Date(slotDetail.slotTimeStart).getDate() === new Date().getDate() && slotDetail.dataAttached.video === video._id 
-                      ).map((slot: any) => (
-                        <Box shadow="card" p="10px" key={slot._id}>
-                          <Heading fontSize="">slotDetails</Heading>
-                          <Text fontSize="">{new Date(slot.slotTimeStart).toLocaleString()} to </Text>
-                          <Text fontSize="">{new Date(new Date(slot.slotTimeStart).getTime() + slot.dataAttached.duration*1000).toLocaleString()}</Text>
-                          {slot.dataAttached.isPlayed === true ? (
-                            <Text fontSize="">Media Played</Text>
-                          ) : (
-                            <Text fontSize="">Not Played Yet</Text>
-                          )}
-                          <hr />
-                        </Box>
-                      ))}  
-                      <Heading fontSize="">Total time-specific slots of the campaign</Heading>
-                      <hr />
-                      {calender.slotDetails.filter((slotDetail: any) => 
-                        slotDetail.dataAttached.video === videoId 
-                      ).sort((sl: any) => (new Date(sl.slotTimeStart) >= new Date(date))).map((slot: any) => (
-                        <Box shadow="card" p="10px" key={slot._id}>
-                          <Heading fontSize="">slotDetails</Heading>
-                          <Text fontSize="">{new Date(slot.slotTimeStart).toLocaleString()} to </Text>
-                          <Text fontSize="">{new Date(new Date(slot.slotTimeStart).getTime() + slot.dataAttached.duration*1000).toLocaleString()}</Text>
-                          {slot.dataAttached.isPlayed === true ? (
-                            <Text fontSize="">Media Played</Text>
-                          ) : (
-                            <Text fontSize="">Not Played Yet</Text>
-                          )}
-                          <hr />
-                        </Box>
-                      ))}
-                    </Box>
-                  )} */}
-                   <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" type="submit" onClick={videoUpdateHandler}>
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="100%" type="submit" onClick={videoUpdateHandler}>
                     Proceed to Payment 
                   </Button>
-
-                </>
+              </Stack >
               )}
-              
             </Stack>
           )}
         </Box>
         )}
-      </Center>
+      </Box>
     </Box>
   )
 }
