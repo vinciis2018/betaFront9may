@@ -23,9 +23,8 @@ export function Map (mapProps: any) {
   })
   
   const mapContainerRef = React.useRef<any>(null)
-  // const tooltipRef = React.useRef<any>(new mapboxgl.Popup({ offset: 15 }));
-  // const history = useHistory();
-  console.log(mapProps)
+
+  // console.log(mapProps)
   const [lng, setLng] = React.useState<any>(null);
   const [lat, setLat] = React.useState<any>(null);
 
@@ -68,8 +67,8 @@ export function Map (mapProps: any) {
             .setPopup(
               new mapboxgl.Popup({ offset: -100 }) // add popups
               .setHTML(`<div>
-                <h3>${marker?.properties?.category} Pin</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
-                <a href="/screen/${marker?.properties?.screen}">Click her for screen details</a>
+                <h3>Cateory: ${marker?.properties?.category}</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
+                <a href="/screen/${marker?.properties?.screen}" fontweight="600">Click her for screen details</a>
               </div>`)
           ).addTo(map);
         })

@@ -45,7 +45,7 @@ export const Routes = () => {
         <PrivateRoute exact path="/screen/:id/edit" component={ScreenEdit} layout={AppLayout} />
 
         <PrivateRoute exact path="/adverts" component={Adverts} layout={AppLayout} />
-        <PrivateRoute exact path="/advert/:id/:txId" component={AdvertDetail} layout={AppLayout} />
+        <PrivateRoute exact path="/advert/:id/:txId/:screenId?" component={AdvertDetail} layout={AppLayout} />
         <PrivateRoute exact path="/createCampaign/:screenId" component={AdvertCreate} layout={AppLayout} />
         <PrivateRoute exact path="/advert/:id/:txId?/edit/:screenId/" component={AdvertEdit} layout={AppLayout} />
 

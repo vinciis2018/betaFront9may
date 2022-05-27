@@ -229,7 +229,9 @@ export function ScreenEdit (props: any) {
 
   const removeGameContract = (e: any) => {
     e.preventDefault();
-    dispatch(removeScreenGame(screenId))
+    dispatch(removeScreenGame(screenId, {
+      
+    }))
   }
 
   const submitScreenHandler = (e: any) => {

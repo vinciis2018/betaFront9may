@@ -268,7 +268,7 @@ export function ScreenDetail (props: any) {
                 <Stack p="1">
                   <Text fontSize="md" fontWeight="600">Currently playing on the screen</Text>
                   {videos.map((video: any) => (
-                    <Box as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
+                    <Box as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
                       <Flex>
                         <Image 
                           px="1px"

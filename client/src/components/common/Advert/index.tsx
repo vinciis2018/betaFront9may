@@ -30,7 +30,7 @@ export function Advert(props: any) {
           <Rating rating={video.rating} numReviews={video.numReviews} />
         </Flex>
       </Stack>
-      <Button as={RouterLink} to={`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}`} p="1" width="100%" color="violet.500" variant="outline">View</Button>
+      <Button as={RouterLink} to={`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`} p="1" width="100%" color="violet.500" variant="outline">View</Button>
     </Box>
   )
 }

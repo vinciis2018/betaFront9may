@@ -18,6 +18,8 @@ import { AiOutlineFundProjectionScreen, AiOutlineSetting } from "react-icons/ai"
 
 // assets
 import Logo from "assets/logo.png";
+import Name from "assets/name.png";
+
 import { userInfo } from "os";
 import { LoadingBox, MessageBox } from "components/helpers";
 
@@ -68,8 +70,9 @@ export function Nav() {
           {width > 500 && (
             <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
               <Stack as={Link} to="/" direction="row" align="center">
-                <Image width={{ base: 30, lg: "40px" }} src={Logo} />
-                <Heading color="black" size="md">{config?.companyName}</Heading>
+                <Image width={{ base: 30, lg: "50px" }} src={Logo} />
+                <Image width={{ base: 30, lg: "100px" }} src={Name} />
+                {/* <Heading color="black" size="md">{config?.companyName}</Heading> */}
               </Stack>
               {!userInfo ? (
                 <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={Link} to={`/signin`} size="sm" fontSize="xs">

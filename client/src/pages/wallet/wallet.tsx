@@ -221,7 +221,6 @@ export function Wallet(props: any) {
 
   const submitTransferHandler = () => {
     console.log({toWallet, quantity, ticker});
-
     dispatch(transferTokens({
       walletId,
       toWallet,
@@ -249,10 +248,10 @@ export function Wallet(props: any) {
   }
 
   const transferModalHandler = () => {
-    arweaveWalletConnect().then(res => {
-      console.log("res", res)
-      setJwk(res);
-    });
+    // arweaveWalletConnect().then(res => {
+    //   console.log("res", res)
+    //   setJwk(res);
+    // });
     setEditWalletModalVisible(false);
     setAnftModalVisible(false);
     setTransferModalVisible(!transferModalVisible);

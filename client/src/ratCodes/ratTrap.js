@@ -24,18 +24,20 @@ async function initArweave() {
   return arweave;
 }
 
+// transfer Rat
+export const sendRAT = async ({artistAddress, amount}) => {
+  
+}
 
-export const createGameTx = async ({ walletAddress, data }) => {
+// register game
+export const registerGame = async ({ walletAddress, data }) => {
   let quantity;
-  let gameContractState;
-
   const contractId = `ERb0h5CepgnFMpxPeaxhn9qt0iCa0U2oKIiLJYHmdQU`;
   console.log(contractId)
 
   try {
     // init arweave
     let arweave = await initArweave();
-
     await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
 
     const input = {
@@ -65,7 +67,8 @@ export const createGameTx = async ({ walletAddress, data }) => {
       withdraws: {},
       rewardDistributions: {
         sell: {},
-        worthless: {}
+        worthless: {},
+        interaction: {}
       },
       locked: [],
       contentType: "application/json",
@@ -83,32 +86,26 @@ export const createGameTx = async ({ walletAddress, data }) => {
     }
 
     // Create transaction
-
-    const gameId = await createContract(initialState);
-    console.log(gameId)
-    const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
-  
-    // const gameId = 'ou3pVcnIn7T7LxE1snY29b8zcoco1dS2n-b685gvJ9A'
-    const contract = smartweave.contract(gameId).setEvaluationOptions({ ignoreExceptions: false});
-    const {state} = await contract.readState();
-    gameContractState = state;
-    console.log(gameContractState)
+    const game = await createContract(initialState);
+    console.log(game)
     
-    if(gameId && gameContractState) {
-
-
+    if(game) {
+      const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
+      const contract = smartweave.contract(contractId).setEvaluationOptions({ ignoreExceptions: false});
+      const {state} = await contract.readState();
+      console.log(state);
       // register game in ratState
       const ratResultTx = await contract.connect('use_wallet').bundleInteraction({
         function : "registerGame",
-        gameContract : gameId,
-        gameContractState: gameContractState,
+        gameContract : game.gameId,
+        gameContractState: game.state,
         qty : Number(quantity),
         type : {game: data.gameData.gameType, active: true, time: new Date().toString() }
       });
       console.log("redStone-smartweave-writeInteraction:", ratResultTx);
 
       return {
-        gameId,
+        game,
         initialState,
         ratResultTx,
 
@@ -125,7 +122,7 @@ export const createGameTx = async ({ walletAddress, data }) => {
 };
 
 
-
+// create game contract
 const createContract = async (initialState) => {
   console.log("1", initialState)
   let arweave = await initArweave();
@@ -147,6 +144,49 @@ const createContract = async (initialState) => {
   const gameId = tx.id;
   console.log("3", gameId)
 
-  return gameId  
+  const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
+  const contract = smartweave.contract(gameId).setEvaluationOptions({ ignoreExceptions: false});
+  const {state} = await contract.readState();
+
+  return {gameId, state}  
 }
 
+
+// deregister game
+export const deregisterGame = async ({walletAddress, data}) => {
+  let quantity;
+
+  const contractId = `ERb0h5CepgnFMpxPeaxhn9qt0iCa0U2oKIiLJYHmdQU`;
+  console.log(contractId)
+console.log(data)
+  try {
+    // init arweave
+    let arweave = await initArweave();
+    await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
+    
+    if(data.gameData.gameType === `SCREEN_GAME`) {
+      quantity = data.gameData.screenWorth
+    } else if(data.gameData.gameType === `ADVERT_GAME`) {
+      quantity = data.gameData.adWorth
+    } else {
+      quantity = 0;
+    }
+  
+    // const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
+    // const contract = smartweave.contract(contractId).setEvaluationOptions({ ignoreExceptions: false});
+    // const ratResultTx = await contract.connect('useWallet').bundleInteraction({
+    //   function : "deregisterGame",
+    //   gameContract : data.gameData.,
+    //   gameState: data.
+    //   qty : Number(quantity),
+    //   type : { game: data.gameData.gameType, time: new Date().toString() }
+    // })
+  
+    // return ratResultTx
+  
+  } catch (error) {
+    console.log("error", error)
+    throw new Error(error);
+  }
+  
+}

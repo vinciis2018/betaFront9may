@@ -9,6 +9,8 @@ import { AiOutlineFundProjectionScreen, AiOutlineSetting, AiOutlineHome } from "
 
 import {useWindowSize} from "components/utils";
 import Logo from "assets/logo.png";
+import Name from "assets/name.png";
+
 
 export function Footer() {
   const { width } = useWindowSize();
@@ -21,7 +23,7 @@ export function Footer() {
     left: "0",
     bottom: "0",
     width: "100%",
-    zIndex: "1"
+    zIndex: "10"
 
   };
 
@@ -36,10 +38,11 @@ export function Footer() {
                 src={Logo} 
                 alt="blinds logo here"
                 />
-                <Box>
-                  <Heading fontSize="30px">BLINDS</Heading>
-                  <Text fontSize="10px" >© vinciis</Text>
-                </Box>
+                <Image
+                  width={{ base: 35, lg: "100px" }}
+                  src={Name} 
+                  alt="blinds logo here"
+                />
             </HStack>
             <Stack mx="auto" justify="space-between" px="10" py="2" >
               <Heading fontSize="15px">Contact Us</Heading>

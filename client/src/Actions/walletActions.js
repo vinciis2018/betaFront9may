@@ -16,9 +16,7 @@ import {
   TOKENS_TRANSFER_REQUEST,
   TOKENS_TRANSFER_SUCCESS,
   TOKENS_TRANSFER_FAIL,
-  USER_ATOMIC_NFT_UPLOAD_REQUEST,
-  USER_ATOMIC_NFT_UPLOAD_SUCCESS,
-  USER_ATOMIC_NFT_UPLOAD_FAIL
+
 } from '../Constants/walletConstants';
 
 
@@ -179,11 +177,12 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'KOII') {
-      const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/koii`, transfer, {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`
-        }
-      });
+      const data = await sendKoiiTip({artistAddress: transfer.toWallet, amount: transfer.quantity });
+      // const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/koii`, transfer, {
+      //   headers: {
+      //     Authorization: `Bearer ${userInfo.token}`
+      //   }
+      // });
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
         payload: data
@@ -221,34 +220,3 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
   }
 }
 
-// atomic NFT upload
-export const atomicNftUploadUser = (atomicNft) => async (dispatch, getState) => {
-  console.log("starting atomic nft upload");
-  try {
-    dispatch({
-      type: USER_ATOMIC_NFT_UPLOAD_REQUEST,
-      payload: atomicNft
-    });
-
-    const {userSignin: {userInfo}} = getState();
-    const {walletDetails: {wallet}} = getState();
-
-    const {data} = await axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/uploadAtomicNft/${wallet._id}`, atomicNft, {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`
-      }
-    });
-    dispatch({
-      type: USER_ATOMIC_NFT_UPLOAD_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    console.log(error);
-    dispatch({
-      type: USER_ATOMIC_NFT_UPLOAD_FAIL,
-      payload: error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    });
-  }
-}

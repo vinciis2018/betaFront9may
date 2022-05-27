@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { createGameTx } from 'ratCodes/ratTrap';
+import { registerGame } from 'ratCodes/ratTrap';
 import { 
   CREATE_SCREEN_GAME_FAIL,
   CREATE_SCREEN_GAME_REQUEST, 
@@ -115,7 +115,7 @@ export const createScreenGame = (screenId, gameData) => async (dispatch, getStat
     }
 
     const game = { gameData, gameParams}
-    const dataGame = await createGameTx({walletAddress: gameData.walletAddress, data: game});
+    const dataGame = await registerGame({walletAddress: gameData.walletAddress, data: game});
     console.log(dataGame)
 
 
@@ -166,14 +166,19 @@ export const getScreenGameDetails = (screenId) => async (dispatch, getState) => 
 }
 
 // remove screen game
-export const removeScreenGame = (screenId) => async (dispatch, getState) => {
+export const removeScreenGame = (screenId, gameData) => async (dispatch, getState) => {
   dispatch({
     type: REMOVE_SCREEN_GAME_REQUEST,
-    payload: screenId
+    payload: gameData
   });
   const {userSignin: {userInfo}} = getState();
   try {
-    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/removeScreenGame`, screenId, {
+
+    const game = { gameData }
+    const dataGame = await registerGame({walletAddress: gameData.walletAddress, data: game});
+    console.log(dataGame)
+
+    const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/screen/${screenId}/removeScreenGame`, dataGame, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
@@ -253,7 +258,7 @@ export const createAdvertGame = (videoId, gameData) => async (dispatch, getState
 
     const game = { gameData, gameParams}
 
-    const dataGame = await createGameTx({walletAddress: gameData.walletAddress, data: game});
+    const dataGame = await registerGame({walletAddress: gameData.walletAddress, data: game});
     console.log(dataGame)
 
     const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/game/video/${videoId}/createAdvertGame`, dataGame, {

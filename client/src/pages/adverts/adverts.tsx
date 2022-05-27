@@ -45,8 +45,7 @@ export function Adverts (props: any) {
   
   React.useEffect(() => {
     dispatch(listAllVideos());
-    dispatch(userVideosList(userInfo._id));
-
+    dispatch(userVideosList(userInfo._id || ''));
   }, [
     dispatch,
     userInfo

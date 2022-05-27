@@ -111,8 +111,8 @@ export function Home(props: any) {
               </Flex>
             </Box>
             {userInfo && (
-              <Text align="center" p="2" fontSize="md" fontWeight="600">Or you can simply upload an NFT here...
-                <ArrowForwardIcon onClick={() => props.history.push(`/userProfile/${userInfo?.defaultWallet}`)} fontSize="20px" />
+              <Text onClick={() => props.history.push(`/userProfile/${userInfo?.defaultWallet}`)} align="center" p="2" fontSize="md" fontWeight="600">Or you can simply upload an NFT here...
+                <ArrowForwardIcon fontSize="20px" />
               </Text>
             )}
           <hr />
@@ -187,7 +187,7 @@ export function Home(props: any) {
                 ) : (
                   <SimpleGrid gap="4" columns={[1, 2]} px="1">
                     {allVideos?.map((video: any) => (
-                      <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
+                      <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}/${video.screen}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
                         <Image 
                           height="200px"
                           rounded="md"

@@ -299,7 +299,7 @@ export function UserProfile(props: any) {
                           type="text"  
                         />
                       </Stack>
-                      <FormLabel px="1" fontSize="xs">Change your name here...</FormLabel>
+                      <FormLabel px="1" fontSize="xs">Your house/building/complex details</FormLabel>
                     </FormControl>
                     <FormControl p="2" id="districtCity">
                       <Stack direction="row" align="center">
@@ -311,7 +311,7 @@ export function UserProfile(props: any) {
                           type="text"  
                         />
                       </Stack>
-                      <FormLabel px="1" fontSize="xs">Change your contact number here...</FormLabel>
+                      <FormLabel px="1" fontSize="xs">Your city or nearest district</FormLabel>
                     </FormControl>
                     <FormControl p="2" id="stateUt">
                       <Stack direction="row" align="center">
@@ -323,7 +323,7 @@ export function UserProfile(props: any) {
                           type="text"  
                         />
                       </Stack>
-                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                      <FormLabel px="1" fontSize="xs">Your current state</FormLabel>
                     </FormControl>
                     <FormControl p="2" id="country">
                       <Stack direction="row" align="center">
@@ -335,7 +335,7 @@ export function UserProfile(props: any) {
                           type="text"  
                         />
                       </Stack>
-                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                      <FormLabel px="1" fontSize="xs">And your nation here</FormLabel>
                     </FormControl>
                     <FormControl p="2" id="pincode">
                       <Stack direction="row" align="center">
@@ -347,7 +347,7 @@ export function UserProfile(props: any) {
                           type="text"  
                         />
                       </Stack>
-                      <FormLabel px="1" fontSize="xs">Change your email here...</FormLabel>
+                      <FormLabel px="1" fontSize="xs">Your Postal Zip Code</FormLabel>
                     </FormControl>
                   </Box>
                   <SimpleGrid p="2" gap="4" columns={[2]}>
