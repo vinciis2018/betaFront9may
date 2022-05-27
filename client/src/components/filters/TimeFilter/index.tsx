@@ -4,7 +4,7 @@ import { Flex, Text } from "@chakra-ui/react";
 import { ToggleButtonGroup, ToggleButton } from "components/buttons";
 
 export function TimeFilter() {
-  const [timeframe, setTimeframe] = useQueryParam<string>("t", withDefault(StringParam, "1m"));
+  const [timeframe, setTimeframe] = useQueryParam<string>("t", withDefault(StringParam, "1y"));
 
   const onTimeframeChange = (newValue: string) => {
     setTimeframe(newValue, "replaceIn");

@@ -29,8 +29,9 @@ interface Props {
 }
 
 export function ShareModal({ isOpen, onClose, nftId, nftTitle }: Props) {
-  const permalink = `https://koii.live/${nftId}/.html`;
-  const embedLink = `<iframe width="100%" src="${permalink}" title="Koii  NFT image" frameborder="0" allowfullscreen></iframe>`;
+  // const permalink = `https://koii.live/${nftId}/.html`;
+  const permalink = `${process.env.REACT_APP_BLINDS_URL}/nft/${nftId}`;
+  const embedLink = `<iframe width="100%" src="${permalink}" title="Your NFT image" frameborder="0" allowfullscreen></iframe>`;
 
   const { hasCopied: hasPermainkCopied, onCopy: onPermalinkCopy } = useClipboard(permalink);
   const { hasCopied: hasEmbedLinkCopied, onCopy: onEmbedLinkCopy } = useClipboard(embedLink);
@@ -43,7 +44,7 @@ export function ShareModal({ isOpen, onClose, nftId, nftTitle }: Props) {
           <RiShareLine />
           <div>
             <Text as="span">Share</Text>{" "}
-            <Text as="span" color="blue.500">
+            <Text as="span" color="violet.500">
               {nftTitle}
             </Text>
           </div>
