@@ -71,7 +71,7 @@ export function Nav() {
             <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
               <Stack as={Link} to="/" direction="row" align="center">
                 <Image width={{ base: 30, lg: "50px" }} src={Logo} />
-                <Image width={{ base: 30, lg: "100px" }} src={Name} />
+                <Image width={{ base: 70, lg: "100px" }} src={Name} />
                 {/* <Heading color="black" size="md">{config?.companyName}</Heading> */}
               </Stack>
               {!userInfo ? (

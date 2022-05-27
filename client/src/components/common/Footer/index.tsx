@@ -39,7 +39,7 @@ export function Footer() {
                 alt="blinds logo here"
                 />
                 <Image
-                  width={{ base: 35, lg: "100px" }}
+                  width={{ base: 70, lg: "100px" }}
                   src={Name} 
                   alt="blinds logo here"
                 />

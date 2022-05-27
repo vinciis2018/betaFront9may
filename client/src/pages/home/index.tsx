@@ -129,7 +129,6 @@ export function Home(props: any) {
                 <Text fontSize="xs" p="2" align="center" fontWeight="600">Wall</Text>
               </Box>
             </Flex>
-
             {screensModal ? (
               <>
                 {loadingScreens ? (
