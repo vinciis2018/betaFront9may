@@ -157,7 +157,7 @@ export function Nav() {
                   ) : (
                     <>
                       <IconButton onClick={connectFinnie} aria-label=""
-                        bg={isLoading ? "green.500" : "red.500"}
+                        bg={isLoading ? "red.200" : "red.500"}
                         icon={<RiWallet3Line color="black" size="20px"/>}
                       />
                     </>
@@ -219,7 +219,7 @@ export function Nav() {
                     </Badge>
                   ) : (
                     <IconButton onClick={connectFinnie} aria-label="Connect"
-                      bg={isLoading ? "green.500" : "red.500"}
+                      bg={isLoading ? "red.200" : "red.500"}
                       icon={<RiWallet3Line color="black" size="20px"/>}
                     />
                   )}

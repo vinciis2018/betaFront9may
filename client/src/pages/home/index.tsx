@@ -14,6 +14,7 @@ import {InfoIcon, ArrowForwardIcon} from "@chakra-ui/icons"
 import { AiOutlineFundProjectionScreen, AiOutlineSetting, AiOutlineHome } from "react-icons/ai";
 import { RiGlobeLine, RiWallet3Line, RiSearch2Line, RiUserSmileLine, RiAdvertisementLine, RiLogoutBoxRLine } from "react-icons/ri";
 import { TopNftsContent } from 'components/widgets';
+import { TimeFilter } from 'components/filters';
 
 export function Home(props: any) {
 
@@ -177,9 +178,13 @@ export function Home(props: any) {
                 )}
               </>
             ) : nftModal ? (
-              <TopNftsContent />
+              <Stack>
+                <TimeFilter />
+                <hr />
+                <TopNftsContent />
+              </Stack>
             ) : (
-              <>
+              <Stack>
                 {loadingVideos ? (
                   <LoadingBox></LoadingBox>
                 ) : errorVideos ? (
@@ -224,7 +229,7 @@ export function Home(props: any) {
                     ))}
                   </SimpleGrid>
                 )}
-              </>
+              </Stack>
             )}
           </Stack>
           

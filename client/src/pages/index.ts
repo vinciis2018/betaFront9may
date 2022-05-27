@@ -8,3 +8,4 @@ export { Screens, ScreenDetail, ScreenEdit } from "./screens";
 export { Adverts, AdvertDetail, AdvertCreate, AdvertEdit } from "./adverts";
 export { UserProfile } from "./artist/userProfile";
 export { ScreenDashboard } from "./dashboard";
+export { PleaBucket} from "./pleas";

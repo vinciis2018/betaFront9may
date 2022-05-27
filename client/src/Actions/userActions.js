@@ -52,6 +52,7 @@ import {
   USER_ITEMS_SUCCESS,
   USER_ITEMS_FAIL
 } from "../Constants/userConstants"
+import { useFinnie } from '../components/finnie';
 
 
 
@@ -128,14 +129,15 @@ export const signout = () => (dispatch) => {
 
 // USERDETAILS
 
-export const detailsUser = (userId) => async (dispatch, getState) => {
+export const detailsUser = ({userId, walletAddress}) => async (dispatch, getState) => {
   dispatch({
     type: USER_DETAILS_REQUEST,
     payload: userId
   });
   const { userSignin: { userInfo } } = getState();
+
   try {
-    const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userId}`, {
+    const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userId}/${walletAddress}`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({

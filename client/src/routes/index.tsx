@@ -19,7 +19,8 @@ import {
   ScreenDetail, 
   UserProfile,
   Wallet,
-  ScreenDashboard
+  ScreenDashboard,
+  PleaBucket
 } from "pages";
 
 // ui
@@ -56,6 +57,8 @@ export const Routes = () => {
         <PrivateRoute exact path="/dashboard/screen/:id" component={ScreenDashboard} layout={AppLayout} />
         <PrivateRoute exact path="/dashboard/user/:id" component={UserDashboard} layout={AppLayout} />
         <PrivateRoute exact path="/dashboard/campaign/:id?/:txId?" component={CampaignDashboard} layout={AppLayout} />
+
+        <PrivateRoute exact path="/pleaBucket" component={PleaBucket} layout={AppLayout} />
 
 
 

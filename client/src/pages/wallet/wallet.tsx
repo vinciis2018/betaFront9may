@@ -169,7 +169,7 @@ export function Wallet(props: any) {
       setTransferModalVisible(false);
     }
 
-    dispatch(detailsUser(userInfo._id));
+    dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
     dispatch(getWalletDetails(userInfo.defaultWallet));
     
    
@@ -312,6 +312,10 @@ export function Wallet(props: any) {
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card" >
                     <Flex align="center" justify="space-between">
+                      <Text fontWeight="600" fontSize="sm">Wallet Address: </Text>
+                      <CopyableAddress address={props?.match?.params?.id} w="100%" maxW="200px" />
+                    </Flex>
+                    <Flex align="center" justify="space-between">
                       <Text fontWeight="600" fontSize="sm">AD-Credits: </Text>
                       <Flex align="center" justify="space-between">
                         <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData)}</Text>
@@ -432,8 +436,8 @@ export function Wallet(props: any) {
                         <KoiiIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)} *</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)} *</Text>
+                          {/* <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)} *</Text> */}
+                          {/* <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)} *</Text> */}
                         </Flex>
                       </Box>
                   
@@ -441,8 +445,8 @@ export function Wallet(props: any) {
                         <RatIcon m="2" color="black" boxSize="30px" />
                         <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.toFixed?.(3)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)} *</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)} *</Text>
+                          {/* <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)} *</Text> */}
+                          {/* <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)} *</Text> */}
                         </Flex>
                       </Box>
                     </SimpleGrid>

@@ -6,9 +6,10 @@ import { Box, Link, Image, Center, Text, Stack, IconButton, Flex, Button, FormCo
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiPieChart, BiChevronRight, BiFlag} from 'react-icons/bi';
 import {AiOutlineArrowUp, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {VscRequestChanges} from 'react-icons/vsc';
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
-import { detailsScreen, createReview, getScreenParams, screenVideosList } from '../../Actions/screenActions';
+import { detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
 import { SCREEN_REVIEW_CREATE_RESET } from '../../Constants/screenConstants';
@@ -58,6 +59,22 @@ export function ScreenDetail (props: any) {
     error: errorScreenGameDetails,
     screenGameData
   } = screenGameDetails;
+
+  const screenAllyPleaRequest = useSelector((state: any) => state.screenAllyPleaRequest)
+  const {
+    loading: loadingScreenAllyPlea,
+    error: errorScreenAllyPlea,
+    success: successScreenAllyPlea,
+    screenAllyPlea
+  } = screenAllyPleaRequest;
+
+  const allPleasList = useSelector((state: any) => state.allPleasList);
+  const { 
+    allPleas, 
+    loading: loadingAllPleas, 
+    error: errorAllPleas 
+  } = allPleasList;
+
 
   const screenParams = useSelector((state: any) => state.screenParams);
   const { 
@@ -111,7 +128,14 @@ export function ScreenDetail (props: any) {
     nft
   ])
 
-  
+  const allyPleaHandler = () => {
+    if (screen.pleas.includes(userInfo._id)) {
+      window.alert('you already applied for plea, contact master for more info');
+    }
+    window.alert('Apply for ally plea');
+    dispatch(applyScreenAllyPlea(screenId));
+  };
+
   const reviewHandler = (e: any) => {
     e.preventDefault();
     if (comment && rating) {
@@ -140,7 +164,12 @@ export function ScreenDetail (props: any) {
               <Stack align="center" p="2" direction="row" justify="space-between">
                 <ArrowBackIcon onClick={() => props.history.goBack()}/>
                 <Text fontWeight="600">Screen Details</Text>
-                <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                <Flex>
+                  {/* {walletAddress === screen.master.master._id} */}
+                  <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                  <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                </Flex>
+                
               </Stack>
 
               {isLoading && <LoadingBox></LoadingBox>}
@@ -168,9 +197,9 @@ export function ScreenDetail (props: any) {
               ) : (
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card">
-                    <Flex>
+                    <Flex onClick={() => props.history.push(`/userProfile/${screen.master}`)}>
                       <Text fontSize="xs" fontWeight="600">Owned by : </Text>
-                      <Text px="5px" color="gray.500" fontSize="xs" fontWeight="600">{screen.master.master.name}</Text>
+                      <Text px="5px" color="gray.500" fontSize="xs" fontWeight="600">{screen.master}</Text>
                     </Flex>
                     <Flex>
                       <Text fontSize="xs" fontWeight="600">Location : </Text>

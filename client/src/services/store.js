@@ -8,9 +8,9 @@ import {
 
 import thunk from 'redux-thunk';
 
-// import { 
-//   bucketReducer, 
-// } from '../src/Reducers/bucketReducers';
+import { 
+  bucketReducer, 
+} from '../Reducers/bucketReducers';
 
 // import {
 //   channelCategoryListReducer,
@@ -55,13 +55,13 @@ import thunk from 'redux-thunk';
 //   itemViewReducer
 // } from '../src/Reducers/itemReducers';
 
-// import {
-//   masterRequestReducer,
-//   allyRequestReducer,
-//   brandRequestReducer,
-//   allPleasListReducer,
-//   pleaSummaryReducer
-// } from '../src/Reducers/pleaReducers'
+import {
+  masterRequestReducer,
+  allyRequestReducer,
+  brandRequestReducer,
+  allPleasListReducer,
+  pleaSummaryReducer
+} from '../Reducers/pleaReducers'
 
 import { 
   pinAddReducer, 
@@ -298,12 +298,12 @@ const reducer = combineReducers({
   // shopPinDetails: shopPinDetailsReducer,
 
 
-  // bucket: bucketReducer,
-  // masterRequest: masterRequestReducer,
-  // allyRequest: allyRequestReducer,
-  // brandRequest: brandRequestReducer,
-  // allPleasList: allPleasListReducer,
-  // pleaSummary: pleaSummaryReducer,
+  bucket: bucketReducer,
+  masterRequest: masterRequestReducer,
+  allyRequest: allyRequestReducer,
+  brandRequest: brandRequestReducer,
+  allPleasList: allPleasListReducer,
+  pleaSummary: pleaSummaryReducer,
   
   userSignin: userSigninReducer,
   userSignup: userSignupReducer,

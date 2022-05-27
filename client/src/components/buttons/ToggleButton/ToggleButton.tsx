@@ -24,8 +24,8 @@ export const ToggleButton = (props: ToggleButtonProps) => {
         borderColor="gray.200"
         _checked={{
           color: "white",
-          bg: "blue.500",
-          borderColor: "blue.500"
+          bg: "violet.900",
+          borderColor: "violet.900"
         }}
         {...checkboxProps}
         {...rest}

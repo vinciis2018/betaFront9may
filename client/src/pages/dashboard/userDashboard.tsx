@@ -80,7 +80,7 @@ export function UserDashboard(props: any) {
     }
 
     if (!user) {
-      dispatch(detailsUser(userInfo._id));
+      dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
     }
     dispatch(userScreensList({ master: masterMode ? userInfo._id : '', pageNumber }));
     dispatch(userVideosList(userInfo._id));

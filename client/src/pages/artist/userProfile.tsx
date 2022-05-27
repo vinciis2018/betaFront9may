@@ -84,7 +84,7 @@ export function UserProfile(props: any) {
       dispatch({
         type: USER_UPDATE_PROFILE_RESET
       });
-      dispatch(detailsUser(userInfo?._id));
+      dispatch(detailsUser({userId: userInfo?._id, walletAddress: props?.match?.params?.id}));
     } else {
       setName(user?.user?.name);
       setEmail(user?.user?.email);
@@ -377,7 +377,7 @@ export function UserProfile(props: any) {
                 <Stack>
                   {user?.user?.wallets?.map((wallet: any) => {
                     return (
-                    <Box onClick={() => props.history.push(`/wallet/${wallet}`)} p="2" key={wallet}shadow="card" rounded="ld">
+                    <Box onClick={() => props.history.push(`/wallet/${user.user?.defaultWallet}`)} p="2" key={wallet}shadow="card" rounded="ld">
                       <Text p="2" fontSize="xs">Wallet Address: {wallet}</Text>
                     </Box>
                     )
