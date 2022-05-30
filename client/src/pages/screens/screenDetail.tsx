@@ -332,7 +332,7 @@ export function ScreenDetail (props: any) {
                     </Stack>
                     <Stack align="center">
                       <Text fontSize="xs" fontWeight="600">Ally pleas pending on this screen: </Text>
-                      <Text fontSize="sm" fontWeight="600">{allPleas.filter((plea: any) => plea.screen === screen._id && plea.status === "false").length}</Text>
+                      <Text fontSize="sm" fontWeight="600">{allPleas.filter((plea: any) => (plea.status === false && plea.screen === screen._id)).length}</Text>
                     </Stack>
                   </SimpleGrid>
                 </Box>

@@ -30,7 +30,7 @@ export function Signin(props: any) {
 
   useEffect(() => {
     if (userInfo) {
-      props?.history?.push(redirect);
+      window?.location?.replace(redirect);
     }
   }, [props?.history, redirect, userInfo]);
 
