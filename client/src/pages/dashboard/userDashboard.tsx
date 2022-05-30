@@ -110,15 +110,15 @@ export function UserDashboard(props: any) {
                 <Text px="2" fontWeight="" fontSize="xs" color="gray.500">User ID: {userInfo._id}</Text>
                 <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text>
                 <SimpleGrid gap="2" columns={[3]} p="2">
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/screens`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Screens</Text>
                     <Text p="2" fontWeight="600" fontSize="lg">{user?.user?.screens?.length}</Text>
                   </Box>
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/adverts`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Campaigns</Text>
                     <Text p="2" fontWeight="600" fontSize="lg">{user?.user?.videos?.length}</Text>
                   </Box>
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/pleaBucket`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Pleas</Text>
                     <Text p="2" fontWeight="600" fontSize="lg">{user?.user?.pleasMade?.length}</Text>
                   </Box>

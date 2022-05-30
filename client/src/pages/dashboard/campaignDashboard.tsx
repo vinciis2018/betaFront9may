@@ -93,15 +93,15 @@ export function CampaignDashboard(props: any) {
                 <SimpleGrid gap="4" columns={[3]} p="2">
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Frequency</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">**</Text>
                   </Box>
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">View</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">**</Text>
                   </Box>
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Interaction</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">**</Text>
                   </Box>
                 </SimpleGrid>
               </Box>

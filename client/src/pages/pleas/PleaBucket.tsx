@@ -99,7 +99,7 @@ export function PleaBucket (props: any) {
                   ) : (
                     <Flex p="2" justify="space-between" align="center">
                       {users.filter((user: any) => user.defaultWallet === plea.to).map((user: any) => (
-                        <Text fontSize="">To: {user.name}</Text>
+                        <Text fontWeight="600" onClick={() => props.history.push(`/artist/${user.defaultWallet}`)} fontSize="">To: {user.name}</Text>
                       ))}
                       {plea.reject && <Text fontSize="sm" color="red">Access Revoked</Text>}
                     </Flex>
@@ -126,12 +126,13 @@ export function PleaBucket (props: any) {
                 ) : (
                   <Flex p="2" justify="space-between" align="center">
                     {users.filter((user: any) => user.defaultWallet === plea.from).map((user: any) => (
-                      <Text fontSize="">From: {user.name}</Text>
+                      <Text fontWeight="600" onClick={() => props.history.push(`/artist/${user.defaultWallet}`)} fontSize="">From: {user.name}</Text>
                     ))}
-                    {!plea.status && <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="20%" fontSize="" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
-                    {plea.status && <Button variant="outline" width="20%" fontSize="" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
+                    {!plea.status && <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="20%" fontSize="xs" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
+                    {plea.status && <Button variant="outline" color="violet.500" width="20%" fontSize="xs" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
                   </Flex>
                 )}
+                < hr />
                 <Text px="1" fontSize="sm">{plea.content}</Text>
                 <Text px="1" fontSize="sm">Type: {plea.pleaType}</Text>
                 <Text px="1" fontSize="sm">Screen: {plea.screen} </Text>

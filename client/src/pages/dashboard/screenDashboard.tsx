@@ -12,6 +12,7 @@ import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
 import { detailsScreen, getScreenParams, screenVideosList } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
+import {listAllPleas} from '../../Actions/pleaActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
 
 import { useNftData, useNft } from 'api/hooks/useNft';
@@ -67,6 +68,14 @@ export function ScreenDashboard(props: any) {
     params  
   } = screenParams;
 
+  const allPleasList = useSelector((state: any) => state.allPleasList);
+  const { 
+    allPleas, 
+    loading: loadingAllPleas, 
+    error: errorAllPleas 
+  } = allPleasList;
+
+
   const [txId, setTxId] = React.useState<any>("")
   const {data: nft, isLoading, isError} = useNft({id: txId});
   // const {data: nftData } = useNftData({id: txId});
@@ -91,6 +100,7 @@ export function ScreenDashboard(props: any) {
     dispatch(getScreenCalender(screenId));
     dispatch(getScreenGameDetails(screenId));
     dispatch(getScreenParams(screenId));
+    dispatch(listAllPleas())
 
   }, [
     dispatch,
@@ -119,22 +129,28 @@ export function ScreenDashboard(props: any) {
                 <IconButton bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
               </Stack>
               <Box p="2" shadow="card" rounded="lg">
-                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} p="2"fontWeight="600" fontSize="md">{screen.master.master.name}</Text>
-                <Text px="2" fontWeight="600" fontSize="sm" color="gray.500">{screen.name}</Text>
+                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} p="2"fontWeight="600" fontSize="md">{screen?.master?.master?.name}</Text>
+                <Text px="2" fontWeight="600" fontSize="sm" color="gray.500">{screen?.name}</Text>
                 <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Screen ID: {screen._id}</Text>
                 {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
                 <SimpleGrid gap="4" columns={[3]} p="2">
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/screen/${screen._id}`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Playlist</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">3</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">{screen?.videos?.length}</Text>
                   </Box>
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/pleaBucket`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Allies</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">5</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">{screen?.allies?.length}</Text>
                   </Box>
-                  <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/pleaBucket`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Pleas</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">2</Text>
+                    {loadingAllPleas ? (
+                      <LoadingBox></LoadingBox>
+                    ) : errorAllPleas ? (
+                      <MessageBox variant="danger">{errorAllPleas}</MessageBox>
+                    ) : (
+                      <Text p="2" fontWeight="600" fontSize="lg">{allPleas.filter((plea: any) => plea.screen === screen._id).length}</Text>
+                    )}
                   </Box>
                 </SimpleGrid>
               </Box>

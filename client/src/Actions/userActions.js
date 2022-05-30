@@ -137,7 +137,7 @@ export const detailsUser = ({userId, walletAddress}) => async (dispatch, getStat
   const { userSignin: { userInfo } } = getState();
 
   try {
-    const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userId}/${walletAddress}`, {
+    const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userInfo._id}/${walletAddress}`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({

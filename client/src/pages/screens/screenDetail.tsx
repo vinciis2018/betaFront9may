@@ -11,6 +11,7 @@ import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
 import { detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
+import { listAllPleas } from '../../Actions/pleaActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
 import { SCREEN_REVIEW_CREATE_RESET } from '../../Constants/screenConstants';
 
@@ -120,7 +121,7 @@ export function ScreenDetail (props: any) {
     dispatch(getScreenCalender(screenId));
     dispatch(getScreenGameDetails(screenId));
     dispatch(getScreenParams(screenId));
-
+    dispatch(listAllPleas())
   }, [
     dispatch,
     screen,
@@ -173,7 +174,23 @@ export function ScreenDetail (props: any) {
                       {screen.allies.filter((ally: any) => ally === userInfo.defaultWallet).length !== 0 ? (
                         <IconButton  as={RouterLink} to={`/createCampaign/${screen._id}`} bg="none" icon={<AiOutlineVideoCameraAdd size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                       ) : (
-                        <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                        <Flex align="center">
+                          {loadingAllPleas ? (
+                            <LoadingBox></LoadingBox>
+                          ) : errorAllPleas ? (
+                            <MessageBox variant="danger">{errorAllPleas}</MessageBox>
+                          ) : (
+                            <>
+                              {allPleas.filter((plea: any) => plea.from === userInfo.defaultWallet && plea.screen === screen._id).length !== 0 ? (
+                                <Text fontWeight="600" fontSize="xs">
+                                  {screen.allies.length}
+                                </Text>
+                              ) : (
+                                <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                              )}
+                            </>
+                          )}
+                        </Flex>
                       )}
                     </>
                   )}
@@ -302,6 +319,25 @@ export function ScreenDetail (props: any) {
                 <Text fontSize="sm">Number of Independent Advertisers : {screen.allies.length}</Text>
               </Box>
               <hr />
+              {loadingAllPleas ? (
+                <LoadingBox></LoadingBox>
+              ) : errorAllPleas ? (
+                <MessageBox variant="danger">{errorAllPleas}</MessageBox>
+              ) : (
+                <Box p="2" rounder="lg" shadow="card">
+                  <SimpleGrid gap="4" columns={[2]}>
+                    <Stack align="center">
+                      <Text fontSize="xs" fontWeight="600">Number of Allies on this screen:</Text> 
+                      <Text fontSize="sm" fontWeight="600">{screen.allies.length}</Text>
+                    </Stack>
+                    <Stack align="center">
+                      <Text fontSize="xs" fontWeight="600">Ally pleas pending on this screen: </Text>
+                      <Text fontSize="sm" fontWeight="600">{allPleas.filter((plea: any) => plea.screen === screen._id && plea.status === "false").length}</Text>
+                    </Stack>
+                  </SimpleGrid>
+                </Box>
+              )}
+                
               {loadingScreenVideos ? (
                 <LoadingBox></LoadingBox>
               ) : errorScreenVideos ? (
