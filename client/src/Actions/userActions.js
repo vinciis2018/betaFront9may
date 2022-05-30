@@ -373,14 +373,13 @@ export const userAssetsList = (userId) => async (dispatch, getState) => {
 
 
 // get user screen list
-export const userScreensList = (userId) => async (dispatch, getState) => {
+export const userScreensList = (user) => async (dispatch, getState) => {
   console.log("trying user screens list");
   try {
-    dispatch({ type: USER_SCREENS_REQUEST, payload: userId });
+    dispatch({ type: USER_SCREENS_REQUEST, payload: user });
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
-      console.log({userId});
-      const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userId}/myScreens`, {
+      const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${user._id}/${user.defaultWallet}/myScreens`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });
@@ -399,14 +398,14 @@ export const userScreensList = (userId) => async (dispatch, getState) => {
 
 
 // get user videolist
-export const userVideosList = (userId) => async (dispatch, getState) => {
+export const userVideosList = (user) => async (dispatch, getState) => {
   console.log("trying user video list");
   try {
-    dispatch({ type: USER_VIDEOS_REQUEST, payload: userId });
+    dispatch({ type: USER_VIDEOS_REQUEST, payload: user });
     const { userSignin: { userInfo } } = getState();
     if (userInfo) {
-      console.log({userId});
-      const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${userId}/myVideos`, {
+      console.log(user)
+      const { data } = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/users/${user._id}/${user.defaultWallet}/myVideos`, {
         headers:
           { Authorization: 'Bearer ' + userInfo.token }
       });

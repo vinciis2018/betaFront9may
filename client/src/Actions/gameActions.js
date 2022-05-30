@@ -244,7 +244,7 @@ export const createAdvertGame = (videoId, gameData) => async (dispatch, getState
   try {
     
     console.log("starting now")
-  
+
     const gameParams = {
       expectedViews : gameData.expectedViews,
       initialBudget : gameData.adBudget,

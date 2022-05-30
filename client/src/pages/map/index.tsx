@@ -12,10 +12,7 @@ import {BsSliders} from "react-icons/bs";
 export function MapBox(props: any) {
 
   const userSignin = useSelector((state: any) => state.userSignin);
-  const { 
-    loading: loadingUser,
-    error: errorUser,
-     userInfo 
+  const { userInfo 
   } = userSignin;
 
   const jsonPins = useSelector((state: any) => state.jsonPins);
@@ -37,26 +34,20 @@ export function MapBox(props: any) {
 
   return (
     <Box px="2" pt="20">
-      {loadingUser ? (
-        <LoadingBox></LoadingBox>
-      ) : errorUser ? (
-        <MessageBox message={errorUser}></MessageBox>
-      ) : (
-          <Box maxW="container.lg" mx="auto" pb="8">
-            <Stack align="center" p="2" direction="row" justify="space-between">
-              <ArrowBackIcon onClick={() => props.history.goBack()}/>
-              <Input rounded="2xl" variant='outline' placeholder="Search by Location" fontWeight="600"/>
-              <BsSliders color="violet.500" />
-            </Stack>
-            {loadingAllPins && <LoadingBox></LoadingBox>} 
-            {errorAllPins && <MessageBox message={errorAllPins}></MessageBox>} 
-            {jsonData !== undefined && (
-              <Box p="1" rounded="md" width="100%" height="100%">
-                <Map mapProps={jsonData}/>
-              </Box>
-            )}
-        </Box>
-      )}
+        <Box maxW="container.lg" mx="auto" pb="8">
+          <Stack align="center" p="2" direction="row" justify="space-between">
+            <ArrowBackIcon onClick={() => props.history.goBack()}/>
+            <Input rounded="2xl" variant='outline' placeholder="Search by Location" fontWeight="600"/>
+            <BsSliders color="violet.500" />
+          </Stack>
+          {loadingAllPins && <LoadingBox></LoadingBox>} 
+          {errorAllPins && <MessageBox message={errorAllPins}></MessageBox>} 
+          {jsonData !== undefined && (
+            <Box p="1" rounded="md" width="100%" height="100%">
+              <Map mapProps={jsonData}/>
+            </Box>
+          )}
+      </Box>
     </Box>
     );
 }

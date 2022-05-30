@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { motion } from "framer-motion";
 
 import { Box, SimpleGrid, Flex, Stack, Input, Center, IconButton, ButtonGroup, Button } from "@chakra-ui/react";
 import { LoadingBox, MessageBox } from 'components/helpers';
@@ -15,6 +16,7 @@ import { Advert } from "components/common";
 
 export function Adverts (props: any) {
   
+  const MotionFlex = motion(Flex);
   const masterMode = props.match.path.indexOf('/master') >= 0;
 
   const [myVideosVisible, setMyVideosVisible] = React.useState<boolean>(false);
@@ -44,8 +46,10 @@ export function Adverts (props: any) {
   const dispatch = useDispatch();
   
   React.useEffect(() => {
+    if(userInfo) {
+      dispatch(userVideosList(userInfo));
+    }
     dispatch(listAllVideos());
-    dispatch(userVideosList(userInfo._id || ''));
   }, [
     dispatch,
     userInfo
@@ -114,7 +118,20 @@ export function Adverts (props: any) {
                   <SimpleGrid p="1" gap="4" columns={[2,]}>
                     {allVideos.length === 0 && <MessageBox>No Screen Found</MessageBox>}
                     {allVideos.map((video: any) => (
-                      <Advert key={video._id} video={video} />
+                      <MotionFlex
+                        flexDir="column"
+                        w="100%"
+                        role="group"
+                        rounded="md"
+                        shadow="card"
+                        whileHover={{
+                          translateY: -3
+                        }}
+                        pos="relative"
+                        zIndex="1"
+                      >
+                        <Advert key={video._id} video={video} />
+                      </MotionFlex>
                     ))}
                   </SimpleGrid>
                 )}
@@ -130,7 +147,20 @@ export function Adverts (props: any) {
                   <SimpleGrid p="1" gap="4" columns={[2,]}>
                     {myVideos.length === 0 && <MessageBox>No Screen Found</MessageBox>}
                     {myVideos.map((video: any) => (
-                      <Advert key={video._id} video={video} />
+                      <MotionFlex
+                        flexDir="column"
+                        w="100%"
+                        role="group"
+                        rounded="md"
+                        shadow="card"
+                        whileHover={{
+                          translateY: -3
+                        }}
+                        pos="relative"
+                        zIndex="1"
+                      >
+                        <Advert key={video._id} video={video} />
+                      </MotionFlex>
                     ))}
                   </SimpleGrid>
                 )}

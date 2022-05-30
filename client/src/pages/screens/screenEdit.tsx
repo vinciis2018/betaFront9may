@@ -22,6 +22,7 @@ import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
 import { arweaveWalletConnect } from 'api/arweaveWallet';
+import { getMyNfts } from 'api/hooks/useArtist';
 
 
 export function ScreenEdit (props: any) {
@@ -30,6 +31,7 @@ export function ScreenEdit (props: any) {
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
   } = useFinnie();
+
 
   const { data: artist, 
     isLoading: isLoadingArtist, 
@@ -122,11 +124,14 @@ export function ScreenEdit (props: any) {
     success: successScreenGameRemove
   } = screenGameRemove
 
+
   const dispatch = useDispatch();
   React.useEffect(() => {
 
     if(!isFinnieConnected) {
       connectFinnie();
+      getMyNfts(userInfo.defaultWallet);
+
     } 
 
     if (!screen || screen._id !== screenId || successUpdate) {
@@ -230,7 +235,7 @@ export function ScreenEdit (props: any) {
   const removeGameContract = (e: any) => {
     e.preventDefault();
     dispatch(removeScreenGame(screenId, {
-      
+
     }))
   }
 
@@ -307,9 +312,9 @@ export function ScreenEdit (props: any) {
               <Text p="1" fontWeight="600" fontSize="xs">Change Screen Image</Text>
               <Image 
                 height="200px"
-                // shadow="card"
+                width="100%"
                 rounded="xl"
-                src={screen.image}
+                src={image}
                 onLoad={() =>  triggerPort(screen?.image.split("/").slice(-1)[0])}
               />
             </Box>

@@ -86,22 +86,22 @@ export function CampaignDashboard(props: any) {
                 <IconButton bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
               </Stack>
               <Box p="2" shadow="card" rounded="lg">
-                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} p="2"fontWeight="600" fontSize="md">{video?.uploaderName}</Text>
-                <Text px="2" fontWeight="600" fontSize="sm" color="gray.500">{video?.title}</Text>
+                <Text p="2"fontWeight="600" fontSize="md">{video?.title}</Text>
+                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} px="2" fontWeight="600" fontSize="sm" color="gray.500">{userInfo?.name}</Text>
                 <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Video ID: {video._id}</Text>
                 {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
                 <SimpleGrid gap="4" columns={[3]} p="2">
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
-                    <Text fontWeight="" fontSize="xs">Playlist</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">3</Text>
+                    <Text fontWeight="" fontSize="xs">Frequency</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
                   </Box>
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
-                    <Text fontWeight="" fontSize="xs">Allies</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">5</Text>
+                    <Text fontWeight="" fontSize="xs">View</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
                   </Box>
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
-                    <Text fontWeight="" fontSize="xs">Pleas</Text>
-                    <Text p="2" fontWeight="600" fontSize="lg">2</Text>
+                    <Text fontWeight="" fontSize="xs">Interaction</Text>
+                    <Text p="2" fontWeight="600" fontSize="lg">Graph</Text>
                   </Box>
                 </SimpleGrid>
               </Box>

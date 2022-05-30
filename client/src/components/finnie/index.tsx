@@ -5,6 +5,7 @@ import { connectToExtension, disconnectExtension, initExtension } from "api/finn
 // utils
 import { toast } from "services/utils";
 import { arweaveWalletConnect } from "api/arweaveWallet";
+import {USER_SIGNOUT} from "../../Constants/userConstants"
 
 //blinds
 // import { getMyTxns } from "api/vertoProtocol";
@@ -130,12 +131,15 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     }
     return address;
   };
+
+
   const disconnectFinnie = async () => {
     // Check if extension exists and get permissions.
+
     await disconnectExtension();
     await window?.arweaveWallet?.disconnect();
     localStorage.removeItem('portWallet')
-    console.log("wallet disconnected")
+
     dispatch({
       type: "CHANGE_VALUE",
       payload: {
@@ -146,6 +150,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         isFinnieConnected: false
       }
     });
+
   };
 
   return <Context.Provider value={{ state: { ...state, connectFinnie, disconnectFinnie }, dispatch }}>{children}</Context.Provider>;

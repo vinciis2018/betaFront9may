@@ -15,7 +15,7 @@ import { IoRemoveCircle } from "react-icons/io5";
 import { ArweaveIcon, KoiiIcon, RatIcon } from "components/icons";
 import { RiGlobeLine, RiWallet3Line, RiSearch2Line, RiUserSmileLine, RiAdvertisementLine, RiLogoutBoxRLine } from "react-icons/ri";
 import { AiOutlineFundProjectionScreen, AiOutlineSetting } from "react-icons/ai";
-
+import { CgNotifications } from 'react-icons/cg';
 // assets
 import Logo from "assets/logo.png";
 import Name from "assets/name.png";
@@ -50,12 +50,19 @@ export function Nav() {
   } = userSignin;
 
   React.useEffect(() => {
+    if(userInfo) {
+      connectFinnie();
+    } else {
+      disconnectFinnie();
+    }
+
   },[
     dispatch,
     userInfo
   ]);
 
   const signoutHandler = () => {
+    // disconnectFinnie();
     dispatch(signout());
   }
 
@@ -99,6 +106,9 @@ export function Nav() {
                       </MenuItem>
                       <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
                         Adverts                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
+                        Notifications                    
                       </MenuItem>
                       <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
                         Profile                    
@@ -195,6 +205,9 @@ export function Nav() {
                       </MenuItem>
                       <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
                         Adverts                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
+                        Notifications                    
                       </MenuItem>
                       <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
                         Profile                    

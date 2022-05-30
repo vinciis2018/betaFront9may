@@ -82,15 +82,15 @@ export function Footer() {
               Copyright @ VINCIIS CREATIONS PRIVATE LIMITED, 2022. All rights reserved.
             </Text>
             <HStack width="auto" maxW="container.md" justify="space-between" align="center">
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaFacebookSquare size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton><span />
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaInstagramSquare size="20px" color="black" />} aria-label="Vinciis Instagram"></IconButton><span />
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaDiscord size="20px" color="black" />} aria-label="Vinciis Discord"></IconButton><span />
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaTwitter size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://www.facebook.com/vinciisadtech`)} bg="none" icon={<FaFacebookSquare size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://www.instagram.com/vinciis_itself`)} bg="none" icon={<FaInstagramSquare size="20px" color="black" />} aria-label="Vinciis Instagram"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://discord.gg/rxNUvBh5`)} bg="none" icon={<FaDiscord size="20px" color="black" />} aria-label="Vinciis Discord"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://twitter.com/vinciis_`)} bg="none" icon={<FaTwitter size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton><span />
               <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaTelegram size="20px" color="black" />} aria-label="Vinciis Telegram"></IconButton><span />
               <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaMedium size="20px" color="black" />} aria-label="Vinciis Medium"></IconButton><span />
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaLinkedin size="20px" color="black" />} aria-label="Vinciis Linkedin"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://www.linkedin.com/company/vinciis`)} bg="none" icon={<FaLinkedin size="20px" color="black" />} aria-label="Vinciis Linkedin"></IconButton><span />
               <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaWhatsapp size="20px" color="black" />} aria-label="Vinciis Whatsapp"></IconButton><span />
-              <IconButton as={RouterLink} to={`/#`} bg="none" icon={<FaYoutube size="20px" color="black" />} aria-label="Vinciis Youtube"></IconButton><span />
+              <IconButton onClick={() => window.location.replace(`https://www.youtube.com/channel/UCn0ycOFFkT5T9w8fSVwsHOg/featured`)} bg="none" icon={<FaYoutube size="20px" color="black" />} aria-label="Vinciis Youtube"></IconButton><span />
             </HStack>
           </Stack>
         </Stack>

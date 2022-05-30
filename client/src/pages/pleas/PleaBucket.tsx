@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, FormControl, Input, Heading, Image, Link, Flex, Stack, HStack, SimpleGrid, VStack, Text, Button, FormLabel, Select } from "@chakra-ui/react";
+import { Box, IconButton, Input, Heading, Image, Link, Flex, Stack, HStack, SimpleGrid, VStack, Text, Button, FormLabel, Select } from "@chakra-ui/react";
+import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 
 import { listAllPleas } from '../../Actions/pleaActions';
 import { listUsers } from '../../Actions/userActions';
@@ -63,7 +65,9 @@ export function PleaBucket (props: any) {
   }
   
   return (
-    <Flex p="10px">
+    <Box px="2" pt="20">
+      <Box maxW="container.lg" mx="auto" pb="8">
+
       {loadingScreenAllyPleaGrant && <LoadingBox></LoadingBox>}
       {errorScreenAllyPleaGrant && <MessageBox variant="danger">{errorScreenAllyPleaGrant}</MessageBox>}
       {loadingScreenAllyPleaReject && <LoadingBox></LoadingBox>}
@@ -73,94 +77,75 @@ export function PleaBucket (props: any) {
       ) : errorAllPleas ? (
         <MessageBox variant="danger">{errorAllPleas}</MessageBox>
       ) : (
-        <Stack width="100%" p="10px">
+        <Stack p="2">
+          <Stack align="center" p="2" direction="row" justify="space-between">
+            <ArrowBackIcon onClick={() => props.history.goBack()}/>
+            <Text fontWeight="600">Notifications</Text>
+            <Flex>
+              {/* <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton> */}
+            </Flex>
+            
+          </Stack>
           {userInfo && (
-            <Box>
-              <Heading align="center" fontSize="100%">Pleas I made</Heading>
-              <hr/>
-              {allPleas.filter((plea: any) => plea.from === userInfo._id).map((plea: any) =>  (
-                <Box shadow="card" p="10px" justify="space-between" px="5px"  key={plea._id}>
+            <Box p="2">
+              <Text p="2" fontWeight="600" fontSize="">Pleas I made</Text>
+              <hr />
+              {allPleas.filter((plea: any) => plea.from === userInfo.defaultWallet).map((plea: any) =>  (
+                <Box shadow="card" p="2" justify="space-between" key={plea._id} rounded="lg">
                   {loadingUsers ? (
                     <LoadingBox></LoadingBox>
                   ) : errorUsers ? (
                     <MessageBox variant="danger">{errorUsers}</MessageBox>
                   ) : (
-                    <Flex>
-                      {users.filter((user: any) => user._id === plea.to).map((user: any) => (
-                        <Heading fontSize="70%">To: {user.name}</Heading>
+                    <Flex p="2" justify="space-between" align="center">
+                      {users.filter((user: any) => user.defaultWallet === plea.to).map((user: any) => (
+                        <Text fontSize="">To: {user.name}</Text>
                       ))}
-                      {plea.reject && <Heading fontSize="70%" color="red">Access Revoked</Heading>}
+                      {plea.reject && <Text fontSize="sm" color="red">Access Revoked</Text>}
                     </Flex>
                   )}
-                  <Text fontSize="70%">{plea.content}</Text>
-                  <Text fontSize="70%">Type: {plea.pleaType}</Text>
-                  <Text fontSize="70%">Screen: {plea.screen} </Text>
-                  <Stack color={plea.status ? "green" : "red"}>Status: {plea.status ? (<Heading>Granted</Heading>) : (<Heading>In Process</Heading>)}</Stack>
+                  <hr />
+                  <Text px="1" fontSize="sm">{plea.content}</Text>
+                  <Text px="1" fontSize="sm">Type: {plea.pleaType}</Text>
+                  <Text px="1" fontSize="sm">Screen: {plea.screen} </Text>
+                  <Stack p="2" color={plea.status ? "green" : "red"}>Status: {plea.status ? (<Text fontWeight="600" fontSize="xs">Granted</Text>) : (<Text fontWeight="600" fontSize="xs">In Process</Text>)}</Stack>
                 </Box>
               ))}
             </Box>
          )}
          {userInfo.isMaster && (
-           <Box>
-            <Heading align="center" fontSize="100%">Pleas I recieved</Heading>
+           <Box p="2">
+            <Text p="2" fontWeight="600" fontSize="">Pleas I recieved</Text>
             <hr/>
-             {allPleas.filter((plea: any) => plea.to === userInfo._id).map((plea: any) => (
-              <Box shadow="card" p="10px" justify="space-between" px="5px" key={plea._id}>
+             {allPleas.filter((plea: any) => plea.to === userInfo.defaultWallet).map((plea: any) => (
+              <Box shadow="card" p="2" justify="space-between" key={plea._id}>
                 {loadingUsers ? (
                   <LoadingBox></LoadingBox>
                 ) : errorUsers ? (
                   <MessageBox variant="danger">{errorUsers}</MessageBox>
                 ) : (
-                  <Flex p="5px" justify="space-between">
-                    {users.filter((user: any) => user._id === plea.from).map((user: any) => (
-                      <Heading fontSize="70%">From: {user.name}</Heading>
+                  <Flex p="2" justify="space-between" align="center">
+                    {users.filter((user: any) => user.defaultWallet === plea.from).map((user: any) => (
+                      <Text fontSize="">From: {user.name}</Text>
                     ))}
-                    {!plea.status && <Button width="20%" fontSize="50%" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
-                    {plea.status && <Button width="20%" fontSize="50%" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
+                    {!plea.status && <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="20%" fontSize="" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
+                    {plea.status && <Button variant="outline" width="20%" fontSize="" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
                   </Flex>
                 )}
-                <Text fontSize="70%">{plea.content}</Text>
-                <Text fontSize="70%">Type: {plea.pleaType}</Text>
-                <Text fontSize="70%">Screen: {plea.screen} </Text>
-                <Stack color={plea.status ? "green" : "red"}>Status: {plea.status ? (<Heading fontSize="70%">Granted</Heading>) : (<Heading fontSize="70%">In Process</Heading>)}</Stack>
+                <Text px="1" fontSize="sm">{plea.content}</Text>
+                <Text px="1" fontSize="sm">Type: {plea.pleaType}</Text>
+                <Text px="1" fontSize="sm">Screen: {plea.screen} </Text>
+                <Stack p="2" color={plea.status ? "green" : "red"}>Status: {plea.status ? (<Text fontWeight="600" fontSize="xs">Granted</Text>) : (<Text fontWeight="600" fontSize="xs">In Process</Text>)}</Stack>
               </Box>
              ))}
            </Box>
          )}
-         <hr />
-         {userInfo.isItanimulli && (
-            <Box>
-              <Heading align="center" fontSize="100%">All Requests</Heading>
-              <hr/>
-              {allPleas.map((plea: any) => (
-                <Box shadow="card" p="10px" justify="space-between" px="5px" key={plea._id}>
-                    {loadingUsers ? (
-                      <LoadingBox></LoadingBox>
-                    ) : errorUsers ? (
-                      <MessageBox variant="danger">{errorUsers}</MessageBox>
-                    ) : (
-                      <Flex p="5px" justify="space-between">
-                        {users.filter((user: any) => user._id === plea.from).map((user: any) => (
-                          <Heading fontSize="70%">From: {user.name}</Heading>
-                        ))}
-                        {users.filter((user: any) => user._id === plea.to).map((user: any) => (
-                          <Heading fontSize="70%">To: {user.name}</Heading>
-                        ))}
-                      </Flex>
-                    )}
-                    <Text fontSize="70%">{plea.content}</Text>
-                    <Text fontSize="70%">Type: {plea.pleaType}</Text>
-                    <Text fontSize="70%">Screen: {plea.screen} </Text>
-                    <Stack color={plea.status ? "green" : "red"}>Status: {plea.status ? (<Heading fontSize="70%">Granted</Heading>) : (<Heading fontSize="70%">In Process</Heading>)}</Stack>
-                </Box>
-              ))}
-            </Box>
-          )}
          {!userInfo && (
            <Text fontSize="">PleaseSignin</Text>
          )}
         </Stack>
       )}
-    </Flex>
+      </Box>
+    </Box>
   );
 }

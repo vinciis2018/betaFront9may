@@ -6,6 +6,7 @@ import { Box, Image, Center, IconButton, Text, Stack, FormControl, FormLabel, Li
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiBookmark, BiChevronRight, BiFlag} from 'react-icons/bi';
 import {AiOutlineArrowUp,AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import { RiDashboard2Line } from 'react-icons/ri';
 
 import { signout } from '../../Actions/userActions';
 import { detailsScreen } from '../../Actions/screenActions';
@@ -155,7 +156,11 @@ export function AdvertDetail (props: any) {
               <Stack p="2" direction="row" justify="space-between">
                 <ArrowBackIcon onClick={() => props.history.goBack()}/>
                 <Text fontWeight="600">Campaign Details</Text>
-                <IconButton as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/edit/${video?.screen}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+                {video.uploader === userInfo.defaultWallet ? (
+                  <IconButton as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/edit/${video?.screen}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+                ) : (
+                  <IconButton bg="none" icon={<RiDashboard2Line size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+                )}
               </Stack>
               <Stack px="2">
                 <Flex py="2" align="center">
@@ -164,9 +169,9 @@ export function AdvertDetail (props: any) {
                     width="100px"
                     rounded="md"
                   />
-                  <Box px="2">
-                    <Text fontWeight="600">{video?.title}</Text>
-                    <Text fontSize="xs" color="gray.500">Category: {video?.category}</Text>
+                  <Box p="4">
+                    <Text fontSize="md" fontWeight="600">{video?.title}</Text>
+                    <Text fontSize="xs" color="gray.500">Created by: {video?.uploaderName}</Text>
                   </Box>
                 </Flex>
                 {isLoading ? (
@@ -207,43 +212,33 @@ export function AdvertDetail (props: any) {
                     ) : (
                       <Box p="4" shadow="card" rounded="lg">
                         <Stack p="2" justify="space-between">
-                          <Text  fontSize="xs" >Campaign's running on screen</Text>
+                          <Text  fontSize="xs" >Running on screen</Text>
                           <Text fontSize="md" fontWeight="600">{screen.name}</Text>
                         </Stack>
                         <hr />
                         <Stack p="2" justify="space-between">
-                          <Text fontSize="xs" >Campaign started on</Text>
-                          <Text fontSize="sm" fontWeight="600">{video.category} Screen</Text>
+                          <Text fontSize="xs" fontWeight="600">{video.brandName} Brand</Text>
+                          <Text fontSize="xs" fontWeight="600">{video.category} Category</Text>
                         </Stack>
                         <hr />
                         <Stack p="2" direction="row" justify="space-between">
-                          <Text fontSize="xs">Campaign's End Time</Text>
-                          <Stack direction="row" justify="space-between" align="center">
-                            <Text fontSize="xs" fontWeight="600">end time here</Text>
-                            <BiChevronRight />
-                          </Stack>
-                        </Stack>
-                        <hr />
-                        <Stack py="10px" direction="row" justify="space-between">
-                          <Text fontSize="xs">No. of Slots</Text>
-                          <Stack direction="row" justify="space-between" align="center">
-                            <Text fontSize="xs" fontWeight="600">Number here</Text>
-                            <BiChevronRight />
-                          </Stack>
+                          <Text fontSize="xs" fontWeight="600">Total Earnings to be made: {video?.adBudget} Ad Credits</Text>
                         </Stack>
                         <hr />
                       </Box>
                     )}
                   </SimpleGrid>  
                 )}
-                <SimpleGrid p="2" gap="4" columns={[2]}>
-                  <Button color="violet.500" variant="outline" fontSize="xs" size="sm">
-                    Change Status
-                  </Button>
-                  <Button onClick={() => props.history.push(`/dashboard/campaign/${video._id}/${video?.video.split('/').slice(-1)[0]}`)} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" fontSize="xs" size="sm">
-                    View 
-                  </Button>
-                </SimpleGrid>
+                {video.uploader === userInfo.defaultWallet && (
+                  <SimpleGrid p="2" gap="4" columns={[1, 2]}>
+                    <Button onClick={() => props.history.push(`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/edit/${video?.screen}`)} color="violet.500" variant="outline" fontSize="xs" size="sm">
+                      Change Status
+                    </Button>
+                    <Button onClick={() => props.history.push(`/dashboard/campaign/${video._id}/${video?.video.split('/').slice(-1)[0]}`)} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" fontSize="xs" size="sm">
+                      View Campaign
+                    </Button>
+                  </SimpleGrid>
+                )}
               </Stack>
               <Stack>
                 <SimpleGrid p="2" gap="4" columns={[1, 2]}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { motion } from "framer-motion";
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
@@ -16,7 +17,12 @@ import { RiGlobeLine, RiWallet3Line, RiSearch2Line, RiUserSmileLine, RiAdvertise
 import { TopNftsContent } from 'components/widgets';
 import { TimeFilter } from 'components/filters';
 
+import { Advert, Screen } from "components/common";
+
+
 export function Home(props: any) {
+
+  const MotionFlex = motion(Flex);
 
   const [screensModal, setScreensModal] = React.useState(false);
   const [campaignsModal, setCampaignsModal] = React.useState(true);
@@ -69,13 +75,13 @@ export function Home(props: any) {
       <Box maxW="container.lg" mx="auto" pb="8">
         {/* <DragAndDropUploader /> */}
         {/* Leaderboard */}
-        <Stack  p="2" color="">
+        <Stack  p="1" color="">
           {loadingScreens ? (
             <LoadingBox></LoadingBox>
           ) : errorScreens ? (
             <MessageBox variant="danger">{errorScreens}</MessageBox>
           ) : (
-            <Center >
+            <Center width="100%">
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
@@ -138,40 +144,20 @@ export function Home(props: any) {
                 ) : (
                   <SimpleGrid gap="4" columns={[1, 2]} px="1">
                     {screens?.map((screen: any) => (
-                      <Box key={screen?._id} as={RouterLink} to={`/screen/${screen?._id}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
-                        <Image 
-                          height="200px"
-                          rounded="md"
-                          src={screen?.image}
-                          onLoad={() =>  triggerPort(screen?.image?.split("/")?.slice(-1)[0])}
-                        />
-                        <Flex p="4" align="top" justify="space-between">
-                          <Stack>
-                            <Text fontWeight="600">{screen?.name}</Text>
-                            <Text color="gray.500">({screen?.category})</Text>
-                          </Stack>
-                          <InfoIcon color="green.500" />
-                        </Flex>
-                      
-                        <Flex p="4" align="center" justify="space-between">
-                          <Box>
-                            <Text fontWeight="600" fontSize="xs">{screen?.description}</Text>
-                            <Text color="gray.500" fontSize="sm">{screen?.description}</Text>
-                          </Box>
-                          <Box>
-                            <Text fontWeight="600" fontSize="xs">{screen?.sloTimePeriod}</Text>
-                            <Text color="gray.500" fontSize="xs">{screen?.rentPerSlot}</Text>
-                          </Box>
-                        </Flex>
-                        <SimpleGrid gap="2" columns={[2]} p="4" align="center" justify="space-between">
-                          <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="sm" fontSize="xs" type="submit">
-                            View Status
-                          </Button>
-                          <Button size="sm" fontSize="xs" color="violet.500" variant="outline" type="submit">
-                            Change Status
-                          </Button>
-                        </SimpleGrid>
-                      </Box>
+                      <MotionFlex
+                        flexDir="column"
+                        w="100%"
+                        role="group"
+                        rounded="md"
+                        shadow="card"
+                        whileHover={{
+                          translateY: -3
+                        }}
+                        pos="relative"
+                        zIndex="1"
+                      >
+                        <Screen key={screen._id} screen={screen} />
+                      </MotionFlex>
                     ))}
                   </SimpleGrid>
                 )}
@@ -191,40 +177,20 @@ export function Home(props: any) {
                 ) : (
                   <SimpleGrid gap="4" columns={[1, 2]} px="1">
                     {allVideos?.map((video: any) => (
-                      <Box key={video?._id} as={RouterLink} to={`/advert/${video?._id}/${video?.video?.split('/')?.slice(-1)[0]}/${video.screen}`} d="flex" flexDir="column" rounded="md" bg="" shadow="card" flexBasis="100%">
-                        <Image 
-                          height="200px"
-                          rounded="md"
-                          src={video?.thumbnail}
-                          onLoad={() =>  triggerPort(video?.thumbnail?.split("/")?.slice(-1)[0])}
-                        />
-                        <Flex p="4" align="top" justify="space-between">
-                          <Stack>
-                            <Text fontWeight="600">{video?.title}</Text>
-                            <Text color="gray.500">(Video Category)</Text>
-                          </Stack>
-                          <InfoIcon color="green.500" />
-                        </Flex>
-                      
-                        <Flex p="4" align="center" justify="space-between">
-                          <Box>
-                            <Text fontWeight="600" fontSize="xs">{video?.title}</Text>
-                            <Text color="gray.500" fontSize="xs">{video?.title}</Text>
-                          </Box>
-                          <Box>
-                            <Text fontWeight="600" fontSize="xs">{video?.title}</Text>
-                            <Text color="gray.500" fontSize="xs">{video?.title}</Text>
-                          </Box>
-                        </Flex>
-                        <SimpleGrid gap="2" columns={[2]} p="4" align="center" justify="space-between">
-                          <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" size="sm" fontSize="xs" type="submit">
-                            View Status
-                          </Button>
-                          <Button size="sm" fontSize="xs" color="violet.500" variant="outline" type="submit">
-                            Change Status
-                          </Button>
-                        </SimpleGrid>
-                      </Box>
+                      <MotionFlex
+                        flexDir="column"
+                        w="100%"
+                        role="group"
+                        rounded="md"
+                        shadow="card"
+                        whileHover={{
+                          translateY: -3
+                        }}
+                        pos="relative"
+                        zIndex="1"
+                      >
+                        <Advert key={video._id} video={video} />
+                      </MotionFlex>
                     ))}
                   </SimpleGrid>
                 )}

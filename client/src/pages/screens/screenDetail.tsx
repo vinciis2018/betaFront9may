@@ -5,7 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Link, Image, Center, Text, Stack, IconButton, Flex, Button, FormControl, Select, FormLabel, Input, SimpleGrid } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiPieChart, BiChevronRight, BiFlag} from 'react-icons/bi';
-import {AiOutlineArrowUp, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {AiOutlineArrowUp, AiOutlineVideoCameraAdd, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
 import {VscRequestChanges} from 'react-icons/vsc';
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
@@ -166,8 +166,17 @@ export function ScreenDetail (props: any) {
                 <Text fontWeight="600">Screen Details</Text>
                 <Flex>
                   {/* {walletAddress === screen.master.master._id} */}
-                  <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
-                  <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                  {screen.master === userInfo.defaultWallet ? (
+                    <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                  ) : (
+                    <>
+                      {screen.allies.filter((ally: any) => ally === userInfo.defaultWallet).length !== 0 ? (
+                        <IconButton  as={RouterLink} to={`/createCampaign/${screen._id}`} bg="none" icon={<AiOutlineVideoCameraAdd size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                      ) : (
+                        <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                      )}
+                    </>
+                  )}
                 </Flex>
                 
               </Stack>
@@ -183,11 +192,15 @@ export function ScreenDetail (props: any) {
               <Flex p="2" align="center" justify="space-between"  rounded="lg" shadow="card">
                 <Box p="2">
                   <Text fontWeight="600">{screen?.name}</Text>
-                  <Text fontSize="sm" color="gray.500">({screen.category})</Text>
+                  <Text fontSize="xs" color="gray.500">{screen.category}</Text>
                 </Box>
                 <Stack>
-                <Rating rating={screen.rating} numReviews={screen.numReviews}></Rating>
+                  <Rating rating={screen.rating} numReviews={screen.numReviews}></Rating>
                 </Stack>
+              </Flex>
+              <Flex p="2" align="center" justify="space-between" rounded="lg" shadow='card'>
+                <Text onClick={() => props.history.push(`/artist/${screen.master}`)} fontSize="xs" fontWeight="600" color="gray.500">Owner: {screen.masterName}</Text>
+                <Text fontSize="xs" fontWeight="600" color="gray.500">Allies: {screen.allies.length}</Text>
               </Flex>
 
               {loadingScreenGameDetails ? (
@@ -306,19 +319,25 @@ export function ScreenDetail (props: any) {
                           height="100px"
                           rounded="md"
                         />
-                        <Box color="black" px="10px">
-                          <Text fontWeight="600">{video?.title}</Text>
-                          <Text color="gray.500">(video category)</Text>
+                        <Box color="black" p="2">
+                          <Text px="1" fontSize="md" fontWeight="600">{video?.title}</Text>
+                          <Text px="1" fontSize="xs" fontWeight="600"color="gray.500">{video?.category}</Text>
+                          <Text px="1" fontSize="xs" fontWeight=""color="gray.500">{video?.description}</Text>
+                          <Text p="1" fontSize="sm" fontWeight=""color="gray.500">Uploaded by: {video?.uploaderName}</Text>
+
                         </Box>
                       </Flex>
                     </Box>
                   ))}
                 </Stack>
               )}
-              <SimpleGrid gap="2" columns={[2]} p="10px" align="center" justify="space-between">
-                <Button size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={RouterLink} to={`/createCampaign/${screen._id}`} p="2" >Create Campaign</Button>
-                <Button size="sm" fontSize="xs" color="violet.500" variant="outline" as={RouterLink} to={`/dashboard/screen/${screen._id}`} p="2" >View Dashboard</Button>
-              </SimpleGrid>
+              {screen.master === userInfo.defaultWallet && (
+                <SimpleGrid gap="2" columns={[2]} p="10px" align="center" justify="space-between">
+                  <Button size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={RouterLink} to={`/createCampaign/${screen._id}`} p="2" >Create Campaign</Button>
+                  <Button size="sm" fontSize="xs" color="violet.500" variant="outline" as={RouterLink} to={`/dashboard/screen/${screen._id}`} p="2" >View Dashboard</Button>
+                </SimpleGrid>
+              )}
+              
               <Stack>
                 <SimpleGrid p="2" gap="4" columns={[1, 2]}>
                   {userInfo ? (

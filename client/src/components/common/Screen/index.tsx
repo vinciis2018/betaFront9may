@@ -9,7 +9,7 @@ export function Screen(props: any) {
 
   return (
     <Box shadow="card" rounded="lg" p="2" key={screen._id} >
-      <Box p="1">
+      <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"
           height="150px"
@@ -21,7 +21,7 @@ export function Screen(props: any) {
       
       <Stack p="1">
         <Text fontSize="xs" fontWeight="600">{screen?.name}</Text>
-        <Text fontSize="sm" color="gray.500">({screen?.category})</Text>
+        <Text fontSize="xs" color="gray.500">{screen?.category}</Text>
         <Flex justify="space-between" align="center">
           <Box>
             <Text fontSize="xs" color="">Available Slots</Text>
@@ -29,10 +29,8 @@ export function Screen(props: any) {
           </Box>
           <Rating rating={screen.rating} numReviews={screen.numReviews} />
         </Flex>
-      </Stack>
-      <Flex mb="0" pb="0">
         <Button as={RouterLink} to={`/screen/${screen._id}`} p="1" width="100%" color="violet.500" variant="outline">View</Button>
-      </Flex>
+      </Stack>
     </Box>
   )
 }

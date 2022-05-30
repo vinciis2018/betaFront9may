@@ -125,6 +125,7 @@ export const getLastTransaction = async ({walletAddress} : any) => {
   let txnDetail: any;
   let debDetail: any;
   let credDetail: any;
+  let moreDetail: any;
   try {
     balance = await axios.get(`https://arweave.net/wallet/${walletAddress}/balance`)
     lastTxn = await axios.get(`https://arweave.net/wallet/${walletAddress}/last_tx`);
@@ -139,6 +140,15 @@ export const getLastTransaction = async ({walletAddress} : any) => {
     credDetail = recipientResult?.transactions?.edges;
     // console.log(recipientResult);
 
+    // const result = await arweaveGraphql('arweave.net/graphql').getTransactions({
+    //   tags : {
+    //     name: "Content-Type",
+    //     values: ["application/json", "application/javascript"]
+    //   }
+    // })
+    // moreDetail = result?.transactions?.edges;
+    // console.log(moreDetail);
+
     if(lastTxn){
       // txnDetail = await axios.get(`https://arweave.net/tx/${lastTxn?.data}`);
       // console.log("txnDetail", txnDetail?.data);
@@ -149,7 +159,7 @@ export const getLastTransaction = async ({walletAddress} : any) => {
       })
     }
 
-    return {lastTxn,txnDetail, balance, credDetail, debDetail };
+    return {lastTxn, txnDetail, balance, credDetail, debDetail };
   } catch(error: any) {
     throw new Error(error);
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
+import { motion } from "framer-motion";
 
 import { Box, SimpleGrid, Flex, Stack, Input, Center, IconButton, ButtonGroup, Button } from "@chakra-ui/react";
 import { LoadingBox, MessageBox } from 'components/helpers';
@@ -17,6 +18,8 @@ import { SCREEN_CREATE_RESET, SCREEN_DELETE_RESET } from '../../Constants/screen
 
 export function Screens (props: any) {
   
+  const MotionFlex = motion(Flex);
+
   const masterMode = props.match.path.indexOf('/master') >= 0;
 
   const [myScreensVisible, setMyScreensVisible] = React.useState<boolean>(false);
@@ -61,7 +64,7 @@ export function Screens (props: any) {
     }
 
     dispatch(listScreens({}));
-    dispatch(userScreensList({ master: masterMode ? userInfo._id : '' }));
+    dispatch(userScreensList(userInfo));
 
   }, [
     dispatch,
@@ -147,7 +150,20 @@ export function Screens (props: any) {
                 <SimpleGrid p="1" gap="4" columns={[2]}>
                   {screens.length === 0 && <MessageBox>No Screen Found</MessageBox>}
                   {screens.map((screen: any) => (
-                    <Screen key={screen._id} screen={screen} />
+                    <MotionFlex
+                      flexDir="column"
+                      w="100%"
+                      role="group"
+                      rounded="md"
+                      shadow="card"
+                      whileHover={{
+                        translateY: -3
+                      }}
+                      pos="relative"
+                      zIndex="1"
+                    >
+                      <Screen key={screen._id} screen={screen} />
+                    </MotionFlex>
                   ))}
                 </SimpleGrid>
               )}
@@ -163,7 +179,20 @@ export function Screens (props: any) {
                 <SimpleGrid p="1" gap="4" columns={[2]}>
                   {myScreens.length === 0 && <MessageBox>No Screen Found</MessageBox>}
                   {myScreens.map((screen: any) => (
-                    <Screen key={screen._id} screen={screen} />
+                    <MotionFlex
+                      flexDir="column"
+                      w="100%"
+                      role="group"
+                      rounded="md"
+                      shadow="card"
+                      whileHover={{
+                        translateY: -3
+                      }}
+                      pos="relative"
+                      zIndex="1"
+                    >
+                      <Screen key={screen._id} screen={screen} />
+                    </MotionFlex>
                   ))}
                 </SimpleGrid>
               )}

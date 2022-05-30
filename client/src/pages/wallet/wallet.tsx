@@ -121,6 +121,8 @@ export function Wallet(props: any) {
 
     if(userInfo) {
       setWalletId(userInfo.defaultWallet)
+      dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
+      dispatch(getWalletDetails(userInfo.defaultWallet));
     }
 
     if (successWalletCreate) {
@@ -168,11 +170,6 @@ export function Wallet(props: any) {
       window.alert(`${quantity} ${ticker} transferred to ${toWallet} successfully!`);
       setTransferModalVisible(false);
     }
-
-    dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
-    dispatch(getWalletDetails(userInfo.defaultWallet));
-    
-   
 
   } , [
     dispatch,
@@ -229,23 +226,6 @@ export function Wallet(props: any) {
     }))
   }
 
-  const submitHandler = (e: any) => {
-    e.preventDefault();
-    dispatch(
-      editWallet({
-        _id: walletId,
-        walletName,
-        defaultWallet
-      })
-    );
-  };
-
-
-  const uploadModalHandler = () => {
-    setEditWalletModalVisible(false);
-    setTransferModalVisible(false);
-    setAnftModalVisible(!anftModalVisible);
-  }
 
   const transferModalHandler = () => {
     // arweaveWalletConnect().then(res => {
@@ -257,12 +237,6 @@ export function Wallet(props: any) {
     setTransferModalVisible(!transferModalVisible);
   }
 
-  const editWalletModalHandler = () => {
-    setAnftModalVisible(false);
-    setTransferModalVisible(false);
-    setEditWalletModalVisible(!editWalletModalVisible);
-  }
-  
   const openADUModalHandler = () => {
     setOpenADUModal(!openADUModal);
   }

@@ -158,6 +158,11 @@ export function DragAndDropUploader() {
                 <Text>ESTIMATED COSTS:</Text>
                 <div>
                   <Text>
+                    <strong>{convertToAr(data?.txFee) + 1} AD Credits</strong>
+                  </Text>
+                </div>
+                <div>
+                  <Text>
                     <strong>{convertToAr(data?.txFee)} AR</strong>
                   </Text>
                   <Text>
@@ -193,7 +198,7 @@ export function DragAndDropUploader() {
         <Box maxW="500px" mx="auto" p="2" as="form" onSubmit={handleSubmit(onSubmit)}>
           {/* Top bar */}
           <Stack direction="row" align="center">
-            <IconButton aria-label="go-back" variant="ghost" icon={<RiCloseFill size="20px" />} onClick={doReset} />
+            <IconButton aria-label="go-back" variant="ghost" icon={<AlertIcon fontSize="20px" />} onClick={doReset} />
             <Text fontWeight="600">You’ve got an Atomic NFT!</Text>
           </Stack>
 

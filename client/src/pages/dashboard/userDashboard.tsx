@@ -26,7 +26,6 @@ import { ThumbnailContainer } from 'components/cards/NftFeaturedCard';
 export function UserDashboard(props: any) {
   
   const { pageNumber = 1 } = useParams<any>();
-  const masterMode = props.match.path.indexOf('/master') >= 0;
 
   const { data: artist, isLoading, isError } = useArtist({ id: props?.match?.params?.id });
   /* Finnie */
@@ -82,8 +81,8 @@ export function UserDashboard(props: any) {
     if (!user) {
       dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
     }
-    dispatch(userScreensList({ master: masterMode ? userInfo._id : '', pageNumber }));
-    dispatch(userVideosList(userInfo._id));
+    dispatch(userScreensList(userInfo));
+    dispatch(userVideosList(userInfo));
 
   }, [
     dispatch,

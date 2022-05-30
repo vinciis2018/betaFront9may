@@ -60,6 +60,8 @@ export function AdvertEdit (props: any) {
   const [hrsToComplete, setHrsToComplete] = React.useState<any>(0);
   const [advertTags, setAdvertTags] = React.useState<any>([]);
   const [category, setCategory] = React.useState<any>('')
+  const [brandName, setBrandName] = React.useState<any>('')
+
 
   const [modalVisible, setModalVisible] =React.useState<any>(false);
   const [dayModalVisible, setDayModalVisible] =React.useState<any>(true);
@@ -303,15 +305,9 @@ const openTimeModal = () => {
       expectedViews,
       hrsToComplete,
       advertTags,
-      category
+      category,
+      brandName
     }))
-    // if(modalVisible) {
-    //     window.location.replace(`/campaign/payment/${walletAddress}`)
-    // } else if(mediaUploadModal) {
-    //   setMediaUploadModal(false)
-    // } else {
-    // setModalVisible(true)
-    // }
   }
 
   const addGameContract = async (e: any) => {
@@ -327,6 +323,7 @@ const openTimeModal = () => {
       name: title,
       description,
       category,
+      brandName,
       thumbnail,
       advert,
       adWorth,
@@ -445,7 +442,7 @@ const openTimeModal = () => {
                         <FormControl p="2" id="category">
                           <Stack direction="row" align="center">
                             <Select
-                              placeholder="Category"
+                              placeholder={category}
                               value={category}
                               onChange={(e) => setCategory(e.target.value)}
                             >
@@ -467,6 +464,18 @@ const openTimeModal = () => {
                             </Select>
                           </Stack>
                           <FormLabel px="1" fontSize="xs">Campaign Category</FormLabel>
+                        </FormControl>
+                        <FormControl p="2" id="brandName">
+                          <Stack direction="row" align="center">
+                            <Input 
+                              id="brandName"
+                              onChange={(e) => setBrandName(e.target.value)} 
+                              placeholder={brandName} 
+                              value={brandName}
+                              type="text"  
+                            />
+                          </Stack>
+                          <FormLabel px="1" fontSize="xs">Mention the name of the brand for this campaign...</FormLabel>
                         </FormControl>
                         <FormControl p="2" id="advertTags">
                           <Stack direction="row" align="center">
