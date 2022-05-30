@@ -29,7 +29,7 @@ export function Advert(props: any) {
           </Box>
           <Rating rating={video.rating} numReviews={video.numReviews} />
         </Flex>
-        <Button as={RouterLink} to={`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`} p="1" width="100%" color="violet.500" variant="outline">View</Button>
+        <Button onClick={() => window.location.replace(`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button>
       </Stack>
     </Box>
   )

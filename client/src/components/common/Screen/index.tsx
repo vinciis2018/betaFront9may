@@ -29,7 +29,7 @@ export function Screen(props: any) {
           </Box>
           <Rating rating={screen.rating} numReviews={screen.numReviews} />
         </Flex>
-        <Button as={RouterLink} to={`/screen/${screen._id}`} p="1" width="100%" color="violet.500" variant="outline">View</Button>
+        <Button onClick={() => window.location.replace(`/screen/${screen._id}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button>
       </Stack>
     </Box>
   )
