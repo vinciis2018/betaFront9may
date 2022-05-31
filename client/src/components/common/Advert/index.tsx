@@ -8,7 +8,7 @@ export function Advert(props: any) {
   const { video } = props;
 
   return (
-    <Box onClick={() => window.location.replace(`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`)} shadow="card" rounded="lg" p="2" key={video._id} >
+    <Box as={RouterLink} to={`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`} shadow="card" rounded="lg" p="2" key={video._id} >
       <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"

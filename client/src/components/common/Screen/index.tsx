@@ -8,7 +8,7 @@ export function Screen(props: any) {
   const { screen } = props;
 
   return (
-    <Box onClick={() => window.location.replace(`/screen/${screen._id}`)} shadow="card" rounded="lg" p="2" key={screen._id} >
+    <Box as={RouterLink} to={`/screen/${screen._id}`} shadow="card" rounded="lg" p="2" key={screen._id} >
       <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"
