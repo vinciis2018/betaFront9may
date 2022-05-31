@@ -112,7 +112,7 @@ export function Wallet(props: any) {
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
-  // console.log("walletPrice", walletPrice)
+  console.log("walletPrice", lastTxn)
 
 
 
@@ -479,6 +479,7 @@ export function Wallet(props: any) {
                           <Text fontWeight="600" fontSize="xs" color="gray.500">{new Date(txn?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
                           <Box align="left">
                             <Flex align="center" justify="space-between">
+                              {txn?.node?.tags.length}
                               <Text fontWeight="600" fontSize="sm">{(txn?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
                               <Flex align="center" justify="space-between">
                                 <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} Ad Credits</Text>

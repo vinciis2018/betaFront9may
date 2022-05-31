@@ -4,12 +4,13 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { Box, Link, Image, Center, Text, Stack, IconButton, Flex, Button, FormControl, Select, FormLabel, Input, SimpleGrid } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
-import {BiLike, BiPieChart, BiChevronRight, BiFlag} from 'react-icons/bi';
-import {AiOutlineArrowUp, AiOutlineVideoCameraAdd, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {BiLike, BiPieChart, BiBookmark, BiWalk, BiFlag} from 'react-icons/bi';
+
+import {AiOutlineArrowUp, AiOutlineVideoCameraAdd, AiOutlineEye, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
 import {VscRequestChanges} from 'react-icons/vsc';
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
-import { detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
+import { likeScreen, unlikeScreen, flagScreen, subscribeScreen, unsubscribeScreen, detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
 import { listAllPleas } from '../../Actions/pleaActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
@@ -26,6 +27,7 @@ export function ScreenDetail (props: any) {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
   } = useFinnie();
 
+  const [dateHere, setDateHere] = React.useState<any>(new Date());
 
   const [rating, setRating] = React.useState(0);
   const [comment, setComment] = React.useState('');
@@ -91,10 +93,10 @@ export function ScreenDetail (props: any) {
     success: successReviewCreate,
   } = screenReviewCreate;
 
-  const [txId, setTxId] = React.useState<any>("")
+  const [txId, setTxId] = React.useState<any>(screen?.image?.split("/").slice(-1)[0])
   const {data: nft, isLoading, isError} = useNft({id: txId});
   // const {data: nftData } = useNftData({id: txId});
-  console.log("nft", {nft})
+  // console.log("nft", {nft})
 
 
   const dispatch = useDispatch();
@@ -107,6 +109,11 @@ export function ScreenDetail (props: any) {
       dispatch(detailsScreen(screenId));
     } else {
       setTxId(screen?.image?.split("/").slice(-1)[0]);
+      dispatch(screenVideosList(screenId));
+      dispatch(getScreenCalender(screenId));
+      dispatch(getScreenGameDetails(screenId));
+      dispatch(getScreenParams(screenId));
+      dispatch(listAllPleas())
     }
     if (successReviewCreate) {
       window.alert('Review submitted successfully');
@@ -116,12 +123,6 @@ export function ScreenDetail (props: any) {
         type: SCREEN_REVIEW_CREATE_RESET
       })
     }
-
-    dispatch(screenVideosList(screenId));
-    dispatch(getScreenCalender(screenId));
-    dispatch(getScreenGameDetails(screenId));
-    dispatch(getScreenParams(screenId));
-    dispatch(listAllPleas())
   }, [
     dispatch,
     screen,
@@ -147,6 +148,62 @@ export function ScreenDetail (props: any) {
       alert('Please enter comment and rating');
     }
   };
+
+  const screenLikeHandler = async (screenId: any) => {
+    if (userInfo) {
+      window.alert('On liking this screen, you will be tipping the screen master from your default wallet. This will return as an incentive reward later...');
+      if(params) {
+        dispatch(likeScreen(screenId, {
+            interaction: "like",
+            params: params,
+            calender: calender,
+            screen: screen
+          }
+        ));
+      } else {
+        window.alert('Interaction not available, check again later');
+      }
+    } else {
+      window.alert('Please sign in to like screen');
+    }
+  }
+
+  function screenUnlikeHandler(screenId: any) {
+    if (userInfo) {
+      window.alert('You have already tipped the screen master, unliking will not refund your tip, and you may not be able to get incentivized with game raward');
+      dispatch(unlikeScreen(screenId));
+    } else {
+      window.alert('Please sign in to unlike screen');
+    }
+  }
+
+  function screenFlagHandler(screenId: any) {
+    if(userInfo) {
+      window.alert('On Flagging this screen, you are reporting the admin for an inspection by tipping the admin from your default wallet. This will return as an incentive reward later...');
+      dispatch(flagScreen({screenId, interaction: "flag"}));
+    } else {
+      window.alert('Please sign in to flag screen');
+    }
+  }
+
+  function screenSubscribeHandler(screenId: any) {
+    if (userInfo) {
+      window.alert('On Subscribing this screen, you are tipping the master from your default wallet. This will return as stored as a stoke for your withdrawal reward later...');
+      setDateHere(new Date());
+      dispatch(subscribeScreen({screenId, dateHere, interaction: "subscribe"}));
+    } else {
+      window.alert('Please sign in to subscribe screen');
+    }
+  }
+
+  function screenUnsubscribeHandler(screenId: any) {
+    if (userInfo) {
+      window.alert('On Unsubscribing this screen, you are withdrawing the amount you paid to the master of the screen while subscribing...');
+      dispatch(unsubscribeScreen({screenId, interaction: "unsubscribe"}));
+    } else {
+      window.alert('Please sign in to unsubscribe screen');
+    }
+  }
 
   return (
     <Box px="2" pt="20">
@@ -195,7 +252,6 @@ export function ScreenDetail (props: any) {
                     </>
                   )}
                 </Flex>
-                
               </Stack>
 
               {isLoading && <LoadingBox></LoadingBox>}
@@ -203,8 +259,31 @@ export function ScreenDetail (props: any) {
               {nft && (
                 <Box rounded="lg" color="gray.200" border="1px" shadow="card">
                   <NftMediaContainer nft={nft} />
+                  <Flex color="black" p="4" align="center" justify="space-between">
+                    <Box onClick={screenLikeHandler} align="center">
+                      <Text fontSize="xs">{screen?.likedBy?.length}</Text>
+                      <BiLike color={screen.likedBy.filter((liker: any) => liker === userInfo.defaultWallet).length !== 0 ? "green" : "" }/>
+                      <Text fontSize="xs">Likes</Text>
+                    </Box>
+                    <Box align="center">
+                      <Text fontSize="xs">{screen?.flaggedBy?.length}</Text>
+                      <BiFlag />
+                      <Text fontSize="xs">Flags</Text>
+                    </Box>
+                    <Box align="center">
+                      <Text fontSize="xs">{screen?.subscribers?.length}</Text>
+                      <BiBookmark />
+                      <Text fontSize="xs">Subscribers</Text>
+                    </Box>
+                    <Box align="center">
+                      <Text fontSize="xs">{nft?.attention}</Text>
+                      <AiOutlineEye />
+                      <Text fontSize="xs">Views</Text>
+                    </Box>
+                  </Flex>
                 </Box>
               )}
+
 
               <Flex p="2" align="center" justify="space-between"  rounded="lg" shadow="card">
                 <Box p="2">
@@ -219,6 +298,7 @@ export function ScreenDetail (props: any) {
                 <Text onClick={() => props.history.push(`/artist/${screen.master}`)} fontSize="xs" fontWeight="600" color="gray.500">Owner: {screen.masterName}</Text>
                 <Text fontSize="xs" fontWeight="600" color="gray.500">Allies: {screen.allies.length}</Text>
               </Flex>
+              {/* Ally modal here */}
 
               {loadingScreenGameDetails ? (
                 <LoadingBox></LoadingBox>
@@ -316,7 +396,6 @@ export function ScreenDetail (props: any) {
                 <Text fontSize="sm">{screen.description}</Text>
                 <Text fontSize="sm">Time period of 1 slot : {screen.slotsTimePeriod} seconds</Text>
                 <Text fontSize="sm">Screen Type : {screen.screenType}</Text>
-                <Text fontSize="sm">Number of Independent Advertisers : {screen.allies.length}</Text>
               </Box>
               <hr />
               {loadingAllPleas ? (

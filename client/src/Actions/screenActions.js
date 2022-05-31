@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { gameInteraction } from 'ratCodes/ratTrap';
 
 import {
   SCREEN_ALLY_PLEA_FAIL,
@@ -394,29 +395,51 @@ export const deleteScreenVideo = (videoId) => async (dispatch, getState) => {
 
 
 // screen like
-export const likeScreen = (screenId, interaction) => async (dispatch, getState) => {
+export const likeScreen = (screenId, interactionData) => async (dispatch, getState) => {
   dispatch({
     type: SCREEN_LIKE_REQUEST,
     payload: screenId
   });
   const { userSignin: { userInfo } } = getState();
-  try {
-    console.log("screen:", screenId)
-    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/likeScreen/${screenId.interaction}`, {screenId}, {
-      headers:
-        { Authorization: `Bearer ${userInfo.token}` }
-    });
-    dispatch({ 
-      type: SCREEN_LIKE_SUCCESS, 
-      payload: data
-     })
-  } catch (error) {
-    console.log(error);
+
+  if(!interactionData.calender.activeGameContract) {
+
     dispatch({
-      type: SCREEN_LIKE_FAIL, payload: error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
+      type: SCREEN_LIKE_FAIL,
+      payload: 'No game contract found, contact master'
     });
+    return;
+
+  } else if(interactionData.screen.master === userInfo.defaultWallet) {
+
+    dispatch({
+      type: SCREEN_LIKE_FAIL,
+      payload: 'You cannot like your own screen'
+    });
+    return;
+
+  } else {
+    try {
+      console.log("screen:", interactionData)
+  
+      const dataGame = await gameInteraction({walletAddress: userInfo.defaultWallet, data: interactionData});
+      console.log(dataGame)
+      // const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId.screenId}/likeScreen/${screenId.interaction}`, {screenId}, {
+      //   headers:
+      //     { Authorization: `Bearer ${userInfo.token}` }
+      // });
+      // dispatch({ 
+      //   type: SCREEN_LIKE_SUCCESS, 
+      //   payload: data
+      //  })
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: SCREEN_LIKE_FAIL, payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      });
+    }
   }
 };
 
