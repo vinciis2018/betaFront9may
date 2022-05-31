@@ -85,7 +85,7 @@ export function Home(props: any) {
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
-                  <Box key={screen?._id} onClick={() => window.location.replace(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
+                  <Box key={screen?._id} onClick={() => props.history.push(`/screen/${screen?._id}`)} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
                     {/* {(screen?.image.split("/").slice(-1)[0])} */}
                     <Image 
                       height="300px"
