@@ -22,7 +22,7 @@ import { useFinnie } from 'components/finnie';
 
 export function ScreenDetail (props: any) {
   const screenId = props.match.params.id;
-  // const txId = props.match.params.txId;
+  const txId = props.match.params.txId;
   const {
     state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
   } = useFinnie();
@@ -93,7 +93,6 @@ export function ScreenDetail (props: any) {
     success: successReviewCreate,
   } = screenReviewCreate;
 
-  const [txId, setTxId] = React.useState<any>(screen.image.split("/").slice(-1)[0])
   const {data: nft, isLoading, isError} = useNft({id: txId});
   // const {data: nftData } = useNftData({id: txId});
   // console.log("nft", {nft})
@@ -108,7 +107,6 @@ export function ScreenDetail (props: any) {
     if(!screen) {
       dispatch(detailsScreen(screenId));
     } else {
-      setTxId(screen.image.split("/").slice(-1)[0]);
       dispatch(screenVideosList(screenId));
       dispatch(getScreenCalender(screenId));
       dispatch(getScreenGameDetails(screenId));
