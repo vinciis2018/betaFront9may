@@ -158,6 +158,7 @@ export function Adverts (props: any) {
                         }}
                         pos="relative"
                         zIndex="1"
+                       
                       >
                         <Advert key={video._id} video={video} />
                       </MotionFlex>

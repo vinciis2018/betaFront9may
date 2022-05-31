@@ -8,7 +8,7 @@ export function Advert(props: any) {
   const { video } = props;
 
   return (
-    <Box shadow="card" rounded="lg" p="2" key={video._id} >
+    <Box onClick={() => window.location.replace(`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`)} shadow="card" rounded="lg" p="2" key={video._id} >
       <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"
@@ -29,7 +29,7 @@ export function Advert(props: any) {
           </Box>
           <Rating rating={video.rating} numReviews={video.numReviews} />
         </Flex>
-        <Button onClick={() => props.history.push(`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button>
+        {/* <Button onClick={() => props.history.push(`/advert/${video._id}/${video?.video?.split("/").slice(-1)[0]}/${video.screen}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button> */}
       </Stack>
     </Box>
   )

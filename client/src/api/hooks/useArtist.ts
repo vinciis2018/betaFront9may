@@ -16,7 +16,10 @@ const fetchArtist = async (id: string) => {
     if (!id) return undefined;
     const nftTxs = await getMyNfts(id);
     const nftKoii = await koiSDK.getNftsByOwner(id);
-    const nfts = nftKoii.concat(nftTxs);
+    const nfts = nftKoii.concat(nftTxs?.filter((tx) => {
+      nftKoii.indexOf(tx) < 0
+    }));
+    console.log(nfts)
     const [totalAttention, totalReward] = getNftsStats(nftKoii);
     const data: { nfts: any[]; totalAttention: string; totalReward: string | number } = { nfts, totalAttention, totalReward: formatDigitNumber(totalReward) };
     return data;

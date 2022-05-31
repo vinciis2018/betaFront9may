@@ -8,7 +8,7 @@ export function Screen(props: any) {
   const { screen } = props;
 
   return (
-    <Box shadow="card" rounded="lg" p="2" key={screen._id} >
+    <Box onClick={() => window.location.replace(`/screen/${screen._id}`)} shadow="card" rounded="lg" p="2" key={screen._id} >
       <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"
@@ -29,7 +29,7 @@ export function Screen(props: any) {
           </Box>
           <Rating rating={screen.rating} numReviews={screen.numReviews} />
         </Flex>
-        <Button onClick={() => props.history.push(`/screen/${screen._id}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button>
+        {/* <Button onClick={() => props.history.push(`/screen/${screen._id}`)} p="1" width="100%" color="violet.500" variant="outline">View</Button> */}
       </Stack>
     </Box>
   )
