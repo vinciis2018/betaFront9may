@@ -104,15 +104,7 @@ export function ScreenDetail (props: any) {
     if(!isFinnieConnected) {
       connectFinnie();
     }
-    if(!screen) {
-      dispatch(detailsScreen(screenId));
-    } else {
-      dispatch(screenVideosList(screenId));
-      dispatch(getScreenCalender(screenId));
-      dispatch(getScreenGameDetails(screenId));
-      dispatch(getScreenParams(screenId));
-      dispatch(listAllPleas())
-    }
+
     if (successReviewCreate) {
       window.alert('Review submitted successfully');
       setRating(0);
@@ -121,6 +113,14 @@ export function ScreenDetail (props: any) {
         type: SCREEN_REVIEW_CREATE_RESET
       })
     }
+
+    dispatch(detailsScreen(screenId));
+    dispatch(screenVideosList(screenId));
+    dispatch(getScreenCalender(screenId));
+    dispatch(getScreenGameDetails(screenId));
+    dispatch(getScreenParams(screenId));
+    dispatch(listAllPleas())
+    
   }, [
     dispatch,
     screen,
