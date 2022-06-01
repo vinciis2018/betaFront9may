@@ -123,9 +123,9 @@ export function ScreenDetail (props: any) {
     
   }, [
     dispatch,
-    screen,
-    txId,
-    nft
+    // screen,
+    // txId,
+    // nft
   ])
 
   const allyPleaHandler = () => {

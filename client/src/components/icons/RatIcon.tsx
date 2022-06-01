@@ -11,7 +11,7 @@ export const RatIcon = (props: IconProps) => (
         <path 
           fill="currentColor"
           d="M120 240a120 120 0 1 1 120-120 120.13 120.13 0 0 1-120 120Zm0-230a110 110 0 1 0 110 110A110.13 110.13 0 0 0 120 10Z"/>
-        <rect x="31.5" y="115.5" width="177" height="9" rx="1.89"/>
+        <rect fill="currentColor" x="31.5" y="115.5" width="177" height="9" rx="1.89"/>
         </g>
       </g>
   </Icon>

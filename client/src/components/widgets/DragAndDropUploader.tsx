@@ -5,7 +5,7 @@ import { useFinnie } from "components/finnie";
 // Dropzone
 import { useDropzone } from "react-dropzone";
 // ui
-import { Box, Center, Text, Stack, FormControl, FormLabel, Input, Textarea, IconButton, Button, Image, Checkbox, Alert, AlertIcon, Spinner, SimpleGrid, Link } from "@chakra-ui/react";
+import { Box, Flex, Center, Text, Stack, FormControl, FormLabel, Input, Textarea, IconButton, Button, Image, Checkbox, Alert, AlertIcon, Spinner, SimpleGrid, Link } from "@chakra-ui/react";
 // icons
 import { RiArrowLeftLine, RiDeleteBinLine, RiCloseFill } from "react-icons/ri";
 // Form
@@ -152,28 +152,28 @@ export function DragAndDropUploader() {
 
             {/* Form */}
             <Stack w="100%">
-              <Text>{data?.name}</Text>
-              <Text>by: {data?.username}</Text>
+              <Flex align="center" justify="space-between">
+                <Text fontWeight="600" fontSize="">{data?.name}</Text>
+                <Text>by: {data?.username}</Text>
+              </Flex>
               <SimpleGrid columns={2}>
                 <Text>ESTIMATED COSTS:</Text>
-                <div>
-                  <Text>
-                    <strong>{convertToAr(data?.txFee) + 1} AD Credits</strong>
-                  </Text>
-                </div>
-                <div>
-                  <Text>
-                    <strong>{convertToAr(data?.txFee)} AR</strong>
-                  </Text>
-                  <Text>
-                    <strong>1.00 KOII</strong>
-                  </Text>
-                </div>
+                <Text align="right">
+                  <strong>{Number(convertToAr(data?.txFee)) + Number(1)} AD Credits</strong>
+                </Text>
               </SimpleGrid>
+              <Flex align="center" justify="space-between">
+                <Text fontSize="xs">
+                  <strong>{convertToAr(data?.txFee)} AR</strong>
+                </Text>
+                <Text fontSize="xs">
+                  <strong>1.00 KOII</strong>
+                </Text>
+              </Flex>
               {/* Bottom bar */}
               <Stack direction="row" align="center">
                 <IconButton aria-label="reset" variant="ghost" colorScheme="red" icon={<RiDeleteBinLine size="20px" />} ml="auto!important" onClick={doReset} />
-                <Button isLoading={status === "loading"} isDisabled={isNotEnoughBalance} flex="1" onClick={doSignArTx}>
+                <Button variant="outline" color="violet.500" isLoading={status === "loading"} isDisabled={isNotEnoughBalance} flex="1" onClick={doSignArTx}>
                   Confirm
                 </Button>
               </Stack>
@@ -198,7 +198,7 @@ export function DragAndDropUploader() {
         <Box maxW="500px" mx="auto" p="2" as="form" onSubmit={handleSubmit(onSubmit)}>
           {/* Top bar */}
           <Stack direction="row" align="center">
-            <IconButton aria-label="go-back" variant="ghost" icon={<AlertIcon fontSize="20px" />} onClick={doReset} />
+            <IconButton aria-label="go-back" variant="ghost" icon={<BsUpload fontSize="20px" />} onClick={doReset} />
             <Text fontWeight="600">You’ve got an Atomic NFT!</Text>
           </Stack>
 

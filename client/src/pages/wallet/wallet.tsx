@@ -334,15 +334,13 @@ export function Wallet(props: any) {
                         <FormLabel fontSize="xs">Tranfer Token</FormLabel>
                         <Stack direction="row" align="center">
                           <Select
-                            placeholder={ticker}
                             id="ticker"
                             value={ticker}
                             onChange={(e) => setTicker(e.target.value)}
                           >
-                            <option key={0} value="">Select Ticker</option>
-                            <option key={1} value="rat">RAT Tokens</option>
-                            <option key={2} value="KOII">KOII Tokens</option>
-                            <option key={3} value="AR">AR Tokens</option>
+                            <option key={0} value="rat">RAT</option>
+                            <option key={1} value="KOII">KOII</option>
+                            <option key={2} value="AR">AR</option>
                           </Select>
                         </Stack>
                       </FormControl>
@@ -400,15 +398,15 @@ export function Wallet(props: any) {
                     <SimpleGrid gap="4" columns={[2, 3]}>
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <ArweaveIcon m="2" color="black" boxSize="30px" />
-                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(3)}</Text>
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(5)}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice) * exchangeValue).toFixed?.(3)}</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice)).toFixed?.(3)}</Text>
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice) * exchangeValue).toFixed?.(5)}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice)).toFixed?.(5)}</Text>
                         </Flex>
                       </Box>
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <KoiiIcon m="2" color="black" boxSize="30px" />
-                        <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(3)}</Text>
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(5)}</Text>
                         <Flex align="center" justify="space-between">
                           {/* <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)} *</Text> */}
                           {/* <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)} *</Text> */}
@@ -479,10 +477,29 @@ export function Wallet(props: any) {
                           <Text fontWeight="600" fontSize="xs" color="gray.500">{new Date(txn?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")}</Text>
                           <Box align="left">
                             <Flex align="center" justify="space-between">
-                              {txn?.node?.tags.length}
+                              {txn?.node?.tags.length === 0 && (
+                                <Flex>
+                                  <ArweaveIcon m="2" p="1" bgColor="gray.500" color="white" rounded="2xl" boxSize="30px" />
+                                </Flex>
+                              )}
+                              {txn?.node?.tags.length === 4 && (
+                                <Flex>
+                                  <KoiiIcon m="2" p="1" bgColor="blue.300" color="white" rounded="2xl" boxSize="30px" />*
+                                </Flex>
+                              )}
+                              {txn?.node?.tags.length === 8 && (
+                                <Flex>
+                                  <KoiiIcon m="2" p="1" bgColor="blue.300" color="white" rounded="2xl" boxSize="30px" />*
+                                </Flex>
+                              )}
+                              {txn?.node?.tags.length === 6 && (
+                                <Flex>
+                                  <RatIcon m="2" color="violet.900" rounded="2xl" boxSize="30px" />
+                                </Flex>
+                              )}
                               <Text fontWeight="600" fontSize="sm">{(txn?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
                               <Flex align="center" justify="space-between">
-                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(3)} Ad Credits</Text>
+                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(txn?.node?.quantity?.ar) + Number(txn?.node?.fee?.ar))?.toFixed?.(5)} Ad Credits</Text>
                                 {(txn?.node?.recipient === walletAddAr) ? (
                                   <BsArrowDownLeft color="green" size="15px" />
                                 ) : (

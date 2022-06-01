@@ -172,7 +172,7 @@ console.log(data)
   
     // const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
     // const contract = smartweave.contract(contractId).setEvaluationOptions({ ignoreExceptions: false});
-    // const ratResultTx = await contract.connect('useWallet').bundleInteraction({
+    // const ratResultTx = await contract.connect('use_wallet').bundleInteraction({
     //   function : "deregisterGame",
     //   gameContract : data.gameData.,
     //   gameState: data.
@@ -211,19 +211,19 @@ export const gameInteraction = async ({walletAddress, data}) => {
       console.log(data)
       if(data.interaction === "like") {
         const contract = smartweave.contract(gameId).setEvaluationOptions({ ignoreExceptions: false});
-        // const gameResultTx = await contract.connect('useWallet').bundleInteraction({
-        //   function : `stake`,
-        //   interaction : data.interaction,
-        //   pool: "likeEP",
-        //   qty : Number((1/data.screen.scWorth).toFixed(5)),
-        // })
+        const gameResultTx = await contract.connect('use_wallet').bundleInteraction({
+          function : `stake`,
+          interaction : data.interaction,
+          pool: "likeEP",
+          qty : Number((1/data.screen.scWorth).toFixed(5)),
+        })
         const {state} = await contract.readState();
         gameState = state;
         console.log(gameState);
         // gameTx = gameResultTx;
 
         if(state.stakes.likeEP[walletAddress]) {
-          const ratResultTx = await ratTransfer({ walletAddress: data.screen.master, amount: (1/data.screen.scWorth).toFixed(5) })
+          const ratResultTx = await sendRAT({ walletAddress: data.screen.master, amount: (1/data.screen.scWorth).toFixed(5) })
           ratState = ratResultTx.state;
           console.log(ratState);
           // ratTx = ratResultTx;
@@ -256,22 +256,25 @@ export const sendRAT = async ({walletAddress, amount}) => {
   console.log(contractId)
 
   try {
-    let arweave = await initArweave();
     await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
+    
+    let arweave = await initArweave();
     const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
-  
     const contract = smartweave.contract(contractId).setEvaluationOptions({ ignoreExceptions: false});
+    console.log(contract)
 
     quantity = Number(amount);
-    
-    // const result = await contract.connect('useWallet').bundleInteraction({
-    //   function : `transfer`,
-    //   target : walletAddress,
-    //   qty : Number(quantity),
-    // })
+    console.log(quantity)
+    console.log(walletAddress)
 
-    const {state} = await contract.readState();
-    // return {result, state}
+    const result = await contract.connect('use_wallet').bundleInteraction({
+      function : `transfer`,
+      target : walletAddress,
+      qty : Number(quantity),
+    })
+    console.log(result)
+    const data = result.originalTxId;
+    return {data}
 
   } catch (error) {
     console.log("error", error)

@@ -17,6 +17,7 @@ export const ThumbnailCard = memo<Props>(
   ({ nft }) => {
     const MotionFlex = motion(Flex);
     const { data: item, isLoading } = useNft({ id: nft?.id });
+    console.log(item)
 
     return (
       <>

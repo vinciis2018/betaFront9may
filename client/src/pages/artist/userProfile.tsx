@@ -26,7 +26,7 @@ import { ThumbnailContainer } from 'components/cards/NftFeaturedCard';
 export function UserProfile(props: any) {
 
   const { data: artist, isLoading, isError } = useArtist({ id: props?.match?.params?.id });
-
+  // console.log(artist)
   const artistData = useMemo(() => {
     return {
       name: artist?.nfts?.[0]?.name,
@@ -85,6 +85,7 @@ export function UserProfile(props: any) {
         type: USER_UPDATE_PROFILE_RESET
       });
       dispatch(detailsUser({userId: userInfo?._id, walletAddress: props?.match?.params?.id}));
+
     } else {
       setName(user?.user?.name);
       setEmail(user?.user?.email);
@@ -122,7 +123,6 @@ export function UserProfile(props: any) {
     setProfileModal(false);
     setAddressModal(false);
     setUploadNftModal(false);
-    window.location.replace(`/userProfile/${props?.match?.params?.id}`);
   };
 
   const uploadNftOpen = () => {
@@ -272,15 +272,15 @@ export function UserProfile(props: any) {
                 </Box>
               )}
               <Flex p="2" align="center" justify="space-between">
-                <Flex bgColor={userInfo.isMaster ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex onClick={() => props.history.push(`/dashboard/user/${userInfo.defaultWallet}`)} bgColor={userInfo.isMaster ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <AiOutlineFundProjectionScreen />
                   <Text p="2" fontSize="xs" fontWeight={userInfo.isMaster ? "600" : ""}>Screen Owner</Text>
                 </Flex>
-                <Flex bgColor={userInfo.isAlly ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex onClick={() => props.history.push(`/dashboard/user/${userInfo.defaultWallet}`)} bgColor={userInfo.isAlly ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <BsMegaphone />
                   <Text p="2" fontSize="xs" fontWeight={userInfo.isAlly ? "600" : ""}>Advertiser</Text>
                 </Flex>
-                <Flex bgColor={userInfo.isBrand ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
+                <Flex onClick={() => props.history.push(`/dashboard/user/${userInfo.defaultWallet}`)} bgColor={userInfo.isBrand ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <BsTags />
                   <Text p="2" fontSize="xs" fontWeight={userInfo.isBrand ? "600" : ""}>Brands</Text>
                 </Flex>

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Axios from 'axios';
+import { sendRAT } from 'ratCodes/ratTrap';
 import { 
   WALLET_DETAILS_FAIL,
   WALLET_DETAILS_REQUEST,
@@ -165,11 +166,12 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
   try {
 
     if (transfer.ticker === 'AR') {
-      const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/ar`, transfer, {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`
-        }
-      });
+      const data = 
+      // const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/ar`, transfer, {
+      //   headers: {
+      //     Authorization: `Bearer ${userInfo.token}`
+      //   }
+      // });
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
         payload: data
@@ -190,11 +192,12 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'rat') {
-      const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/rat`, transfer, {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`
-        }
-      });
+      const data = await sendRAT({walletAddress: transfer.toWallet, amount: transfer.quantity})
+      // const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/rat`, transfer, {
+      //   headers: {
+      //     Authorization: `Bearer ${userInfo.token}`
+      //   }
+      // });
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
         payload: data
