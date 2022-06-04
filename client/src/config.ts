@@ -6,11 +6,11 @@ const config: Record<string, any> = {
   // To change the logo, Head to src/assets/logo.png and the replace image with yours.
   lang: "en", // language of your website
   locale: "en_US", // locale of your website
-  title: "Blinds by Vinciis",
+  title: "MONAD by Vinciis",
   description: "A web3 based marketplace for outdoor advertising",
-  canonical: "https://blinds.vincii.in", // Your production website link
+  canonical: "https://monad.vinciis.in", // Your production website link
   twitterHandle: "@vinciis_", // Twitter username
-  companyName: "BLINDS"
+  companyName: "MONAD"
 };
 
 export default config;
