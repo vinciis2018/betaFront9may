@@ -62,6 +62,10 @@ export function AdvertCreate (props: any) {
     uploadedVideo: uploadedVideo
   } = videoUpload;
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
+
   const dispatch = useDispatch();
   React.useEffect(() => {
 
@@ -72,6 +76,10 @@ export function AdvertCreate (props: any) {
     if(successVideoSave) {
       window.alert('Hey, you just uploaded you campaign media, please proceed to fill the campaig details...');
       props.history.push(`/editCampaign/${uploadedVideo._id}/${screenId}/${uploadedVideo?.video.split('/').slice(-1)[0]}`)
+    }
+
+    if(!userInfo) {
+      props.history.push(redirect);
     }
 
   }, [

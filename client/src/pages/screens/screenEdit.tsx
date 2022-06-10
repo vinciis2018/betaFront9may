@@ -124,6 +124,9 @@ export function ScreenEdit (props: any) {
     success: successScreenGameRemove
   } = screenGameRemove
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -188,6 +191,11 @@ export function ScreenEdit (props: any) {
     if(successScreenGameRemove) {
       window.alert('Screen Game Removed Successfully')
     }
+
+    if(!userInfo) {
+      props.history.push(redirect);
+    }
+
 
     // dispatch(getWalletDetails(userInfo.defaultWallet))
     dispatch(getScreenCalender(screenId))

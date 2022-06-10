@@ -75,7 +75,9 @@ export function AdvertDetail (props: any) {
     success: reviewSuccess
   } = videoReview;
 
-  
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -86,6 +88,10 @@ export function AdvertDetail (props: any) {
       dispatch({
           type: REVIEW_VIDEO_RESET
       })
+    }
+
+    if(!userInfo) {
+      props.history.push(redirect);
     }
 
     dispatch(getVideoDetails(videoId));

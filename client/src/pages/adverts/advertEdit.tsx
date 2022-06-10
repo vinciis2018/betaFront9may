@@ -172,6 +172,9 @@ export function AdvertEdit (props: any) {
     success: successAdvertGameRemove
   } = advertGameRemove
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -215,6 +218,11 @@ export function AdvertEdit (props: any) {
     if(successAdvertGameRemove) {
       window.alert('Advert Game Removed Successfully')
     }
+
+    if(!userInfo) {
+      props.history.push(redirect);
+    }
+
     dispatch(getVideoDetails(videoId));
     dispatch(detailsScreen(screenId));
     dispatch(getVideoDetails(videoId));

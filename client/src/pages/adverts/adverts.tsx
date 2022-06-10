@@ -43,11 +43,16 @@ export function Adverts (props: any) {
     videos: myVideos
   } = userVideos;
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
+
   const dispatch = useDispatch();
-  
   React.useEffect(() => {
     if(userInfo) {
       dispatch(userVideosList(userInfo));
+    } else {
+        props.history.push(redirect);
     }
     dispatch(listAllVideos());
   }, [

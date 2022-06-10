@@ -70,6 +70,9 @@ export function UserProfile(props: any) {
     success: successUpdate,
   } = userUpdate;
 
+  const redirect = props?.location?.search
+  ? props?.location?.search.split('=')[1]
+  : '/signin';
 
   const dispatch = useDispatch()
   React.useEffect(() => {
@@ -96,6 +99,10 @@ export function UserProfile(props: any) {
       setStateUt(user?.user?.stateUt);
       setCountry(user?.user?.country);
       setPincode(user?.user?.pincode);
+    }
+
+    if(!userInfo) {
+      props.history.push(redirect);
     }
 
   }, [

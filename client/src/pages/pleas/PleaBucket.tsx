@@ -40,8 +40,11 @@ export function PleaBucket (props: any) {
     success: successScreenAllyPleaReject
   } = screenAllyPleaReject;
   
-  const dispatch = useDispatch();
+  const redirect = props?.location?.search
+  ? props?.location?.search.split('=')[1]
+  : '/signin';
 
+  const dispatch = useDispatch();
   useEffect(() => {
     if(successScreenAllyPleaGrant){
       window.alert("Ally access Granted")
@@ -49,6 +52,11 @@ export function PleaBucket (props: any) {
     if(successScreenAllyPleaReject){
       window.alert("Ally access Rejected")
     }
+
+    if(!userInfo) {
+      props.history.push(redirect);
+    }
+
     dispatch(listAllPleas());
     dispatch(listUsers());
       

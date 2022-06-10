@@ -97,6 +97,9 @@ export function ScreenDetail (props: any) {
   // const {data: nftData } = useNftData({id: txId});
   // console.log("nft", {nft})
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -112,6 +115,10 @@ export function ScreenDetail (props: any) {
       dispatch({
         type: SCREEN_REVIEW_CREATE_RESET
       })
+    }
+
+    if(!userInfo) {
+      props.history.push(redirect);
     }
 
     dispatch(detailsScreen(screenId));

@@ -114,7 +114,9 @@ export function Wallet(props: any) {
   } = useFinnie();
   console.log("walletPrice", lastTxn)
 
-
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -170,6 +172,11 @@ export function Wallet(props: any) {
       window.alert(`${quantity} ${ticker} transferred to ${toWallet} successfully!`);
       setTransferModalVisible(false);
     }
+
+    if(!userInfo) {
+      props.history.push(redirect);
+    }
+
 
   } , [
     dispatch,

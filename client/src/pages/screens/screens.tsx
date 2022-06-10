@@ -54,13 +54,19 @@ export function Screens (props: any) {
     screen: createdScreen
   } = screenCreate;
 
+  const redirect = props?.location?.search
+    ? props?.location?.search.split('=')[1]
+    : '/signin';
 
   const dispatch = useDispatch();
-  
   React.useEffect(() => {
     if (successCreate) {
       dispatch({ type: SCREEN_CREATE_RESET });
       props.history.push(`/screen/${createdScreen._id}/edit`)
+    }
+
+    if(!userInfo) {
+      props.history.push(redirect);
     }
 
     dispatch(listScreens({}));
