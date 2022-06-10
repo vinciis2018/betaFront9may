@@ -9,7 +9,7 @@ import { signout } from '../../../Actions/userActions';
 
 import {useWindowSize} from "components/utils";
 // ui
-import { Button, Badge, Center, Box, Flex, Heading, Stack, Menu, MenuButton, MenuList, MenuItem, Text, IconButton, Tooltip, Image } from "@chakra-ui/react";
+import { Button, Badge, Center, Box, Flex, useDisclosure , Drawer, DrawerHeader, DrawerOverlay, DrawerBody, DrawerContent, Heading, Stack, Menu, MenuButton, MenuList, MenuItem, Text, IconButton, Tooltip, Image } from "@chakra-ui/react";
 // icons
 import { IoRemoveCircle } from "react-icons/io5";
 import { ArweaveIcon, KoiiIcon, RatIcon } from "components/icons";
@@ -34,13 +34,14 @@ export function Nav() {
     left: "0",
     top: "0",
     width: "100%",
-    zIndex: "1"
+    zIndex: "10"
   };
   /* Finnie */
   const {
     state: { connectFinnie, disconnectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const userSignin = useSelector((state: any) => state.userSignin);
   const { 
@@ -88,42 +89,54 @@ export function Nav() {
               ) : (
                 <Stack direction="row" align="center" spacing="1">
                   <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
-                  <Menu>
-                    <MenuButton>
-                      <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
-                        <Center bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
+                  <Center onClick={onOpen} bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
+                    <Image  width="100%" rounded="full" src={userInfo?.avatar} />
+                  </Center>
+                  <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
+                    <DrawerOverlay />
+                    <DrawerContent>
+                      <DrawerHeader align="center" borderBottomWidth='1px'>
+                        <Center onClick={onOpen} bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" >
                           <Image  width="100%" rounded="full" src={userInfo?.avatar} />
                         </Center>
-                        {/* <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiUser4Line size="20px" />} aria-label="go-to-my-page" bg="blue.400" rounded="sm" h="33px" /> */}
-                      </Tooltip>
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
-                        Explore                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/screens`} color="black" icon={<AiOutlineFundProjectionScreen size="20px" />}>
-                        Screens                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
-                        Adverts                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
-                        Notifications                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
-                        Profile                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/wallet/${userInfo?.defaultWallet}`} color="black" icon={<RiWallet3Line size="20px" />}>
-                        Wallet
-                      </MenuItem>
-                      <MenuItem onClick={disconnectFinnie} color="black" icon={<IoRemoveCircle size="20px" />}>
-                        Disconnect
-                      </MenuItem>
-                      <MenuItem onClick={signoutHandler} color="black" icon={<RiLogoutBoxRLine size="20px" />}>
-                        Logout
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
+                        <Text fontSize="sm" >Hey {userInfo?.name}, here is your menu...</Text>
+                      </DrawerHeader>
+                      <DrawerBody p="1">
+                        <Flex p="2" as={Link} to={`/mapbox`} align="center" shadow="card" rounded="lg">
+                          <RiGlobeLine size="20px" />
+                          <Text p="2" fontWeight="600">Explore</Text>
+                        </Flex>
+                        <Flex p="2" as={Link} to={`/screens`} align="center" shadow="card" rounded="lg">
+                          <AiOutlineFundProjectionScreen size="20px" />
+                          <Text p="2" fontWeight="600">Screens</Text>
+                        </Flex>
+                        <Flex p="2" as={Link} to={`/adverts`} align="center" shadow="card" rounded="lg">
+                          <RiAdvertisementLine size="20px" />
+                          <Text p="2" fontWeight="600">Adverts</Text>
+                        </Flex>
+                        <Flex p="2" as={Link} to={`/pleaBucket`} align="center" shadow="card" rounded="lg">
+                          <CgNotifications size="20px" />
+                          <Text p="2" fontWeight="600">Notifications</Text>
+                        </Flex>
+                        <Flex p="2" as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} align="center" shadow="card" rounded="lg">
+                          <RiUserSmileLine size="20px" />
+                          <Text p="2" fontWeight="600">Profile</Text>
+                        </Flex>
+                        <Flex p="2" as={Link} to={`/wallet/${userInfo?.defaultWallet}`} align="center" shadow="card" rounded="lg">
+                          <RiWallet3Line size="20px" />
+                          <Text p="2" fontWeight="600">Wallet</Text>
+                        </Flex>
+                        <Flex p="2" onClick={disconnectFinnie} align="center" shadow="card" rounded="lg">
+                          <IoRemoveCircle size="20px" />
+                          <Text p="2" fontWeight="600">Disconnect</Text>
+                        </Flex>
+                        <Flex p="2" onClick={signoutHandler} align="center" shadow="card" rounded="lg">
+                          <RiLogoutBoxRLine size="20px" />
+                          <Text p="2" fontWeight="600">LogOut</Text>
+                        </Flex>
+                      </DrawerBody>
+                    </DrawerContent>
+                  </Drawer>
                   {isFinnieConnected ? (
                     <Badge as={Link} to={`/wallet/${userInfo?.defaultWallet}`} variant="outline" colorScheme="black" rounded="full">
                       <Menu>
