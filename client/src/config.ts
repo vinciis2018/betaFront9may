@@ -7,7 +7,7 @@ const config: Record<string, any> = {
   lang: "en", // language of your website
   locale: "en_US", // locale of your website
   title: "MONAD by Vinciis",
-  description: "A web3 based marketplace for outdoor advertising",
+  description: "A decentralized open marketplace for advertising",
   canonical: "https://monad.vinciis.in", // Your production website link
   twitterHandle: "@vinciis_", // Twitter username
   companyName: "MONAD"
